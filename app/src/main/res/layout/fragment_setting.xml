@@ -17,18 +17,20 @@
             android:scaleType="centerCrop"
             android:src="@drawable/imgtest" />
 
-        <ImageView
-            android:id="@+id/user_profile_photo"
+        <de.hdodenhof.circleimageview.CircleImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/img_avatar"
+            app:civ_border_width="1dp"
+            app:civ_border_color="#FF000000"
             android:layout_width="120dp"
             android:layout_height="120dp"
             android:layout_below="@+id/header_cover_image"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="-60dp"
-            android:background="@drawable/profile_circular_border_imageview"
             android:elevation="5dp"
-            android:padding="20dp"
-            android:scaleType="centerCrop">
-        </ImageView>
+            android:src="@drawable/ic_avatar_default"
+            android:padding="5dp"
+            android:scaleType="centerCrop"/>
 
 
         <RelativeLayout
@@ -51,7 +53,7 @@
                 android:textSize="15sp"
                 android:textStyle="bold" />
             <TextView
-                android:id="@+id/user_namme"
+                android:id="@+id/user_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"

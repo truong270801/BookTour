@@ -3,6 +3,7 @@ package com.example.datn_tranvantruong.Activity;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -11,29 +12,33 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import com.example.datn_tranvantruong.MainActivity;
 import com.example.datn_tranvantruong.R;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+
 
 public class Login_Activity extends AppCompatActivity {
-EditText login_name,login_password;
+EditText login_email,login_password;
 Button bnt_login;
+    ProgressDialog progressDialog;
+
 TextView loginRedirectText;
-DatabaseReference reference = FirebaseDatabase.getInstance().getReferenceFromUrl("https://databasetours-default-rtdb.firebaseio.com/");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        login_name = findViewById(R.id.login_name);
+        login_email = findViewById(R.id.login_email);
         login_password = findViewById(R.id.login_password);
 
-        loginRedirectText = findViewById(R.id.loginRedirectText);
+        progressDialog = new ProgressDialog(this);
+
+        loginRedirectText = findViewById(R.id.signinRedirectText);
         loginRedirectText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -42,42 +47,40 @@ DatabaseReference reference = FirebaseDatabase.getInstance().getReferenceFromUrl
         });
 
         bnt_login = findViewById(R.id.bnt_login);
-        bnt_login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final String txtName = login_name.getText().toString();
-                final String txtPassword = login_password.getText().toString();
+bnt_login.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
 
-                if (txtName.isEmpty()||txtPassword.isEmpty()){
-                    Toast.makeText(Login_Activity.this,"Vui lòng nhập đầy đủ các trường",Toast.LENGTH_SHORT).show();
+        String email = login_email.getText().toString().trim();
+        String password = login_password.getText().toString().trim();
+        if (email.isEmpty() || password.isEmpty()) {
+            Toast.makeText(Login_Activity.this, "Vui lòng nhập đầy đủ các trường", Toast.LENGTH_SHORT).show();
+        }else {
+            progressDialog.show();
+            FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(Login_Activity.this, new OnCompleteListener<AuthResult>() {
 
-                }else {
-                    reference.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            if (snapshot.hasChild(txtName)){
-                                String getPassword = snapshot.child(txtName).child("password").getValue(String.class);
-                                if (getPassword.equals(txtPassword)){
-                                    Toast.makeText(Login_Activity.this,"Đăng nhập thành công",Toast.LENGTH_SHORT).show();
-                                    startActivity(new Intent(Login_Activity.this, MainActivity.class));
-                                }else {
-                                    Toast.makeText(Login_Activity.this,"Sai mật khẩu",Toast.LENGTH_SHORT).show();
-                                }
-                            }else {
-                                Toast.makeText(Login_Activity.this,"Sai mật khẩu",Toast.LENGTH_SHORT).show();
-                            }
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        progressDialog.dismiss();
+
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Toast.makeText(Login_Activity.this, "Đăng nhập thành công ", Toast.LENGTH_SHORT).show();
+
+                            startActivity(new Intent(Login_Activity.this, MainActivity.class));
+                            finishAffinity();
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Toast.makeText(Login_Activity.this, "Tên đăng nhập hoặc mật khẩu sai", Toast.LENGTH_SHORT).show();
                         }
+                    }
 
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
 
-                        }
-                    });
-
-                }
-
-            }
-        });
+                });}
+    }
+});
 
     }
 

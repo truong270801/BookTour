@@ -20,40 +20,17 @@
             >
 
             <EditText
-                android:id="@+id/signup_name"
+                android:id="@+id/signup_email"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@drawable/border"
             android:layout_marginTop="0dp"
             android:padding="8dp"
-                android:hint="Tên đăng nhập"
-                android:drawableLeft="@drawable/baseline_account_circle_24"
+                android:hint="Email"
+                android:drawableLeft="@drawable/baseline_email_24"
 
             android:drawablePadding="8dp"
             />
-            <EditText
-                android:id="@+id/signup_phone"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@drawable/border"
-                android:layout_marginTop="20dp"
-                android:padding="8dp"
-                android:hint="Phone"
-                android:drawableLeft="@drawable/baseline_local_phone"
-                android:drawablePadding="8dp"
-                />
-            <EditText
-                android:id="@+id/signup_email"
-
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@drawable/border"
-                android:layout_marginTop="20dp"
-                android:padding="8dp"
-                android:hint="Email"
-                android:drawableLeft="@drawable/baseline_email_24"
-                android:drawablePadding="8dp"
-                />
             <EditText
                 android:id="@+id/signup_password"
                 android:layout_width="match_parent"
@@ -61,7 +38,7 @@
                 android:background="@drawable/border"
                 android:layout_marginTop="20dp"
                 android:padding="8dp"
-                android:hint="Mật khẩu"
+                android:hint="Mật khẩu với 6 ký tự"
                 android:inputType="textPassword"
                 android:drawableLeft="@drawable/baseline_lock"
                 android:drawablePadding="8dp"
@@ -71,13 +48,16 @@
                 android:id="@+id/signup_conpassword"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_marginTop="20dp"
                 android:background="@drawable/border"
+                android:layout_marginTop="20dp"
+                android:padding="8dp"
+                android:hint="Nhập lại mật khẩu"
+                android:inputType="textPassword"
                 android:drawableLeft="@drawable/baseline_drive_file_rename_outline_24"
                 android:drawablePadding="8dp"
-                android:inputType="textPassword"
-                android:hint="Nhập lại mật khẩu"
-                android:padding="8dp" />
+                />
+
+
 
 
             <Button
@@ -90,15 +70,28 @@
                 android:backgroundTint="@color/Lime"
                 android:background="@drawable/radius_button"
                 />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:id="@+id/signupRedirectText"
-                android:padding="8dp"
-                android:text="Bạn đã có tài khoản? Đăng nhập tại đây..."
-                android:textColor="@color/white"
-                android:textSize="16sp"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:padding="2dp"
+                    android:text="Bạn đã có tài khoản? "
+                    android:textColor="@color/white"
+                    android:textSize="16sp"/>
+
+                <TextView
+                    android:id="@+id/loginRedirectText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="Đăng nhập"
+                    android:textColor="#00FF17"
+                    android:textSize="19sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
         </LinearLayout>
         
 

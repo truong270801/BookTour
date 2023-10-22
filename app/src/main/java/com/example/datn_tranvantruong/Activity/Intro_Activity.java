@@ -22,6 +22,7 @@ Button bntIntro;
             public void onClick(View v) {
                 Intent intent = new Intent(Intro_Activity.this, Login_Activity.class);
                 startActivity(intent);
+                finish();
 
             }
         });
