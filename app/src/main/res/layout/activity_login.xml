@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".Activity.Login_Activity"
+    android:background="@drawable/login">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="380dp"
+            android:padding="20dp"
+            >
+
+            <EditText
+                android:id="@+id/login_name"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="@drawable/border"
+                android:layout_marginTop="0dp"
+                android:padding="8dp"
+                android:hint="Tên đăng nhập"
+                android:drawableLeft="@drawable/baseline_account_circle_24"
+                android:drawablePadding="8dp"
+                />
+            <EditText
+                android:id="@+id/login_password"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="@drawable/border"
+                android:layout_marginTop="20dp"
+                android:padding="8dp"
+                android:hint="Mật khẩu"
+                android:inputType="textPassword"
+                android:drawableLeft="@drawable/baseline_lock"
+                android:drawablePadding="8dp"
+                />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:id="@+id/bnt_login"
+                android:layout_marginTop="20dp"
+                android:text="ĐĂNG NHẬP"
+                android:textSize="18dp"
+                android:background="@drawable/radius_button"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:id="@+id/loginRedirectText"
+                android:padding="8dp"
+                android:text="Bạn đã chưa có tài khoản? Đăng kí tại đây..."
+                android:textColor="@color/white"
+                android:textSize="16sp"/>
+        </LinearLayout>
+
+
+
+
+    </LinearLayout>
+
+</ScrollView>

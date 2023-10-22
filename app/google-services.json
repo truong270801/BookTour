@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "263521864284",
+    "project_id": "databasetours",
+    "storage_bucket": "databasetours.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:263521864284:android:7f9844402758232863f499",
+        "android_client_info": {
+          "package_name": "com.example.datn_tranvantruong"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB9CV8jCyO0w_BcZbGMe4RMXf_N5qj-JNg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

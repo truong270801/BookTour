@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activity.Intro_Activity"
+    android:background="@color/blue">
+
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/logo"/>
+    <Button
+        android:id="@+id/btnIntro"
+        android:layout_width="match_parent"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="30dp"
+        android:layout_height="60dp"
+        android:layout_marginBottom="20dp"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/radius_button"
+        android:text="BẮT ĐẦU "
+        android:textColor="@color/white"
+
+        />
+
+</RelativeLayout>
