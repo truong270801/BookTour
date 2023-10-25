@@ -17,11 +17,24 @@ import java.util.List;
 public class ItemHome_Adapter extends RecyclerView.Adapter<ItemHome_Adapter.ViewHolder> {
     private List<ItemHome_Model> itemList;
     private Context context;
+    private OnItemClickListener listener;
 
+    public void setData(List<ItemHome_Model> newData) {
+        this.itemList = newData;
+        notifyDataSetChanged();
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(ItemHome_Model item);
+    }
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
+    }
 
     public ItemHome_Adapter(Context context, List<ItemHome_Model> itemList) {
         this.context = context;
         this.itemList = itemList;
+        notifyDataSetChanged();
     }
 
 
@@ -44,6 +57,14 @@ public class ItemHome_Adapter extends RecyclerView.Adapter<ItemHome_Adapter.View
 
             // Load the image using a library like Picasso or Glide.
             Picasso.get().load(item.getImageUrl()).into(holder.imageView);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (listener != null) {
+                    listener.onItemClick(item);
+                }
+            }
+        });
     }
 
     @Override

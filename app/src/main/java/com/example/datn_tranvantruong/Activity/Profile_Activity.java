@@ -65,7 +65,6 @@ public class Profile_Activity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(Profile_Activity.this, SettingFragment.class);
                 startActivity(intent);
-                recreate();
             }
         });
 

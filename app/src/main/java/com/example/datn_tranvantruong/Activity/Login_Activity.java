@@ -81,7 +81,7 @@ bnt_login.setOnClickListener(new View.OnClickListener() {
                             finishAffinity();
                         } else {
                             // If sign in fails, display a message to the user.
-                            Toast.makeText(Login_Activity.this, "Tên đăng nhập hoặc mật khẩu sai", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Login_Activity.this, "Đăng nhập thất bại", Toast.LENGTH_SHORT).show();
                         }
                     }
 
