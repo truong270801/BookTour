@@ -26,7 +26,7 @@ EditText login_email,login_password;
 Button bnt_login;
     ProgressDialog progressDialog;
 
-TextView loginRedirectText;
+TextView loginRedirectText,Forgot_password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +37,14 @@ TextView loginRedirectText;
         login_password = findViewById(R.id.login_password);
 
         progressDialog = new ProgressDialog(this);
+        Forgot_password = findViewById(R.id.Forgot_password);
+        Forgot_password.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Login_Activity.this, ForgotPassword_Activity.class));
+
+            }
+        });
 
         loginRedirectText = findViewById(R.id.signinRedirectText);
         loginRedirectText.setOnClickListener(new View.OnClickListener() {

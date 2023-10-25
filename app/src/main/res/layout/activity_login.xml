@@ -30,6 +30,7 @@
                 android:drawableLeft="@drawable/baseline_email_24"
                 android:drawablePadding="8dp"
                 />
+
             <EditText
                 android:id="@+id/login_password"
                 android:layout_width="match_parent"
@@ -41,6 +42,18 @@
                 android:inputType="textPassword"
                 android:drawableLeft="@drawable/baseline_lock"
                 android:drawablePadding="8dp"
+                />
+            <TextView
+                android:id="@+id/Forgot_password"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:text="Quên mật khẩu ?"
+                android:textColor="@color/white"
+                android:layout_marginTop="10dp"
+                android:padding="5dp"
+android:gravity="right"
+                android:textSize="16sp"
+                android:layout_alignParentRight="true"
                 />
 
             <Button

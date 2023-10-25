@@ -45,51 +45,6 @@ public class Profile_Activity extends AppCompatActivity {
     private TextView user_email;
     private Button bnt_Update, bnt_back;
 
-  final private ActivityResultLauncher<Intent> mactivityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
-            new ActivityResultCallback<ActivityResult>() {
-                @Override
-                public void onActivityResult(ActivityResult result) {
-                    if (result.getResultCode() == RESULT_OK){
-                        Intent intent = result.getData();
-                        if (intent == null){
-                            return;
-                        }
-                        Uri uri = intent.getData();
-
-                        try {
-                            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),uri);
-                            setBitmapImageView(bitmap);
-                        }catch (IOException e){
-                            e.printStackTrace();
-                        }
-                        bnt_Update.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                String Fullname = edit_name.getText().toString().trim();
-                                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                                if (user == null){
-                                    return;
-                                }
-                                UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                                        .setDisplayName(Fullname)
-                                        .setPhotoUri(uri)
-                                        .build();
-                                user.updateProfile(profileUpdates).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<Void> task) {
-                                                if (task.isSuccessful()) {
-                                                    Toast.makeText(Profile_Activity.this, "Cập nhật thành công", Toast.LENGTH_SHORT).show();
-                                                }
-                                            }
-                                        });
-
-                            }
-
-                        });
-                    }
-
-                }
-            });
 
 
 
@@ -114,14 +69,58 @@ public class Profile_Activity extends AppCompatActivity {
             }
         });
 
-        bnt_Update = findViewById(R.id.bnt_Update);
-
-
 
         setUserInformation();
         initListener();
     }
 
+    final private ActivityResultLauncher<Intent> mactivityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if (result.getResultCode() == RESULT_OK){
+                        Intent intent = result.getData();
+                        if (intent == null){
+                            return;
+                        }
+                        Uri uri = intent.getData();
+                        bnt_Update = findViewById(R.id.bnt_Update);
+                        bnt_Update.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                String Fullname = edit_name.getText().toString().trim();
+                                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                                if (user == null){
+                                    return;
+                                }
+                                UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                        .setDisplayName(Fullname)
+                                        .setPhotoUri(uri)
+                                        .build();
+                                user.updateProfile(profileUpdates).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (task.isSuccessful()) {
+                                            Toast.makeText(Profile_Activity.this, "Cập nhật thành công", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                });
+
+                            }
+
+                        });
+
+                        try {
+                            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),uri);
+                            setBitmapImageView(bitmap);
+                        }catch (IOException e){
+                            e.printStackTrace();
+                        }
+
+                    }
+
+                }
+            });
 
 
     private void initListener() {

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <ImageView
+        android:id="@+id/appImageView"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/avata_truong"
+    android:layout_marginTop="24dp"
+    />
+
+    <TextView
+        android:id="@+id/nameTextView"
+        android:layout_marginTop="20dp"
+        android:padding="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/appImageView"
+        android:layout_centerHorizontal="true"
+        android:text="TRẦN VĂN TRƯỜNG"
+    android:textSize="24sp"
+    android:textStyle="bold"
+    />
+
+    <TextView
+        android:id="@+id/classTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/nameTextView"
+        android:layout_centerHorizontal="true"
+        android:text="Lớp: 19CN4 "
+    android:textSize="16sp"/>
+
+     <TextView
+    android:id="@+id/schoolTextView"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/classTextView"
+    android:layout_centerHorizontal="true"
+    android:text="Mã Sinh Viên: 1955010212"
+    android:textSize="16sp"/>
+
+    <TextView
+        android:id="@+id/studentIdTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/schoolTextView"
+        android:layout_centerHorizontal="true"
+        android:text="Khoa CNTT - Trường Đại học Kiến trúc Hà Nội "
+    android:textSize="16sp"
+    />
+
+    <TextView
+        android:id="@+id/thesisTopicTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/studentIdTextView"
+        android:layout_centerHorizontal="true"
+        android:text="XÂY DỰNG ỨNG DỤNG ANDROID QUẢN LÝ TRỰC TUYẾN HOẠT ĐỘNG ĐẶT TOUR DU LỊCH CHO CÔNG TY KTTRAVEL"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/introductionTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/thesisTopicTextView"
+        android:layout_centerHorizontal="true"
+        android:text="Phone/Zalo: 0353745740"
+    android:textSize="18sp"
+    android:layout_marginTop="24dp"
+    />
+
+</RelativeLayout>

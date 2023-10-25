@@ -58,7 +58,7 @@ public class Signup_Activity extends AppCompatActivity {
                 String password = signup_password.getText().toString().trim();
                 String conpassword = signup_conpassword.getText().toString().trim();
 
-                if (email.isEmpty() || password.isEmpty()) {
+                if (email.isEmpty() || password.isEmpty()||conpassword.isEmpty()) {
                     Toast.makeText(Signup_Activity.this, "Vui lòng nhập đầy đủ các trường", Toast.LENGTH_SHORT).show();
 
                 }

@@ -13,33 +13,25 @@
     android:layout_height="160dp"
     android:orientation="vertical"
     android:background="@drawable/header">
-   <LinearLayout
-       android:layout_marginTop="20dp"
-       android:layout_width="match_parent"
-       android:layout_gravity="center"
-       android:layout_marginLeft="20dp"
-       android:layout_height="50dp"
-       android:orientation="horizontal">
 
-       <ImageView
-           android:layout_width="50dp"
-           android:layout_height="50dp"
-           android:src="@drawable/logo" />
 
        <TextView
            android:layout_width="wrap_content"
            android:layout_height="50dp"
-           android:layout_marginLeft="20dp"
-           android:text="Chào mừng" />
+           android:fontFamily="cursive"
+           android:layout_margin="15dp"
+           android:text="DU LỊCH VIỆT NAM"
+           android:layout_gravity="center"
+           android:textColor="#DA0F0F"
+           android:textSize="35sp"
+           android:textStyle="bold" />
 
-   </LinearLayout>
 
     <androidx.appcompat.widget.SearchView
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginLeft="30dp"
-        android:layout_marginRight="70dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginRight="80dp"
         android:background="@drawable/border"
         app:queryHint="Bạn muốn tìm tour" />
 
@@ -58,16 +50,22 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:text="Android App Products"
+                android:layout_gravity="center"
+                android:layout_margin="18dp"
+                android:fontFamily="casual"
+                android:text="Danh sách các tour du lịch hiện có"
+                android:textAlignment="center"
+                android:textAllCaps="true"
                 android:textColor="@color/black"
-                android:textSize="20sp"
+                android:textSize="28sp"
                 android:textStyle="bold" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/product_recycler"
+                android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginBottom="10dp"
                 android:layout_marginTop="5dp"
                 android:scrollbars="vertical"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"

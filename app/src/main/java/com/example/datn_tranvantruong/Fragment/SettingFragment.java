@@ -19,8 +19,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.datn_tranvantruong.Activity.InforApp_Activity;
 import com.example.datn_tranvantruong.Activity.Login_Activity;
 import com.example.datn_tranvantruong.Activity.Profile_Activity;
+import com.example.datn_tranvantruong.Activity.RePassword_Activity;
 import com.example.datn_tranvantruong.Activity.Signup_Activity;
 import com.example.datn_tranvantruong.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -32,7 +34,7 @@ import java.time.Instant;
 
 
 public class SettingFragment extends Fragment {
-Button btnLogout, btnEditProfile, bntHelp;
+Button btnLogout, btnEditProfile, bntHelp,btn_rePassword,btn_infor;
 ImageView img_avatar;
 TextView user_name,user_email;
 
@@ -47,6 +49,23 @@ TextView user_name,user_email;
         img_avatar = view.findViewById(R.id.img_avatar);
         user_name = view.findViewById(R.id.user_name);
         user_email = view.findViewById(R.id.user_email);
+
+        btn_infor = view.findViewById(R.id.btn_infor);
+        btn_infor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), InforApp_Activity.class));
+
+            }
+        });
+        btn_rePassword = view.findViewById(R.id.btn_rePassword);
+        btn_rePassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), RePassword_Activity.class));
+
+            }
+        });
 
         bntHelp = view.findViewById(R.id.btnHelp);
         bntHelp.setOnClickListener(new View.OnClickListener() {
@@ -93,8 +112,6 @@ TextView user_name,user_email;
         if (user == null){
             return;
         }
-
-
         String email = user.getEmail();
         Uri photoUrl = user.getPhotoUrl();
 
@@ -103,8 +120,6 @@ TextView user_name,user_email;
         }else {
             user_name.setText(user.getDisplayName());
         }
-
-
         user_email.setText(email);
         Glide.with(this).load(photoUrl).error(R.drawable.ic_avatar_default).into(img_avatar);
     }

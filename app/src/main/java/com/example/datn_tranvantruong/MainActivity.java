@@ -8,6 +8,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
@@ -19,6 +20,7 @@ import android.provider.MediaStore;
 import android.view.MenuItem;
 
 import com.example.datn_tranvantruong.Activity.Profile_Activity;
+import com.example.datn_tranvantruong.Adapter.ItemHome_Adapter;
 import com.example.datn_tranvantruong.Adapter.viewpagerAdapter;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -31,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     ViewPager viewpager;
     BottomNavigationView bottomNavigationView;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
 
         viewpager = findViewById(R.id.viewpager1);
         bottomNavigationView = findViewById(R.id.bottom);
-
 
         viewpagerAdapter viewpagerAdapter = new viewpagerAdapter(getSupportFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         viewpager.setAdapter(viewpagerAdapter);

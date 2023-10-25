@@ -1,44 +1,49 @@
 package com.example.datn_tranvantruong.Adapter;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.datn_tranvantruong.Model.ItemHome_Model;
 import com.example.datn_tranvantruong.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 public class ItemHome_Adapter extends RecyclerView.Adapter<ItemHome_Adapter.ViewHolder> {
     private List<ItemHome_Model> itemList;
+    private Context context;
 
-    public ItemHome_Adapter(List<ItemHome_Model> itemList) {
+
+    public ItemHome_Adapter(Context context, List<ItemHome_Model> itemList) {
+        this.context = context;
         this.itemList = itemList;
     }
 
-    @NonNull
+
+
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.home_item, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        ItemHome_Model item = itemList.get(position);
-        holder.titleTour.setText(item.getTitle());
-        holder.locationTour.setText(item.getLocation());
-        holder.priceTour.setText(item.getPrice());
-        Bitmap bitmap = BitmapFactory.decodeByteArray(ItemHome_Model.getImgtour(), 0, ItemHome_Model.getImgtour().length);
-        holder.imgTour.setImageBitmap(bitmap);
+    public void onBindViewHolder(ViewHolder holder, int position) {
+
+            ItemHome_Model item = itemList.get(position); // Đây là cách đúng
+
+            // Set the data to views in your item layout
+            holder.nameTextView.setText(item.getName());
+            holder.locationTextView.setText(item.getLocation());
+            holder.priceTextView.setText(item.getPrice());
+
+            // Load the image using a library like Picasso or Glide.
+            Picasso.get().load(item.getImageUrl()).into(holder.imageView);
     }
 
     @Override
@@ -47,16 +52,18 @@ public class ItemHome_Adapter extends RecyclerView.Adapter<ItemHome_Adapter.View
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView titleTour, locationTour, priceTour;
-        ImageView imgTour;
+        public ImageView imageView;
+        public TextView nameTextView;
+        public TextView locationTextView;
+        public TextView priceTextView;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            titleTour = itemView.findViewById(R.id.titleTour);
-            locationTour = itemView.findViewById(R.id.locationTour);
-            priceTour = itemView.findViewById(R.id.priceTour);
-            imgTour = itemView.findViewById(R.id.imgTour);
-
+            imageView = itemView.findViewById(R.id.imageView);
+            nameTextView = itemView.findViewById(R.id.nameTextView);
+            locationTextView = itemView.findViewById(R.id.locationTextView);
+            priceTextView = itemView.findViewById(R.id.priceTextView);
         }
+
     }
 }
