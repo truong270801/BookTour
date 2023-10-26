@@ -34,12 +34,13 @@
         app:iconifiedByDefault="false"
         app:searchHintIcon="@null"
         android:focusable="false"
-
-
         android:layout_marginLeft="30dp"
         android:layout_marginRight="80dp"
         android:background="@drawable/border"
-        app:queryHint="Bạn muốn tìm tour" />
+        app:queryHint="Bạn muốn tìm tour ?"
+        >
+
+    </androidx.appcompat.widget.SearchView>
 
 </LinearLayout>
     <LinearLayout

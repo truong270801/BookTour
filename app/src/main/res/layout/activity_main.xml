@@ -5,19 +5,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    android:id="@+id/fragment_container"
     >
-    <androidx.viewpager.widget.ViewPager
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/bottom"
-        android:id="@+id/viewpager1">
-
-    </androidx.viewpager.widget.ViewPager>
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/fragment_container"
+        android:layout_marginBottom="60dp"
+        >
+
+    </FrameLayout>
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigationView"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
         android:background="#03A9F4"
         app:itemTextColor="@color/color_navigation"
         android:layout_alignParentBottom="true"

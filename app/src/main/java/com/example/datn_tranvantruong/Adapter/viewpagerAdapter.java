@@ -7,7 +7,7 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import com.example.datn_tranvantruong.Fragment.CartFragment;
 import com.example.datn_tranvantruong.Fragment.HomeFragment;
-import com.example.datn_tranvantruong.Fragment.NewsFragment;
+import com.example.datn_tranvantruong.Fragment.Order_Fragment;
 import com.example.datn_tranvantruong.Fragment.SettingFragment;
 
 
@@ -24,9 +24,9 @@ public class viewpagerAdapter extends FragmentStatePagerAdapter {
             case 0:
                 return new HomeFragment();
             case 1:
-                return new NewsFragment();
-            case 2:
                 return new CartFragment();
+            case 2:
+                return new Order_Fragment();
             case 3:
                 return new SettingFragment();
             default:

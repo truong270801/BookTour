@@ -7,10 +7,14 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import android.app.Instrumentation;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -22,6 +26,11 @@ import android.view.MenuItem;
 import com.example.datn_tranvantruong.Activity.Profile_Activity;
 import com.example.datn_tranvantruong.Adapter.ItemHome_Adapter;
 import com.example.datn_tranvantruong.Adapter.viewpagerAdapter;
+import com.example.datn_tranvantruong.Fragment.CartFragment;
+import com.example.datn_tranvantruong.Fragment.HomeFragment;
+import com.example.datn_tranvantruong.Fragment.Order_Fragment;
+import com.example.datn_tranvantruong.Fragment.SettingFragment;
+import com.example.datn_tranvantruong.databinding.ActivityMainBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.io.IOException;
@@ -29,7 +38,7 @@ import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
 
-
+ActivityMainBinding binding;
     ViewPager viewpager;
     BottomNavigationView bottomNavigationView;
 
@@ -38,59 +47,37 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+replaceFragment(new HomeFragment());
 
-        viewpager = findViewById(R.id.viewpager1);
-        bottomNavigationView = findViewById(R.id.bottom);
-
-        viewpagerAdapter viewpagerAdapter = new viewpagerAdapter(getSupportFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
-        viewpager.setAdapter(viewpagerAdapter);
-        viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
+        binding.bottomNavigationView.setOnItemSelectedListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.home:
+                    replaceFragment(new HomeFragment());
+                    break;
+                case R.id.cart:
+                    replaceFragment(new CartFragment());
+                    break;
+                case R.id.order:
+                    replaceFragment(new Order_Fragment());
+                    break;
+                case R.id.settings:
+                    replaceFragment(new SettingFragment());
+                    break;
             }
-
-            @Override
-            public void onPageSelected(int position) {
-                switch (position) {
-                    case 0:
-                        bottomNavigationView.getMenu().findItem(R.id.home).setChecked(true);
-                        break;
-                    case 1:
-                        bottomNavigationView.getMenu().findItem(R.id.news).setChecked(true);
-                        break;
-                    case 2:
-                        bottomNavigationView.getMenu().findItem(R.id.cart).setChecked(true);
-                        break;
-                    case 3:
-                        bottomNavigationView.getMenu().findItem(R.id.setting).setChecked(true);
-                        break;
-                }
-            }
-            @Override
-            public void onPageScrollStateChanged(int state) {
-            }
+            return true;
         });
 
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                if (item.getItemId() == R.id.home) {
-                    viewpager.setCurrentItem(0);
-                } else if (item.getItemId() == R.id.news) {
-                    viewpager.setCurrentItem(1);
-                } else if (item.getItemId() == R.id.cart) {
-                    viewpager.setCurrentItem(2);
-                } else if (item.getItemId() == R.id.setting) {
-                    viewpager.setCurrentItem(3);
 
-                }
-                return true;
-            }
-        });
+
     }
-
-
-        }
+        private void replaceFragment(Fragment fragment){
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_container,fragment);
+        fragmentTransaction.commit();
+    }
+}
 
 

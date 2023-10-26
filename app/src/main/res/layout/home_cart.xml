@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/home_item"
     android:layout_marginTop="10dp"
     android:layout_marginEnd="10dp"
     android:layout_width="match_parent"
@@ -21,7 +20,7 @@
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/imgtest" />
+        android:src="@drawable/avata_truong" />
 </androidx.cardview.widget.CardView>
 
 

@@ -6,8 +6,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.datn_tranvantruong.Fragment.FragmentItem.ItemHomePf_Fragment;
 import com.example.datn_tranvantruong.Model.ItemHome_Model;
 import com.example.datn_tranvantruong.R;
 import com.squareup.picasso.Picasso;
@@ -17,19 +20,13 @@ import java.util.List;
 public class ItemHome_Adapter extends RecyclerView.Adapter<ItemHome_Adapter.ViewHolder> {
     private List<ItemHome_Model> itemList;
     private Context context;
-    private OnItemClickListener listener;
 
     public void setData(List<ItemHome_Model> newData) {
         this.itemList = newData;
         notifyDataSetChanged();
     }
 
-    public interface OnItemClickListener {
-        void onItemClick(ItemHome_Model item);
-    }
-    public void setOnItemClickListener(OnItemClickListener listener) {
-        this.listener = listener;
-    }
+
 
     public ItemHome_Adapter(Context context, List<ItemHome_Model> itemList) {
         this.context = context;
@@ -59,10 +56,10 @@ public class ItemHome_Adapter extends RecyclerView.Adapter<ItemHome_Adapter.View
             Picasso.get().load(item.getImageUrl()).into(holder.imageView);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                if (listener != null) {
-                    listener.onItemClick(item);
-                }
+            public void onClick(View view) {
+                AppCompatActivity activity = (AppCompatActivity) view.getContext();
+                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new ItemHomePf_Fragment(item.getImageUrl(),item.getName(),item.getLocation(),item.getPrice())).addToBackStack(null).commit();
+
             }
         });
     }
