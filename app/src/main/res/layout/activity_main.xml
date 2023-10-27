@@ -10,14 +10,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/fragment_container"
-        android:layout_marginBottom="60dp"
+        android:layout_marginBottom="55dp"
         >
 
     </FrameLayout>
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="55dp"
         android:background="#03A9F4"
         app:itemTextColor="@color/color_navigation"
         android:layout_alignParentBottom="true"

@@ -7,6 +7,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.Manifest;
 import android.content.Intent;
@@ -59,12 +60,19 @@ public class Profile_Activity extends AppCompatActivity {
         edit_phone = findViewById(R.id.edit_phone);
         bnt_Update = findViewById(R.id.bnt_Update);
         user_email = findViewById(R.id.user_email);
-        bnt_back = findViewById(R.id.bnt_back);
-        bnt_back.setOnClickListener(new View.OnClickListener() {
+
+        Toolbar toolbar = findViewById(R.id.toolbar1);
+        setSupportActionBar(toolbar);
+
+        // Đặt nút back
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        // Xử lý sự kiện khi nút back được nhấn
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Profile_Activity.this, SettingFragment.class);
-                startActivity(intent);
+            startActivity(new Intent(Profile_Activity.this, MainActivity.class));
             }
         });
 

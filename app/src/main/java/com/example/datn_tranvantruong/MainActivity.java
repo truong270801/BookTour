@@ -9,23 +9,16 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
-import android.app.Instrumentation;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.view.MenuItem;
 
-import com.example.datn_tranvantruong.Activity.Profile_Activity;
-import com.example.datn_tranvantruong.Adapter.ItemHome_Adapter;
-import com.example.datn_tranvantruong.Adapter.viewpagerAdapter;
 import com.example.datn_tranvantruong.Fragment.CartFragment;
 import com.example.datn_tranvantruong.Fragment.HomeFragment;
 import com.example.datn_tranvantruong.Fragment.Order_Fragment;
@@ -39,8 +32,6 @@ import java.io.IOException;
 public class MainActivity extends AppCompatActivity {
 
 ActivityMainBinding binding;
-    ViewPager viewpager;
-    BottomNavigationView bottomNavigationView;
 
 
     @Override
@@ -68,9 +59,6 @@ replaceFragment(new HomeFragment());
             }
             return true;
         });
-
-
-
     }
         private void replaceFragment(Fragment fragment){
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -78,6 +66,8 @@ replaceFragment(new HomeFragment());
         fragmentTransaction.replace(R.id.fragment_container,fragment);
         fragmentTransaction.commit();
     }
+
+
 }
 
 

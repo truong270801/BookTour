@@ -2,6 +2,7 @@ package com.example.datn_tranvantruong.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.datn_tranvantruong.Fragment.SettingFragment;
 import com.example.datn_tranvantruong.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -39,6 +41,20 @@ TextView user_name,user_email;
         img_avatar = findViewById(R.id.img_avatar);
         user_name = findViewById(R.id.user_name);
         user_email = findViewById(R.id.user_email);
+        Toolbar toolbar = findViewById(R.id.toolbar2);
+        setSupportActionBar(toolbar);
+
+        // Đặt nút back
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        // Xử lý sự kiện khi nút back được nhấn
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         showUserInformation();
 
@@ -52,6 +68,8 @@ TextView user_name,user_email;
                     String currentPassword = currentPasswordEditText.getText().toString();
                     String re_newPassword = re_newPasswordEditText.getText().toString();
                     String newPassword = newPasswordEditText.getText().toString();
+
+
 
                     if (currentPassword.isEmpty() || re_newPassword.isEmpty() || newPassword.isEmpty()) {
                         Toast.makeText(RePassword_Activity.this, "Vui lòng nhập đầy đủ các trường", Toast.LENGTH_SHORT).show();

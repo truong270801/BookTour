@@ -10,7 +10,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.datn_tranvantruong.Fragment.FragmentItem.ItemHomePf_Fragment;
+import com.example.datn_tranvantruong.Fragment.FragmentItem.DetailHome_Fragment;
 import com.example.datn_tranvantruong.Model.ItemHome_Model;
 import com.example.datn_tranvantruong.R;
 import com.squareup.picasso.Picasso;
@@ -58,7 +58,7 @@ public class ItemHome_Adapter extends RecyclerView.Adapter<ItemHome_Adapter.View
             @Override
             public void onClick(View view) {
                 AppCompatActivity activity = (AppCompatActivity) view.getContext();
-                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new ItemHomePf_Fragment(item.getImageUrl(),item.getName(),item.getLocation(),item.getPrice())).addToBackStack(null).commit();
+                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new DetailHome_Fragment(item.getImageUrl(),item.getName(),item.getLocation(),item.getPrice())).addToBackStack(null).commit();
 
             }
         });
