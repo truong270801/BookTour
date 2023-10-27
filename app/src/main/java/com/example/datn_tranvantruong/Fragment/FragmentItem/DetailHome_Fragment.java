@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toolbar;
@@ -42,7 +43,7 @@ public class DetailHome_Fragment extends Fragment {
         TextView tourNametxtV = view.findViewById(R.id.tourNametxtV);
         TextView tourLocationtxtV = view.findViewById(R.id.tourLocationtxtV);
         TextView tourPricetxtV = view.findViewById(R.id.tourPricetxtV);
-
+        //Button btn_addcart = view.findViewById(R.id.btn_addcart);
 
         androidx.appcompat.widget.Toolbar toolbar = view.findViewById(R.id.toolbar);
         AppCompatActivity activity = (AppCompatActivity) requireActivity();
@@ -60,6 +61,13 @@ public class DetailHome_Fragment extends Fragment {
             }
         });
 
+
+//        btn_addcart.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//            }
+//        });
 
 
         Glide.with(tourImageView.getContext())
