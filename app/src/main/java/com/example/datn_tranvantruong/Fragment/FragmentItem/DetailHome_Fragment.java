@@ -60,7 +60,7 @@ public class DetailHome_Fragment extends Fragment {
             }
         });
 
-        Button
+
 
         Glide.with(tourImageView.getContext())
                 .load(imageUrl)
