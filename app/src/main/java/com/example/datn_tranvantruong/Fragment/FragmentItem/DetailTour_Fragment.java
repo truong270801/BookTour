@@ -1,6 +1,5 @@
 package com.example.datn_tranvantruong.Fragment.FragmentItem;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,23 +7,20 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toolbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.bumptech.glide.Glide;
-import com.example.datn_tranvantruong.Activity.Login_Activity;
 import com.example.datn_tranvantruong.Fragment.HomeFragment;
-import com.example.datn_tranvantruong.MainActivity;
 import com.example.datn_tranvantruong.R;
 
-public class DetailHome_Fragment extends Fragment {
+public class DetailTour_Fragment extends Fragment {
     String imageUrl,name,location,  price;
 
 
-    public DetailHome_Fragment(String imageUrl, String name, String location, String price){
+    public DetailTour_Fragment(String imageUrl, String name, String location, String price){
         this.imageUrl = imageUrl;
         this.name = name;
         this.location = location;
@@ -43,7 +39,9 @@ public class DetailHome_Fragment extends Fragment {
         TextView tourNametxtV = view.findViewById(R.id.tourNametxtV);
         TextView tourLocationtxtV = view.findViewById(R.id.tourLocationtxtV);
         TextView tourPricetxtV = view.findViewById(R.id.tourPricetxtV);
-        //Button btn_addcart = view.findViewById(R.id.btn_addcart);
+        ImageView addcart = view.findViewById(R.id.btn_addcart);
+
+
 
         androidx.appcompat.widget.Toolbar toolbar = view.findViewById(R.id.toolbar);
         AppCompatActivity activity = (AppCompatActivity) requireActivity();
@@ -62,12 +60,12 @@ public class DetailHome_Fragment extends Fragment {
         });
 
 
-//        btn_addcart.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//            }
-//        });
+        addcart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+addedToCart();
+            }
+        });
 
 
         Glide.with(tourImageView.getContext())
@@ -84,6 +82,11 @@ public class DetailHome_Fragment extends Fragment {
         //onBackPressed();
         return view;
     }
+
+    private void addedToCart() {
+     
+    }
+
     public void onBackPressed() {
         AppCompatActivity activity = (AppCompatActivity) getContext();
         FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();

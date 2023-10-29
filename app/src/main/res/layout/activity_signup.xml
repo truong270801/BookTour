@@ -31,18 +31,29 @@
 
             android:drawablePadding="8dp"
             />
+
+            <EditText
+                android:id="@+id/signup_name"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/border"
+                android:drawableLeft="@drawable/baseline_account_circle_24"
+                android:drawablePadding="8dp"
+                android:hint="Tên người dùng"
+                android:padding="8dp" />
+
             <EditText
                 android:id="@+id/signup_password"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:background="@drawable/border"
                 android:layout_marginTop="20dp"
-                android:padding="8dp"
-                android:hint="Mật khẩu với 6 ký tự"
-                android:inputType="textPassword"
+                android:background="@drawable/border"
                 android:drawableLeft="@drawable/baseline_lock"
                 android:drawablePadding="8dp"
-                />
+                android:hint="Mật khẩu với 6 ký tự"
+                android:inputType="textPassword"
+                android:padding="8dp" />
 
             <EditText
                 android:id="@+id/signup_conpassword"

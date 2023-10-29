@@ -29,6 +29,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.datn_tranvantruong.Fragment.SettingFragment;
 import com.example.datn_tranvantruong.MainActivity;
+import com.example.datn_tranvantruong.Model.Users_Model;
 import com.example.datn_tranvantruong.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -96,6 +97,7 @@ public class Profile_Activity extends AppCompatActivity {
                             @Override
                             public void onClick(View v) {
                                 String Fullname = edit_name.getText().toString().trim();
+
                                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                                 if (user == null){
                                     return;
