@@ -117,7 +117,7 @@
                     app:srcCompat="@drawable/time" />
 
                 <TextView
-                    android:id="@+id/tourLocationtxV"
+                    android:id="@+id/startday"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
                     android:layout_weight="1"
@@ -161,14 +161,15 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/tourPricettV"
+                android:id="@+id/content_tour"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="20dp"
                 android:fontFamily="serif"
-                android:text="      Tour Đà Nẵng mùa hè 3 ngày 2 đêm của KTTravel sẽ giúp quý khách thư giãn sau những ngày làm việc mệt mỏi. Đến với tour này, quý khách sẽ có những trải nghiệm tuyệt vời. Đây là dịp để quý khách gạt đi những bộn bề lo toang, lánh xa những ồn ào, xô bồ trong cuộc sống."
+
+                android:text="      Tour Đà Nẵng mùa hè 3 ngày 2 đêmcủa KTTravel sẽ giúp quý khách\nthư giãn sau những ngày\nlàm việc mệt mỏi. Đến với tour này, quý khách sẽ có những trải nghiệm tuyệt vời. Đây là dịp để quý khách gạt đi những bộn bề lo toang, lánh xa những ồn ào, xô bồ trong cuộc sống."
                 android:textColor="@color/black"
 
                 android:textSize="18sp" />
@@ -180,7 +181,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/tourPricetxtV"
@@ -195,20 +196,40 @@
                     android:textColor="@color/black"
                     android:textSize="30sp"
                     android:textStyle="bold" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
 
-                <ImageView
-                    android:id="@+id/btn_addcart"
-                    android:layout_width="60dp"
-                    android:layout_height="35dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_weight="1"
-                    android:backgroundTint="@color/light_blue_A200"
-                    android:background="@drawable/radius_button"
-                    android:src="@drawable/add_shopping_cart"
-                    android:textSize="18sp" />
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:src="@drawable/baseline_add_circle_outline_24"/>
+                    <TextView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:gravity="center"
+                        android:textSize="28sp"
+                        android:text="1"/>
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:src="@drawable/baseline_remove_circle_outline_24"/>
 
+                    <ImageView
+                        android:id="@+id/btn_addcart"
+                        android:layout_width="60dp"
+                        android:layout_height="50dp"
+                        android:layout_marginStart="60dp"
+
+                        android:layout_weight="1"
+                        android:backgroundTint="@color/light_blue_A200"
+                        android:background="@drawable/radius_button"
+                        android:src="@drawable/add_shopping_cart"
+                        android:textSize="18sp" />
+
+                </LinearLayout>
             </LinearLayout>
 
 

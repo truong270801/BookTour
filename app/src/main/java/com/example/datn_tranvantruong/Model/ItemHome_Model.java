@@ -5,15 +5,19 @@ public class ItemHome_Model {
     private String name;
     private String location;
     private String price;
+    private String startday;
+private String content;
 
     public ItemHome_Model() {
     }
 
-    public ItemHome_Model(String imageUrl, String name, String location, String price) {
+    public ItemHome_Model(String imageUrl, String name, String location, String price, String startday, String content) {
         this.imageUrl = imageUrl;
         this.name = name;
         this.location = location;
         this.price = price;
+        this.startday = startday;
+        this.content = content;
     }
 
     public String getImageUrl() {
@@ -46,5 +50,21 @@ public class ItemHome_Model {
 
     public void setPrice(String price) {
         this.price = price;
+    }
+
+    public String getStartday() {
+        return startday;
+    }
+
+    public void setStartday(String startday) {
+        this.startday = startday;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 }

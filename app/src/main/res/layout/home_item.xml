@@ -39,6 +39,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
                 android:fontFamily="sans-serif-condensed-medium"
+                android:textColor="@color/black"
                 android:gravity="center|fill_vertical"
                 android:text=" Tour tham quan bốn hòn đảo ở Nam Phú Quốc - 1 ngày"
                 android:textAlignment="center"

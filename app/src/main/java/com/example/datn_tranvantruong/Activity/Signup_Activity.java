@@ -2,9 +2,6 @@ package com.example.datn_tranvantruong.Activity;
 
 import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,13 +13,16 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.datn_tranvantruong.Model.Users_Model;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.datn_tranvantruong.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class Signup_Activity extends AppCompatActivity {
@@ -67,7 +67,7 @@ public class Signup_Activity extends AppCompatActivity {
     }
 
     private void creatUser() {
-        String name = signup_name.getText().toString();
+        String name = signup_name.getText().toString().trim();
         String email = signup_email.getText().toString();
         String password = signup_password.getText().toString();
         String conpassword = signup_conpassword.getText().toString();
@@ -90,13 +90,22 @@ public class Signup_Activity extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     progressDialog.dismiss();
-                    Users_Model usersModel = new Users_Model(name,email,password);
-                    String id = task.getResult().getUser().getUid();
-                    database.getReference().child("Users").child(id).setValue(usersModel);
                     if (task.isSuccessful()) {
-                        FirebaseAuth auth = FirebaseAuth.getInstance();
-                        FirebaseUser user = auth.getCurrentUser();
+                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                        //tên
+                        if (user == null){
+                            return;
+                        }
+                        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                .setDisplayName(name)
+                                .build();
+                        user.updateProfile(profileUpdates).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
 
+                            }
+                        });
+//gửi email xác thực
                         user.sendEmailVerification()
                                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
