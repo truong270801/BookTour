@@ -1,6 +1,7 @@
 package com.example.datn_tranvantruong.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.datn_tranvantruong.Activity.Payment_Activity;
 import com.example.datn_tranvantruong.Model.ItemCart_Model;
 import com.example.datn_tranvantruong.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -48,7 +50,14 @@ public class ItemCart_Adapter extends RecyclerView.Adapter<ItemCart_Adapter.View
         holder.priceTextView.setText(item.getPriceCart());
 
         Picasso.get().load(item.getImageUrl()).into(holder.imageView);
-
+holder.Pay_Button.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+        Intent intent = new Intent(v.getContext(), Payment_Activity.class);
+        // Kích hoạt Activity
+        v.getContext().startActivity(intent);
+    }
+});
         holder.remoeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -91,7 +100,7 @@ public class ItemCart_Adapter extends RecyclerView.Adapter<ItemCart_Adapter.View
         private ImageView imageView;
         private TextView nameTextView;
         private TextView priceTextView;
-        private Button remoeButton;
+        private Button remoeButton,Pay_Button;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -99,6 +108,7 @@ public class ItemCart_Adapter extends RecyclerView.Adapter<ItemCart_Adapter.View
             nameTextView = itemView.findViewById(R.id.productNameTextView);
             priceTextView = itemView.findViewById(R.id.productPriceTextView);
             remoeButton = itemView.findViewById(R.id.remoeButton);
+            Pay_Button = itemView.findViewById(R.id.Pay_Button);
         }
     }
 }

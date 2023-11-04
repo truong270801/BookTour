@@ -90,6 +90,7 @@ public class DetailTour_Fragment extends Fragment {
                         databaseReference.setValue(product);
 
                         Toast.makeText(getContext(), "Đã thêm vào giỏ hàng", Toast.LENGTH_SHORT).show();
+
                     }
 
                     @Override

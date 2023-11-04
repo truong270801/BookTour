@@ -10,10 +10,10 @@ private String idCart;
     }
 
     public ItemCart_Model(String productID, String productName, String productPrice, String productImageUrl) {
-this.idCart = productID;
-this.titleCart = productName;
-this.priceCart = productPrice;
-this.imageUrl = productImageUrl;
+        this.idCart = productID;
+        this.titleCart = productName;
+        this.priceCart = productPrice;
+        this.imageUrl = productImageUrl;
     }
 
     public String getIdCart() {

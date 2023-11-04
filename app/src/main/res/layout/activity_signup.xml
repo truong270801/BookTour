@@ -44,6 +44,17 @@
                 android:padding="8dp" />
 
             <EditText
+                android:id="@+id/signup_phone"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/border"
+                android:drawableLeft="@drawable/baseline_local_phone"
+                android:drawablePadding="8dp"
+                android:hint="Số điện thoại"
+                android:padding="8dp" />
+
+            <EditText
                 android:id="@+id/signup_password"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"

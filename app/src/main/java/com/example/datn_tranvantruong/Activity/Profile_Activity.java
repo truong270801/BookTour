@@ -1,14 +1,6 @@
 package com.example.datn_tranvantruong.Activity;
 
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -24,6 +16,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 import com.bumptech.glide.Glide;
 import com.example.datn_tranvantruong.MainActivity;
 import com.example.datn_tranvantruong.R;
@@ -32,6 +32,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
 
@@ -93,8 +98,13 @@ public class Profile_Activity extends AppCompatActivity {
                             @Override
                             public void onClick(View v) {
                                 String Fullname = edit_name.getText().toString().trim();
+                                String phone = edit_phone.getText().toString().trim();
 
                                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                                FirebaseDatabase database = FirebaseDatabase.getInstance();
+                                database.getReference().child("Users").child(user.getUid()).child("name").setValue(Fullname);
+                                database.getReference().child("Users").child(user.getUid()).child("phone").setValue(phone);
+
                                 if (user == null){
                                     return;
                                 }
@@ -154,10 +164,22 @@ public class Profile_Activity extends AppCompatActivity {
         if (user == null){
             return;
         }
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Users").child(user.getUid()).child("phone");
+databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+    @Override
+    public void onDataChange(@NonNull DataSnapshot snapshot) {
+        String phone = snapshot.getValue(String.class);
+        edit_phone.setText(phone);
+    }
+
+    @Override
+    public void onCancelled(@NonNull DatabaseError error) {
+
+    }
+});
         String email = user.getEmail();
         user_email.setText(email);
         edit_name.setText(user.getDisplayName());
-        edit_phone.setText(user.getPhoneNumber());
         Uri photoUrl = user.getPhotoUrl();
         Glide.with(this).load(photoUrl).error(R.drawable.ic_avatar_default).into(edit_Avatar);
     }

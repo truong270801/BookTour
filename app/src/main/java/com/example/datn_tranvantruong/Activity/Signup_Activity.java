@@ -16,6 +16,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.datn_tranvantruong.Model.User;
 import com.example.datn_tranvantruong.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -27,7 +28,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class Signup_Activity extends AppCompatActivity {
     Button bnt_signup;
-    EditText signup_email, signup_password,signup_name, signup_conpassword;
+    EditText signup_email, signup_password,signup_name,signup_phone, signup_conpassword;
     TextView signupRedirectText;
     ProgressDialog progressDialog;
     FirebaseDatabase database;
@@ -39,7 +40,7 @@ public class Signup_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
         progressDialog = new ProgressDialog(this);
-
+        signup_phone = findViewById(R.id.signup_phone);
         signup_name = findViewById(R.id.signup_name);
         signup_email = findViewById(R.id.signup_email);
         signup_password = findViewById(R.id.signup_password);
@@ -71,9 +72,9 @@ public class Signup_Activity extends AppCompatActivity {
         String email = signup_email.getText().toString();
         String password = signup_password.getText().toString();
         String conpassword = signup_conpassword.getText().toString();
+        String phone = signup_phone.getText().toString();
 
-
-        if (TextUtils.isEmpty(name)||TextUtils.isEmpty(email)||TextUtils.isEmpty(password)){
+        if (TextUtils.isEmpty(phone)||TextUtils.isEmpty(name)||TextUtils.isEmpty(email)||TextUtils.isEmpty(password)){
             Toast.makeText(this,"Không được để trống các trường",Toast.LENGTH_SHORT).show();
         }
         else if (password.length() < 6){
@@ -91,8 +92,11 @@ public class Signup_Activity extends AppCompatActivity {
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     progressDialog.dismiss();
                     if (task.isSuccessful()) {
+                        String idUser = task.getResult().getUser().getUid();
                         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                        //tên
+                        User usersModel = new User(idUser,name,email,password,phone);
+
+                        database.getReference().child("Users").child(idUser).setValue(usersModel);
                         if (user == null){
                             return;
                         }
@@ -105,7 +109,7 @@ public class Signup_Activity extends AppCompatActivity {
 
                             }
                         });
-//gửi email xác thực
+
                         user.sendEmailVerification()
                                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
