@@ -3,15 +3,14 @@ package com.example.datn_tranvantruong.Fragment;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
 import com.example.datn_tranvantruong.Activity.InforApp_Activity;
@@ -62,15 +61,11 @@ TextView user_name,user_email;
             @Override
             public void onClick(View v) {
                 // Mở ứng dụng Zalo nếu đã cài đặt
-                Intent intent = getActivity().getPackageManager().getLaunchIntentForPackage("com.facebook.katana");
 
-                if (intent != null) {
-                    startActivity(intent);
-                } else {
-                    // Nếu không có ứng dụng Zalo, mở trình duyệt để trang web Zalo
+
                     Intent webIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/profile.php?id=100041618133507&locale=vi_VN")); // Thay thế URL bằng liên kết Zalo của bạn
                     startActivity(webIntent);
-                }
+
             }
         });
 

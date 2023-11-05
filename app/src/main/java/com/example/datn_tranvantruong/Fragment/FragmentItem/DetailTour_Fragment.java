@@ -25,10 +25,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class DetailTour_Fragment extends Fragment {
-    String imageUrl, name, location, price, content, startday;
+    String idTour,imageUrl, name, location, price, content, startday;
     FirebaseUser currentUser; // Khai báo biến ở mức lớn hơn
 
-    public DetailTour_Fragment(String imageUrl, String name, String location, String price, String content, String startday) {
+    public DetailTour_Fragment(String idTour,String imageUrl, String name, String location, String price, String content, String startday) {
         this.imageUrl = imageUrl;
         this.name = name;
         this.location = location;
@@ -86,7 +86,7 @@ public class DetailTour_Fragment extends Fragment {
                                 .child(currentUser.getUid())
                                 .child(productID); // Sử dụng productID làm tên nút con
 
-                        ItemCart_Model product = new ItemCart_Model(productID, productName, productPrice, productImageUrl);
+                        ItemCart_Model product = new ItemCart_Model(productID, productName, productPrice, productImageUrl,null);
                         databaseReference.setValue(product);
 
                         Toast.makeText(getContext(), "Đã thêm vào giỏ hàng", Toast.LENGTH_SHORT).show();

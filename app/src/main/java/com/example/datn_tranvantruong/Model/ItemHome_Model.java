@@ -1,6 +1,7 @@
 package com.example.datn_tranvantruong.Model;
 
 public class ItemHome_Model {
+    private String idTour;
     private String imageUrl;
     private String name;
     private String location;
@@ -11,13 +12,22 @@ private String content;
     public ItemHome_Model() {
     }
 
-    public ItemHome_Model(String imageUrl, String name, String location, String price, String startday, String content) {
+    public ItemHome_Model(String idTour, String imageUrl, String name, String location, String price, String startday, String content) {
+        this.idTour = idTour;
         this.imageUrl = imageUrl;
         this.name = name;
         this.location = location;
         this.price = price;
         this.startday = startday;
         this.content = content;
+    }
+
+    public String getIdTour() {
+        return idTour;
+    }
+
+    public void setIdTour(String idTour) {
+        this.idTour = idTour;
     }
 
     public String getImageUrl() {

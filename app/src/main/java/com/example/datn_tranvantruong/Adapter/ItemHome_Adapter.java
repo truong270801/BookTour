@@ -51,7 +51,6 @@ public class ItemHome_Adapter extends RecyclerView.Adapter<ItemHome_Adapter.View
             holder.nameTextView.setText(item.getName());
             holder.locationTextView.setText(item.getLocation());
             holder.priceTextView.setText(item.getPrice());
-        String content = item.getContent(); // Lấy nội dung từ Firebase
 
             // Load the image using a library like Picasso or Glide.
             Picasso.get().load(item.getImageUrl()).into(holder.imageView);
@@ -59,7 +58,7 @@ public class ItemHome_Adapter extends RecyclerView.Adapter<ItemHome_Adapter.View
             @Override
             public void onClick(View view) {
                 AppCompatActivity activity = (AppCompatActivity) view.getContext();
-                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new DetailTour_Fragment(item.getImageUrl(),item.getName(),item.getLocation(),item.getPrice(),item.getContent(),item.getStartday())).addToBackStack(null).commit();
+                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new DetailTour_Fragment(null,item.getImageUrl(),item.getName(),item.getLocation(),item.getPrice(),item.getContent(),item.getStartday())).addToBackStack(null).commit();
 
             }
         });
