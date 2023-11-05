@@ -1,38 +1,39 @@
 package com.example.datn_tranvantruong.Model;
 
 public class User {
-    String idUser;
-    String name;
+    String id;
+    String full_name;
     String email;
+    String address;
     String password;
-
     String phone;
 
     public User() {
     }
 
-    public User(String idUser, String name, String email, String password, String phone) {
-        this.idUser = idUser;
-        this.name = name;
+    public User(String id, String full_name, String email, String address, String password, String phone) {
+        this.id = id;
+        this.full_name = full_name;
         this.email = email;
+        this.address = address;
         this.password = password;
         this.phone = phone;
     }
 
-    public String getIdUser() {
-        return idUser;
+    public String getId() {
+        return id;
     }
 
-    public void setIdUser(String idUser) {
-        this.idUser = idUser;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getFull_name() {
+        return full_name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFull_name(String full_name) {
+        this.full_name = full_name;
     }
 
     public String getEmail() {
@@ -41,6 +42,14 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getPassword() {

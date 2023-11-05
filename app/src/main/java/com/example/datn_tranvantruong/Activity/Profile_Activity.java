@@ -1,14 +1,14 @@
 package com.example.datn_tranvantruong.Activity;
 
 
-import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,37 +16,29 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
+import com.example.datn_tranvantruong.DBHandler.CustomerHandler;
+import com.example.datn_tranvantruong.Database.DBManager;
 import com.example.datn_tranvantruong.MainActivity;
 import com.example.datn_tranvantruong.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserProfileChangeRequest;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
-import java.io.IOException;
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 
 public class Profile_Activity extends AppCompatActivity {
     private View view;
     public static final int MY_REQUEST_CODE = 10;
     private ImageView edit_Avatar;
-    private EditText edit_name,edit_phone;
+    private EditText edit_name,edit_phone,edit_address;
     private TextView user_email;
-    private Button bnt_Update, bnt_back;
+    ImageView add_avatar;
+    private Button bnt_Update;
+    int REQUEST_CODE_FOLDER = 352;
+
 
 
 
@@ -62,6 +54,73 @@ public class Profile_Activity extends AppCompatActivity {
         edit_phone = findViewById(R.id.edit_phone);
         bnt_Update = findViewById(R.id.bnt_Update);
         user_email = findViewById(R.id.user_email);
+        edit_address = findViewById(R.id.edit_address);
+        add_avatar = findViewById(R.id.add_avatar);
+        bnt_Update = findViewById(R.id.bnt_Update);
+
+        DBManager dbManager = new DBManager(this);
+        SQLiteDatabase db = dbManager.getWritableDatabase();
+// Xây dựng câu lệnh truy vấn SQL
+        String query = "SELECT id,email,fullname,address,phone,image_avatar FROM customers";
+
+// Thực hiện truy vấn SQL và lấy dữ liệu
+        Cursor cursor = db.rawQuery(query, null);
+
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                String email = cursor.getString(cursor.getColumnIndex("email"));
+                String fullname = cursor.getString(cursor.getColumnIndex("fullname"));
+                String address = cursor.getString(cursor.getColumnIndex("address"));
+                String phone = cursor.getString(cursor.getColumnIndex("phone"));
+                byte[] avatar = cursor.getBlob(cursor.getColumnIndex("image_avatar"));
+                // Gán giá trị "email" vào TextView
+                user_email.setText(email);
+                edit_name.setText(fullname);
+                edit_address.setText(address);
+                edit_phone.setText(phone);
+                if (avatar != null) {
+                    Bitmap avatarBitmap = BitmapFactory.decodeByteArray(avatar, 0, avatar.length);
+                    edit_Avatar.setImageBitmap(avatarBitmap);
+                }
+
+
+            }
+            cursor.close();
+        }
+
+        bnt_Update.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                DBManager dbManager = new DBManager(Profile_Activity.this);
+                SQLiteDatabase db = dbManager.getWritableDatabase();
+
+                String id = null; // Initialize "id" to null
+
+                // Query the database to get the "id" of the customer
+                String idQuery = "SELECT id FROM customers";
+                Cursor idCursor = db.rawQuery(idQuery, null);
+                if (idCursor.moveToFirst()) {
+                    id = idCursor.getString(idCursor.getColumnIndex("id"));
+                }
+                idCursor.close();
+
+                String fullname = edit_name.getText().toString().trim(); // Corrected .getText() method call
+                String address = edit_address.getText().toString().trim();  // Corrected .getText() method call
+                String phone = edit_phone.getText().toString().trim();  // Corrected .getText() method call
+                byte[] avatarBytes = convertToArrayByte(edit_Avatar);
+
+                if (id != null) {
+                    CustomerHandler customerHandler = new CustomerHandler(Profile_Activity.this);
+                    customerHandler.updateCustomerInfo(id, fullname, address, phone, avatarBytes);
+                }
+
+                Intent intent = new Intent(getApplicationContext(), Profile_Activity.class);
+                startActivity(intent);
+                Toast.makeText(Profile_Activity.this, "Sửa hàng thành công!", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        });
 
         Toolbar toolbar = findViewById(R.id.toolbar1);
         setSupportActionBar(toolbar);
@@ -78,127 +137,46 @@ public class Profile_Activity extends AppCompatActivity {
             }
         });
 
-
-        setUserInformation();
-        initListener();
-    }
-
-    final private ActivityResultLauncher<Intent> mactivityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
-            new ActivityResultCallback<ActivityResult>() {
-                @Override
-                public void onActivityResult(ActivityResult result) {
-                    if (result.getResultCode() == RESULT_OK){
-                        Intent intent = result.getData();
-                        if (intent == null){
-                            return;
-                        }
-                        Uri uri = intent.getData();
-                        bnt_Update = findViewById(R.id.bnt_Update);
-                        bnt_Update.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                String Fullname = edit_name.getText().toString().trim();
-                                String phone = edit_phone.getText().toString().trim();
-
-                                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                                FirebaseDatabase database = FirebaseDatabase.getInstance();
-                                database.getReference().child("Users").child(user.getUid()).child("name").setValue(Fullname);
-                                database.getReference().child("Users").child(user.getUid()).child("phone").setValue(phone);
-
-                                if (user == null){
-                                    return;
-                                }
-                                UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                                        .setDisplayName(Fullname)
-                                        .setPhotoUri(uri)
-                                        .build();
-                                user.updateProfile(profileUpdates).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
-                                        if (task.isSuccessful()) {
-                                            Toast.makeText(Profile_Activity.this, "Cập nhật thành công", Toast.LENGTH_SHORT).show();
-                                        }
-                                    }
-                                });
-
-                            }
-
-                        });
-
-                        try {
-                            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),uri);
-                            setBitmapImageView(bitmap);
-                        }catch (IOException e){
-                            e.printStackTrace();
-                        }
-
-                    }
-
-                }
-            });
-
-
-    private void initListener() {
-        edit_Avatar.setOnClickListener(new View.OnClickListener() {
+        add_avatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //check version android
-                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M){
-                    openGallery();
-                    return;
-                }
-                if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
-                    openGallery();
-                }else {
-                    //check cho phép vào ảnh ng dùng
-                    String [] permisstions = {Manifest.permission.READ_EXTERNAL_STORAGE};
-                    requestPermissions(permisstions,MY_REQUEST_CODE);
-                }
+                // TODO Auto-generated method stub
+                Intent in = new Intent(Intent.ACTION_PICK);
+                in.setType("image/*");
+                startActivityForResult(in, REQUEST_CODE_FOLDER);
             }
         });
-    }
 
 
-    private void setUserInformation(){
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user == null){
-            return;
-        }
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Users").child(user.getUid()).child("phone");
-databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-    @Override
-    public void onDataChange(@NonNull DataSnapshot snapshot) {
-        String phone = snapshot.getValue(String.class);
-        edit_phone.setText(phone);
-    }
 
-    @Override
-    public void onCancelled(@NonNull DatabaseError error) {
-
-    }
-});
-        String email = user.getEmail();
-        user_email.setText(email);
-        edit_name.setText(user.getDisplayName());
-        Uri photoUrl = user.getPhotoUrl();
-        Glide.with(this).load(photoUrl).error(R.drawable.ic_avatar_default).into(edit_Avatar);
-    }
-    public void setBitmapImageView(Bitmap bitmapImageView){
-        edit_Avatar.setImageBitmap(bitmapImageView);
     }
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == MY_REQUEST_CODE){
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                openGallery();
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // TODO Auto-generated method stub
+
+        if (requestCode == REQUEST_CODE_FOLDER && resultCode == RESULT_OK & data != null) {
+            Uri uri = data.getData();
+            try {
+                InputStream ipstream = getContentResolver().openInputStream(uri);
+                Bitmap bitmap = BitmapFactory.decodeStream(ipstream);
+                edit_Avatar.setImageBitmap(bitmap);
+            } catch (FileNotFoundException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
             }
+
+
         }
+        super.onActivityResult(requestCode, resultCode, data);
     }
-    public  void openGallery(){
-        Intent intent  = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        mactivityResultLauncher.launch(Intent.createChooser(intent,"Tải ảnh thành công"));
+
+    public byte[] convertToArrayByte(ImageView img) {
+        BitmapDrawable bitmapDrawable = (BitmapDrawable) img.getDrawable();
+        Bitmap bitmap = bitmapDrawable.getBitmap();
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        return stream.toByteArray();
     }
+
+
 }

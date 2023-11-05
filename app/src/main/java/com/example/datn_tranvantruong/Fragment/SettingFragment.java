@@ -1,6 +1,10 @@
 package com.example.datn_tranvantruong.Fragment;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,14 +16,12 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
-import com.bumptech.glide.Glide;
 import com.example.datn_tranvantruong.Activity.InforApp_Activity;
 import com.example.datn_tranvantruong.Activity.Login_Activity;
 import com.example.datn_tranvantruong.Activity.Profile_Activity;
 import com.example.datn_tranvantruong.Activity.RePassword_Activity;
+import com.example.datn_tranvantruong.Database.DBManager;
 import com.example.datn_tranvantruong.R;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 
 public class SettingFragment extends Fragment {
@@ -38,6 +40,9 @@ TextView user_name,user_email;
         img_avatar = view.findViewById(R.id.img_avatar);
         user_name = view.findViewById(R.id.user_name);
         user_email = view.findViewById(R.id.user_email);
+
+        DBManager dbManager = new DBManager(getContext());
+        SQLiteDatabase db = dbManager.getWritableDatabase();
 
         btn_infor = view.findViewById(R.id.btn_infor);
         btn_infor.setOnClickListener(new View.OnClickListener() {
@@ -80,9 +85,9 @@ TextView user_name,user_email;
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
-                mAuth.signOut();
+
+                db.close();
 
                 startActivity(new Intent(getActivity(), Login_Activity.class));
                 if (getActivity() != null) {
@@ -93,20 +98,32 @@ TextView user_name,user_email;
         return view;
     }
     private void  showUserInformation(){
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user == null){
-            return;
-        }
-        String email = user.getEmail();
-        Uri photoUrl = user.getPhotoUrl();
+// Tạo một đối tượng SQLiteDatabase từ MyDatabaseHelper hoặc từ nơi bạn đã khởi tạo nó
+        DBManager dbManager = new DBManager(getContext());
+        SQLiteDatabase db = dbManager.getWritableDatabase();
+// Xây dựng câu lệnh truy vấn SQL
+        String query = "SELECT email,fullname,image_avatar FROM customers";
 
-        if(user_name == null){
-            user_name.setVisibility(View.GONE);
-        }else {
-            user_name.setText(user.getDisplayName());
+// Thực hiện truy vấn SQL và lấy dữ liệu
+        Cursor cursor = db.rawQuery(query, null);
+
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                String email = cursor.getString(cursor.getColumnIndex("email"));
+                String name = cursor.getString(cursor.getColumnIndex("fullname"));
+                byte[] avatar = cursor.getBlob(cursor.getColumnIndex("image_avatar"));
+
+
+                // Gán giá trị "email" vào TextView
+                user_email.setText(email);
+                user_name.setText(name);
+                if (avatar != null) {
+                    Bitmap avatarBitmap = BitmapFactory.decodeByteArray(avatar, 0, avatar.length);
+                    img_avatar.setImageBitmap(avatarBitmap);
+                }
+            }
+            cursor.close();
         }
-        user_email.setText(email);
-        Glide.with(this).load(photoUrl).error(R.drawable.ic_avatar_default).into(img_avatar);
     }
 
 

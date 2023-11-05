@@ -1,29 +1,20 @@
 package com.example.datn_tranvantruong.Activity;
 
-import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
-
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.datn_tranvantruong.DBHandler.SignupHandler;
 import com.example.datn_tranvantruong.Model.User;
 import com.example.datn_tranvantruong.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class Signup_Activity extends AppCompatActivity {
@@ -45,7 +36,6 @@ public class Signup_Activity extends AppCompatActivity {
         signup_email = findViewById(R.id.signup_email);
         signup_password = findViewById(R.id.signup_password);
         signup_conpassword = findViewById(R.id.signup_conpassword);
-
         database = FirebaseDatabase.getInstance();
 
         signupRedirectText = findViewById(R.id.loginRedirectText);
@@ -61,20 +51,27 @@ public class Signup_Activity extends AppCompatActivity {
         bnt_signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               creatUser();
+
+                creatUser();
             }
         });
 
     }
 
     private void creatUser() {
-        String name = signup_name.getText().toString().trim();
-        String email = signup_email.getText().toString();
-        String password = signup_password.getText().toString();
-        String conpassword = signup_conpassword.getText().toString();
-        String phone = signup_phone.getText().toString();
+        String fullname = signup_name.getText().toString().trim();
+        String email = signup_email.getText().toString().trim();
+        String password = signup_password.getText().toString().trim();
+        String conpassword = signup_conpassword.getText().toString().trim();
+        String phone = signup_phone.getText().toString().trim();
+        SignupHandler signupHandler = new SignupHandler(this);
 
-        if (TextUtils.isEmpty(phone)||TextUtils.isEmpty(name)||TextUtils.isEmpty(email)||TextUtils.isEmpty(password)){
+        User user = new User();
+        user.setFull_name(fullname);
+        user.setEmail(email);
+        user.setPhone(phone);
+
+        if (TextUtils.isEmpty(phone)||TextUtils.isEmpty(fullname)||TextUtils.isEmpty(email)||TextUtils.isEmpty(password)){
             Toast.makeText(this,"Không được để trống các trường",Toast.LENGTH_SHORT).show();
         }
         else if (password.length() < 6){
@@ -85,52 +82,21 @@ public class Signup_Activity extends AppCompatActivity {
 
         }
         else {
-            FirebaseAuth mAuth = FirebaseAuth.getInstance();
-            progressDialog.show();
-            mAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(Signup_Activity.this, new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    progressDialog.dismiss();
-                    if (task.isSuccessful()) {
-                        String idUser = task.getResult().getUser().getUid();
-                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                        User usersModel = new User(idUser,name,email,password,phone);
+            if (signupHandler.register(email, fullname, password, phone)) {
+                Intent i = new Intent(this, Login_Activity.class);
+                startActivity(i);
+                Toast.makeText(this,
+                        "Đăng ký tài khoản thành công.",
+                        Toast.LENGTH_LONG).show();
+                finish();
+            } else {
+                Toast.makeText(getApplicationContext(),
+                        "Đăng ký tài khoản không thành công.",
+                        Toast.LENGTH_LONG).show();
+            }
 
-                        database.getReference().child("Users").child(idUser).setValue(usersModel);
-                        if (user == null){
-                            return;
-                        }
-                        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                                .setDisplayName(name)
-                                .build();
-                        user.updateProfile(profileUpdates).addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
 
-                            }
-                        });
 
-                        user.sendEmailVerification()
-                                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
-                                        if (task.isSuccessful()) {
-                                            Log.d(TAG, "Email sent.");
-                                        }
-                                    }
-                                });
-                        // Sign in success, update UI with the signed-in user's information
-                        Toast.makeText(Signup_Activity.this, "Đăng kí thành công", Toast.LENGTH_SHORT).show();
-
-                        startActivity(new Intent(Signup_Activity.this, Login_Activity.class));
-                        finishAffinity();
-                    } else {
-                        // If sign in fails, display a message to the user.
-                        Toast.makeText(Signup_Activity.this, "Đăng kí thất bại", Toast.LENGTH_SHORT).show();
-                    }
-
-                }
-            });
 
         }
 

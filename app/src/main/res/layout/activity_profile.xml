@@ -52,7 +52,17 @@
             android:elevation="5dp"
             android:src="@drawable/ic_avatar_default"
             android:padding="5dp"
-            android:scaleType="centerCrop"/>
+            android:scaleType="centerCrop">
+
+        </de.hdodenhof.circleimageview.CircleImageView>
+        <ImageView
+            android:id="@+id/add_avatar"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="220dp"
+            android:layout_marginLeft="225dp"
+            android:elevation="5dp"
+            android:src="@drawable/baseline_add_circle_24"/>
 
 
         <RelativeLayout
@@ -74,6 +84,7 @@
                 android:textColor="#fff"
                 android:textSize="18sp"
                 android:textStyle="bold" />
+
 
 
         </RelativeLayout>
@@ -109,6 +120,19 @@
                 android:elevation="4dp"
                 android:padding="20dp"
                 android:hint="Tên tài khoản"
+                />
+            <EditText
+                android:id="@+id/edit_address"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_marginBottom="3dp"
+                android:layout_marginTop="3dp"
+                android:background="#fff"
+                android:clickable="true"
+                android:elevation="4dp"
+                android:padding="20dp"
+                android:hint="Địa chỉ"
                 />
             <EditText
                 android:id="@+id/edit_phone"
