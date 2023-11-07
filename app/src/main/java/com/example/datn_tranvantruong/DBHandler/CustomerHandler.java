@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import com.example.datn_tranvantruong.Model.User;
 
 
+
 public class CustomerHandler extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "BOOK_TOUR";
@@ -23,32 +24,31 @@ public class CustomerHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         User user = new User();
 
-        String query = "SELECT name, address, phone FROM customers WHERE id = ?";
+        String query = "SELECT fullname,email, address, phone,image_avatar FROM customers WHERE id = ?";
         Cursor cursor = db.rawQuery(query, new String[]{id});
 
         if (cursor.moveToFirst()) {
-            user.setFull_name(cursor.getString(0));
-            user.setAddress(cursor.getString(1));
-            user.setPhone(cursor.getString(2));
+            user.setFullname(cursor.getString(0));
+            user.setEmail(cursor.getString(1));
+            user.setAddress(cursor.getString(2));
+            user.setPhone(cursor.getString(3));
+            user.setImage_avatar(cursor.getBlob(4));
         }
-
-        cursor.close();
-        db.close();
         return user;
     }
-    public void updateCustomerPassword(String email, String newPassword) {
+    public void updateCustomerPassword(String id, String newPassword) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("password", newPassword);
 
-        db.update("customers", values, "email = ?", new String[]{email});
+        db.update("customers", values, "id = ?", new String[]{id});
         db.close();
     }
-    public String getPasswordFromDB(String email) {
+    public String getPasswordFromDB(String id) {
         SQLiteDatabase db = this.getReadableDatabase();
         String password = null;
 
-        Cursor cursor = db.query("customers", new String[]{"password"}, "email = ?", new String[]{email}, null, null, null);
+        Cursor cursor = db.query("customers", new String[]{"password"}, "id = ?", new String[]{id}, null, null, null);
         if (cursor != null && cursor.moveToFirst()) {
             password = cursor.getString(cursor.getColumnIndex("password"));
             cursor.close();

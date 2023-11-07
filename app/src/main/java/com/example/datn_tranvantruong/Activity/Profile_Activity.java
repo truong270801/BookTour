@@ -2,8 +2,6 @@ package com.example.datn_tranvantruong.Activity;
 
 
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -19,9 +17,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.bumptech.glide.Glide;
 import com.example.datn_tranvantruong.DBHandler.CustomerHandler;
-import com.example.datn_tranvantruong.Database.DBManager;
 import com.example.datn_tranvantruong.MainActivity;
 import com.example.datn_tranvantruong.R;
 
@@ -58,62 +54,40 @@ public class Profile_Activity extends AppCompatActivity {
         add_avatar = findViewById(R.id.add_avatar);
         bnt_Update = findViewById(R.id.bnt_Update);
 
-        DBManager dbManager = new DBManager(this);
-        SQLiteDatabase db = dbManager.getWritableDatabase();
-// Xây dựng câu lệnh truy vấn SQL
-        String query = "SELECT id,email,fullname,address,phone,image_avatar FROM customers";
+        CustomerHandler customerHandler = new CustomerHandler(Profile_Activity.this);
 
-// Thực hiện truy vấn SQL và lấy dữ liệu
-        Cursor cursor = db.rawQuery(query, null);
 
-        if (cursor != null) {
-            if (cursor.moveToFirst()) {
-                String email = cursor.getString(cursor.getColumnIndex("email"));
-                String fullname = cursor.getString(cursor.getColumnIndex("fullname"));
-                String address = cursor.getString(cursor.getColumnIndex("address"));
-                String phone = cursor.getString(cursor.getColumnIndex("phone"));
-                byte[] avatar = cursor.getBlob(cursor.getColumnIndex("image_avatar"));
+
+
+                String email = customerHandler.getCustomerInfo(String.valueOf(Intro_Activity.user_id)).getEmail();
+                String fullname = customerHandler.getCustomerInfo(String.valueOf(Intro_Activity.user_id)).getFullname();
+                String address = customerHandler.getCustomerInfo(String.valueOf(Intro_Activity.user_id)).getAddress();
+                String phone = customerHandler.getCustomerInfo(String.valueOf(Intro_Activity.user_id)).getPhone();
+                byte[] avatar = customerHandler.getCustomerInfo(String.valueOf(Intro_Activity.user_id)).getImage_avatar();
                 // Gán giá trị "email" vào TextView
                 user_email.setText(email);
                 edit_name.setText(fullname);
                 edit_address.setText(address);
                 edit_phone.setText(phone);
                 if (avatar != null) {
-                    Bitmap avatarBitmap = BitmapFactory.decodeByteArray(avatar, 0, avatar.length);
-                    edit_Avatar.setImageBitmap(avatarBitmap);
+                  Bitmap avatarBitmap = BitmapFactory.decodeByteArray(avatar, 0, avatar.length);
+                  edit_Avatar.setImageBitmap(avatarBitmap);
                 }
 
 
-            }
-            cursor.close();
-        }
+
 
         bnt_Update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                DBManager dbManager = new DBManager(Profile_Activity.this);
-                SQLiteDatabase db = dbManager.getWritableDatabase();
-
-                String id = null; // Initialize "id" to null
-
-                // Query the database to get the "id" of the customer
-                String idQuery = "SELECT id FROM customers";
-                Cursor idCursor = db.rawQuery(idQuery, null);
-                if (idCursor.moveToFirst()) {
-                    id = idCursor.getString(idCursor.getColumnIndex("id"));
-                }
-                idCursor.close();
-
+                int id = Intro_Activity.user_id;
                 String fullname = edit_name.getText().toString().trim(); // Corrected .getText() method call
                 String address = edit_address.getText().toString().trim();  // Corrected .getText() method call
                 String phone = edit_phone.getText().toString().trim();  // Corrected .getText() method call
                 byte[] avatarBytes = convertToArrayByte(edit_Avatar);
 
-                if (id != null) {
-                    CustomerHandler customerHandler = new CustomerHandler(Profile_Activity.this);
-                    customerHandler.updateCustomerInfo(id, fullname, address, phone, avatarBytes);
-                }
+                customerHandler.updateCustomerInfo(String.valueOf(id),fullname, address, phone, avatarBytes);
 
                 Intent intent = new Intent(getApplicationContext(), Profile_Activity.class);
                 startActivity(intent);

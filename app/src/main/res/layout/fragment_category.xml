@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#FFFFFF"
+        android:paddingLeft="16dp"
+        android:paddingTop="16dp"
+        android:paddingRight="16dp"
+        android:paddingBottom="16dp"
+    android:orientation="vertical"
+    tools:context=".Admin.FragmentAdmin.CategoryFragment">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Id danh mục "
+        android:textSize="18sp"
+        android:layout_marginLeft="5dp"
+        android:textColor="@color/black" />
+
+    <EditText
+        android:id="@+id/txtId"
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:enabled="false">
+        <requestFocus />
+    </EditText>
+
+    <TextView
+        android:id="@+id/txtCategory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="3dp"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/black"
+        android:text="Tên danh mục"
+        android:textSize="18sp" />
+    <EditText
+        android:id="@+id/txtNameCategory"
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:ems="10">
+        <requestFocus />
+    </EditText>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/add"
+            android:layout_width="78dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/radius_button"
+            android:text="Thêm "
+            android:backgroundTint="@color/Lime"
+             />
+        <Button
+            android:id="@+id/edit"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:background="@drawable/radius_button"
+            android:text="Sửa" />
+        <Button
+            android:id="@+id/delete"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:background="@drawable/radius_button"
+            android:text="Xóa" />
+
+    </LinearLayout>
+    <TextView
+        android:id="@+id/nameListCategory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:textColor="@color/black"
+        android:text="TẤT CẢ DANH MỤC "
+        android:textSize="28sp"
+        android:textStyle="bold" />
+        <ListView
+            android:id="@+id/lvCategory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp">
+        </ListView>
+    </LinearLayout>

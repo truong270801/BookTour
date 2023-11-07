@@ -15,6 +15,9 @@
         android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
         tools:targetApi="31">
         <activity
+            android:name=".Admin.MenuActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activity.Payment_Activity"
             android:exported="false" />
         <activity

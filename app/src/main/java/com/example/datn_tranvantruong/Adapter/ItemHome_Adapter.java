@@ -4,84 +4,61 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.example.datn_tranvantruong.Fragment.FragmentItem.DetailTour_Fragment;
-import com.example.datn_tranvantruong.Model.ItemHome_Model;
+import com.example.datn_tranvantruong.Model.Category;
 import com.example.datn_tranvantruong.R;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class ItemHome_Adapter extends RecyclerView.Adapter<ItemHome_Adapter.ViewHolder> {
-    private List<ItemHome_Model> itemList;
-    private Context context;
+public class ItemHome_Adapter extends BaseAdapter {
+    Context context;
+    List<Category> categoryList;
+    int layout;
 
-    public void setData(List<ItemHome_Model> newData) {
-        this.itemList = newData;
-        notifyDataSetChanged();
-    }
-
-
-
-    public ItemHome_Adapter(Context context, List<ItemHome_Model> itemList) {
+    public ItemHome_Adapter(Context context, int layout, List<Category> categoryList) {
         this.context = context;
-        this.itemList = itemList;
-        notifyDataSetChanged();
-    }
-
-
-
-    @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.home_item, parent, false);
-        return new ViewHolder(view);
+        this.layout = layout;
+        this.categoryList = categoryList;
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-
-            ItemHome_Model item = itemList.get(position); // Đây là cách đúng
-
-            // Set the data to views in your item layout
-            holder.nameTextView.setText(item.getName());
-            holder.locationTextView.setText(item.getLocation());
-            holder.priceTextView.setText(item.getPrice());
-
-            // Load the image using a library like Picasso or Glide.
-            Picasso.get().load(item.getImageUrl()).into(holder.imageView);
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AppCompatActivity activity = (AppCompatActivity) view.getContext();
-                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new DetailTour_Fragment(null,item.getImageUrl(),item.getName(),item.getLocation(),item.getPrice(),item.getContent(),item.getStartday())).addToBackStack(null).commit();
-
-            }
-        });
+    public int getCount() {
+        return categoryList == null ? 0 : categoryList.size();
     }
 
     @Override
-    public int getItemCount() {
-        return itemList.size();
+    public Object getItem(int i) {
+        return categoryList.get(i);
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        public ImageView imageView;
-        public TextView nameTextView;
-        public TextView locationTextView;
-        public TextView priceTextView;
+    @Override
+    public long getItemId(int i) {
+        return categoryList.get(i).getIdCategory();
+    }
 
-        public ViewHolder(View itemView) {
-            super(itemView);
-            imageView = itemView.findViewById(R.id.imageView);
-            nameTextView = itemView.findViewById(R.id.nameTextView);
-            locationTextView = itemView.findViewById(R.id.locationTextView);
-            priceTextView = itemView.findViewById(R.id.priceTextView);
+    @Override
+    public View getView(int i, View view, ViewGroup viewGroup) {
+        ViewHolder holder;
+        if (view == null) {
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            view = inflater.inflate(layout, viewGroup, false);
+
+            holder = new ViewHolder();
+            holder.txtCategoryName = view.findViewById(R.id.txtCategoryName);
+
+            view.setTag(holder);
+        } else {
+            holder = (ViewHolder) view.getTag();
         }
 
+        Category category = (Category) getItem(i);
+        holder.txtCategoryName.setText(category.getNameCategory());
+        return view;
+    }
+
+    public static class ViewHolder {
+        TextView txtCategoryName;
     }
 }

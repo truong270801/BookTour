@@ -1,32 +1,19 @@
 package com.example.datn_tranvantruong;
 
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
+import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.viewpager.widget.ViewPager;
-
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.net.Uri;
-import android.os.Bundle;
-import android.provider.MediaStore;
 
 import com.example.datn_tranvantruong.Fragment.CartFragment;
 import com.example.datn_tranvantruong.Fragment.HomeFragment;
 import com.example.datn_tranvantruong.Fragment.Order_Fragment;
 import com.example.datn_tranvantruong.Fragment.SettingFragment;
+import com.example.datn_tranvantruong.Fragment.Tour_Fragment;
 import com.example.datn_tranvantruong.databinding.ActivityMainBinding;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-
-import java.io.IOException;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -46,6 +33,9 @@ replaceFragment(new HomeFragment());
             switch (item.getItemId()) {
                 case R.id.home:
                     replaceFragment(new HomeFragment());
+                    break;
+                case R.id.tour:
+                    replaceFragment(new Tour_Fragment());
                     break;
                 case R.id.cart:
                     replaceFragment(new CartFragment());

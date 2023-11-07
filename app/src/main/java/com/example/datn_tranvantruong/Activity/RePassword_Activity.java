@@ -69,13 +69,13 @@ TextView user_name,user_email;
                     Toast.makeText(RePassword_Activity.this, "Vui lòng nhập lại mật khẩu", Toast.LENGTH_SHORT).show();
                 } else {
                     // Kiểm tra mật khẩu cũ
-                    String currentEmail = user_email.getText().toString();
+
                     CustomerHandler customerHandler = new CustomerHandler(RePassword_Activity.this); // Khởi tạo đối tượng DBManager
-                    String currentPasswordFromDB = customerHandler.getPasswordFromDB(currentEmail);
+                    String currentPasswordFromDB = customerHandler.getPasswordFromDB(String.valueOf(Intro_Activity.user_id));
 
                     if (currentPassword.equals(currentPasswordFromDB)) {
                         // Cập nhật mật khẩu mới vào cơ sở dữ liệu
-                        customerHandler.updateCustomerPassword(currentEmail, newPassword);
+                        customerHandler.updateCustomerPassword(String.valueOf(Intro_Activity.user_id), newPassword);
                         Toast.makeText(RePassword_Activity.this, "Mật khẩu đã được cập nhật", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(RePassword_Activity.this, Login_Activity.class));
                         finish();

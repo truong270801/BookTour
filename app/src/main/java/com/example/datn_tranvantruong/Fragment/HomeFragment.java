@@ -4,89 +4,61 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
+import android.widget.ListView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.datn_tranvantruong.Adapter.ItemHome_Adapter;
-import com.example.datn_tranvantruong.Model.ItemHome_Model;
+import com.example.datn_tranvantruong.DBHandler.CategoryHandler;
+import com.example.datn_tranvantruong.Model.Category;
 import com.example.datn_tranvantruong.R;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class HomeFragment extends Fragment{
-    private RecyclerView recyclerView;
     private ItemHome_Adapter adapter;
-    private List<ItemHome_Model> itemList;
     SearchView search_tour;
+    ListView lv;
+    List<Category> categoryList;
+    CategoryHandler categoryHandler;
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-
-        search_tour = view.findViewById(R.id.search_tour);
-        search_tour.clearFocus();
-        search_tour.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String query) {
-
-                ArrayList<ItemHome_Model> searchList = new ArrayList<>();
-                for (ItemHome_Model homeModel : itemList){
-                    if (homeModel.getName().toLowerCase().contains(query.toLowerCase())){
-                        searchList.add(homeModel);
-
-                    }
-                    adapter.setData(searchList);
-                }
-                return true;
-            }
-        });
-
-        // Initialize RecyclerView
-        recyclerView = view.findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        lv = view.findViewById(R.id.lv_user_category);
 
 
-        itemList = new ArrayList<>();
-        adapter = new ItemHome_Adapter(getActivity(), itemList);
-        recyclerView.setAdapter(adapter);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(),RecyclerView.VERTICAL,false);
-        recyclerView.setLayoutManager(linearLayoutManager);
+        categoryList = new ArrayList<>();
+        display();
 
-        // Load data from Firebase Realtime Database
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("ListTour");
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                itemList.clear();
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    ItemHome_Model item = snapshot.getValue(ItemHome_Model.class);
-                    itemList.add(item);
-                }
-                adapter.notifyDataSetChanged();
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(getContext(), "Vui lòng kiểm tra đường truyền", Toast.LENGTH_SHORT).show();            }
-        });
+//        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+//                Intent intent = new Intent(view.getContext(), Tour_Fragment.class);
+//                Category category = (Category) adapter.getItem(i);
+//                intent.putExtra("category_id", category.getIdCategory());
+//                intent.putExtra("category_name", category.getNameCategory());
+//                startActivity(intent);
+//            }
+//        });
+
+
+
+
+
+
         return view;
     }
 
-
+    public void display() {
+        categoryHandler = new CategoryHandler(getContext());
+        categoryList = categoryHandler.getAllCategoriesWithIdCategory();
+        adapter = new ItemHome_Adapter(getContext(), R.layout.category_item, categoryList);
+        lv.setAdapter(adapter);
+    }
 }

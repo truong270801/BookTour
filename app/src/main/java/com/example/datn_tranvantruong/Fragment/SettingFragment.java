@@ -1,7 +1,6 @@
 package com.example.datn_tranvantruong.Fragment;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -17,9 +16,11 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 
 import com.example.datn_tranvantruong.Activity.InforApp_Activity;
+import com.example.datn_tranvantruong.Activity.Intro_Activity;
 import com.example.datn_tranvantruong.Activity.Login_Activity;
 import com.example.datn_tranvantruong.Activity.Profile_Activity;
 import com.example.datn_tranvantruong.Activity.RePassword_Activity;
+import com.example.datn_tranvantruong.DBHandler.CustomerHandler;
 import com.example.datn_tranvantruong.Database.DBManager;
 import com.example.datn_tranvantruong.R;
 
@@ -98,20 +99,11 @@ TextView user_name,user_email;
         return view;
     }
     private void  showUserInformation(){
-// Tạo một đối tượng SQLiteDatabase từ MyDatabaseHelper hoặc từ nơi bạn đã khởi tạo nó
-        DBManager dbManager = new DBManager(getContext());
-        SQLiteDatabase db = dbManager.getWritableDatabase();
-// Xây dựng câu lệnh truy vấn SQL
-        String query = "SELECT email,fullname,image_avatar FROM customers";
+        CustomerHandler customerHandler = new CustomerHandler(getContext());
 
-// Thực hiện truy vấn SQL và lấy dữ liệu
-        Cursor cursor = db.rawQuery(query, null);
-
-        if (cursor != null) {
-            if (cursor.moveToFirst()) {
-                String email = cursor.getString(cursor.getColumnIndex("email"));
-                String name = cursor.getString(cursor.getColumnIndex("fullname"));
-                byte[] avatar = cursor.getBlob(cursor.getColumnIndex("image_avatar"));
+                String email = customerHandler.getCustomerInfo(String.valueOf(Intro_Activity.user_id)).getEmail();
+                String name = customerHandler.getCustomerInfo(String.valueOf(Intro_Activity.user_id)).getFullname();
+                byte[] avatar = customerHandler.getCustomerInfo(String.valueOf(Intro_Activity.user_id)).getImage_avatar();
 
 
                 // Gán giá trị "email" vào TextView
@@ -120,11 +112,9 @@ TextView user_name,user_email;
                 if (avatar != null) {
                     Bitmap avatarBitmap = BitmapFactory.decodeByteArray(avatar, 0, avatar.length);
                     img_avatar.setImageBitmap(avatarBitmap);
-                }
+
             }
-            cursor.close();
         }
     }
 
 
-}

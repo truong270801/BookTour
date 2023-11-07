@@ -46,7 +46,7 @@ public class DBManager extends SQLiteOpenHelper {
     private static final String COLUMN_PRODUCT_DESCRIPTION = "description";
     private static final String COLUMN_PRODUCT_LOCATION = "location";
     private static final String COLUMN_PRODUCT_PRICE = "price";
-    private static final String COLUMN_PRODUCT_IMAGE = "image_tour";
+    private static final String COLUMN_PRODUCT_IMAGE = "image";
 
     // Các trường trong bảng Bills
     private static final String COLUMN_BILL_ID = "id";

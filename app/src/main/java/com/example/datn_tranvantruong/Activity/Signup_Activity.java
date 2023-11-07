@@ -67,7 +67,7 @@ public class Signup_Activity extends AppCompatActivity {
         SignupHandler signupHandler = new SignupHandler(this);
 
         User user = new User();
-        user.setFull_name(fullname);
+        user.setFullname(fullname);
         user.setEmail(email);
         user.setPhone(phone);
 

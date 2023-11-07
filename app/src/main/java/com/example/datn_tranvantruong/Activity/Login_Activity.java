@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.datn_tranvantruong.Admin.MenuActivity;
 import com.example.datn_tranvantruong.DBHandler.LoginHandler;
 import com.example.datn_tranvantruong.MainActivity;
 import com.example.datn_tranvantruong.R;
@@ -57,16 +58,19 @@ bnt_login.setOnClickListener(new View.OnClickListener() {
     public void onClick(View v) {
         String email = login_email.getText().toString().trim();
         String password = login_password.getText().toString().trim();
+
         if (TextUtils.isEmpty(email)||TextUtils.isEmpty(password)){
             Toast.makeText(Login_Activity.this,"Không được để trống các trường",Toast.LENGTH_SHORT).show();
         }else {
         if (loginHandler.checkLogin(email, password) == "admin") {
-            Intent i = new Intent(getApplicationContext(), MainActivity.class);
+            Intent i = new Intent(getApplicationContext(), MenuActivity.class);
             startActivity(i);
             Toast.makeText(getApplicationContext(),
                     "Đăng nhập thành công", Toast.LENGTH_LONG).show();
             finish();
         } else if (loginHandler.checkLogin(email, password) == "customer"){
+            Intro_Activity.user_id = loginHandler.getUserId(email);
+
             Intent i = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(i);
             Toast.makeText(getApplicationContext(),
