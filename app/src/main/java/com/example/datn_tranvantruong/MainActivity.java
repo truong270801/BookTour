@@ -12,7 +12,6 @@ import com.example.datn_tranvantruong.Fragment.CartFragment;
 import com.example.datn_tranvantruong.Fragment.HomeFragment;
 import com.example.datn_tranvantruong.Fragment.Order_Fragment;
 import com.example.datn_tranvantruong.Fragment.SettingFragment;
-import com.example.datn_tranvantruong.Fragment.Tour_Fragment;
 import com.example.datn_tranvantruong.databinding.ActivityMainBinding;
 
 
@@ -33,9 +32,6 @@ replaceFragment(new HomeFragment());
             switch (item.getItemId()) {
                 case R.id.home:
                     replaceFragment(new HomeFragment());
-                    break;
-                case R.id.tour:
-                    replaceFragment(new Tour_Fragment());
                     break;
                 case R.id.cart:
                     replaceFragment(new CartFragment());

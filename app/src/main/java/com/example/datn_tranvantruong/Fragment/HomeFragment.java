@@ -4,10 +4,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.datn_tranvantruong.Adapter.ItemHome_Adapter;
 import com.example.datn_tranvantruong.DBHandler.CategoryHandler;
@@ -36,16 +38,27 @@ public class HomeFragment extends Fragment{
         categoryList = new ArrayList<>();
         display();
 
-//        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                Intent intent = new Intent(view.getContext(), Tour_Fragment.class);
-//                Category category = (Category) adapter.getItem(i);
-//                intent.putExtra("category_id", category.getIdCategory());
-//                intent.putExtra("category_name", category.getNameCategory());
-//                startActivity(intent);
-//            }
-//        });
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                // Khởi tạo FragmentB
+                Product_Fragment productFragment = new Product_Fragment();
+
+                // Truyền dữ liệu từ FragmentA sang FragmentB (nếu cần)
+                Bundle args = new Bundle();
+                Category category = (Category) adapter.getItem(i);
+                args.putInt("category_id", category.getIdCategory());
+                args.putString("category_name", category.getNameCategory());
+                productFragment.setArguments(args);
+
+                // Thực hiện thay thế FragmentA bằng FragmentB
+                FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragment_container, productFragment);
+                transaction.addToBackStack(null); // Nếu bạn muốn quản lý việc điều hướng ngược lại
+                transaction.commit();
+            }
+        });
+
 
 
 

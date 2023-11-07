@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DBManager extends SQLiteOpenHelper {
 
     // Tên cơ sở dữ liệu
-    private static final String DATABASE_NAME = "BOOK_TOUR";
+    private static final String DATABASE_NAME = "BOOK_TOURS";
     // Phiên bản cơ sở dữ liệu
     private static final int DATABASE_VERSION = 1;
 
@@ -91,8 +91,8 @@ public class DBManager extends SQLiteOpenHelper {
             + COLUMN_PRODUCT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
             + COLUMN_PRODUCT_CATEGORY_ID + " INTEGER,"
             + COLUMN_PRODUCT_NAME + " TEXT,"
-            + COLUMN_PRODUCT_DESCRIPTION +"TEXT,"
-            + COLUMN_PRODUCT_LOCATION + "TEXT,"
+            + COLUMN_PRODUCT_DESCRIPTION +" TEXT,"
+            + COLUMN_PRODUCT_LOCATION + " TEXT,"
             + COLUMN_PRODUCT_PRICE + " REAL,"
             + COLUMN_PRODUCT_IMAGE + " BLOB,"
             + "FOREIGN KEY(" + COLUMN_PRODUCT_CATEGORY_ID + ") REFERENCES " + TABLE_CATEGORIES + "(" + COLUMN_CATEGORY_ID + ")"

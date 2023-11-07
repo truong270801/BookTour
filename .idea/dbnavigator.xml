@@ -23,6 +23,11 @@
     <open-files />
   </component>
   <component name="DBNavigator.Project.DatasetFilterManager">
+    <filter-actions connection-id="4e7ebff5-57c2-480b-917f-5223b2c39398" dataset="main.products" active-filter-id="06c8aba5-3534-41d9-9d3d-6432906355e6">
+      <filter id="06c8aba5-3534-41d9-9d3d-6432906355e6" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND">
+        <condition column="id" operator="=" value="" active="true" />
+      </filter>
+    </filter-actions>
     <filter-actions connection-id="4e7ebff5-57c2-480b-917f-5223b2c39398" dataset="main.customers" active-filter-id="f0b5d636-42ac-4fa9-8589-831883507ca4">
       <filter id="f0b5d636-42ac-4fa9-8589-831883507ca4" name="1" temporary="false" custom-name="false" type="basic" join-type="AND">
         <condition column="id" operator="=" value="1" active="true" />

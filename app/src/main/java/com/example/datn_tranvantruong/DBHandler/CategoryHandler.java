@@ -14,7 +14,7 @@ import java.util.List;
 
 public class CategoryHandler extends SQLiteOpenHelper {
     DBManager dbManager;
-    private static final String DATABASE_NAME = "BOOK_TOUR";
+    private static final String DATABASE_NAME = "BOOK_TOURS";
     private static final int DATABASE_VERSION = 1;
     private Context context;
 

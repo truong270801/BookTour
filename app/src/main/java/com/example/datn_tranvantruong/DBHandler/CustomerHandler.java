@@ -12,7 +12,7 @@ import com.example.datn_tranvantruong.Model.User;
 
 public class CustomerHandler extends SQLiteOpenHelper {
 
-    private static final String DATABASE_NAME = "BOOK_TOUR";
+    private static final String DATABASE_NAME = "BOOK_TOURS";
     private static final int DATABASE_VERSION = 1;
     public CustomerHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
