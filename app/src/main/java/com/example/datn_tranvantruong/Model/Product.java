@@ -6,6 +6,8 @@ public class Product implements Serializable {
     private int id;
     private String categoryName;
     private String name;
+    private String startdate;
+    private String enddate;
     private  String description;
     private  String location;
     private int price;
@@ -14,10 +16,12 @@ public class Product implements Serializable {
     public Product() {
     }
 
-    public Product(int id, String categoryName, String name, String description, String location, int price, byte[] image) {
+    public Product(int id, String categoryName, String name, String startdate, String enddate, String description, String location, int price, byte[] image) {
         this.id = id;
         this.categoryName = categoryName;
         this.name = name;
+        this.startdate = startdate;
+        this.enddate = enddate;
         this.description = description;
         this.location = location;
         this.price = price;
@@ -46,6 +50,22 @@ public class Product implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getStartdate() {
+        return startdate;
+    }
+
+    public void setStartdate(String startdate) {
+        this.startdate = startdate;
+    }
+
+    public String getEnddate() {
+        return enddate;
+    }
+
+    public void setEnddate(String enddate) {
+        this.enddate = enddate;
     }
 
     public String getDescription() {

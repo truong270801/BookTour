@@ -43,6 +43,8 @@ public class DBManager extends SQLiteOpenHelper {
     private static final String COLUMN_PRODUCT_ID = "id";
     private static final String COLUMN_PRODUCT_CATEGORY_ID = "category_id";
     private static final String COLUMN_PRODUCT_NAME = "name";
+    private static final String COLUMN_PRODUCT_STARTDATE = "startdate";
+    private static final String COLUMN_PRODUCT_ENDDATE = "enddate";
     private static final String COLUMN_PRODUCT_DESCRIPTION = "description";
     private static final String COLUMN_PRODUCT_LOCATION = "location";
     private static final String COLUMN_PRODUCT_PRICE = "price";
@@ -91,6 +93,8 @@ public class DBManager extends SQLiteOpenHelper {
             + COLUMN_PRODUCT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
             + COLUMN_PRODUCT_CATEGORY_ID + " INTEGER,"
             + COLUMN_PRODUCT_NAME + " TEXT,"
+            + COLUMN_PRODUCT_STARTDATE + " TEXT,"
+            + COLUMN_PRODUCT_ENDDATE + " TEXT,"
             + COLUMN_PRODUCT_DESCRIPTION +" TEXT,"
             + COLUMN_PRODUCT_LOCATION + " TEXT,"
             + COLUMN_PRODUCT_PRICE + " REAL,"

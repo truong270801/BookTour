@@ -65,6 +65,7 @@ public class ProductUserAdapter extends BaseAdapter {
 
         holder.productImage.setImageBitmap(bitmap);
         holder.txtProductName.setText(product.getName());
+        holder.txtProductLocation.setText(product.getLocation());
         holder.txtProductPrice.setText("" + product.getPrice());
 
         return view;

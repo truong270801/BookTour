@@ -114,35 +114,55 @@
                     android:id="@+id/imageView8"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    app:srcCompat="@drawable/time" />
+                    app:srcCompat="@drawable/baseline_category_24" />
 
                 <TextView
-                    android:id="@+id/startday"
+                    android:id="@+id/tv_Category"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
-
                     android:text="3 ngày 2 đêm"
                     android:textColor="#000000"
                     android:textSize="18sp" />
 
-                <TextView
-                    android:id="@+id/scoreTxt2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="30dp"
-                    android:layout_marginStart="8dp"
-                    android:gravity="center_vertical"
-                    android:text="Phương tiện: "
-                    android:textSize="18sp"
-                    android:textColor="@color/black" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="32dp"
+                android:orientation="horizontal">
 
                 <ImageView
-                    android:id="@+id/imageView9"
+                    android:id="@+id/imagessView8"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    app:srcCompat="@drawable/directions_bus" />
+                    app:srcCompat="@drawable/time" />
 
+                <TextView
+                    android:id="@+id/tv_startdate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:text="3 ngày 2 đêm"
+                    android:textColor="#000000"
+                    android:textSize="18sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" - "
+                    android:textColor="#000000"
+                    android:textSize="18sp"/>
+                <TextView
+                    android:id="@+id/tv_enddate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:text="3 ngày 2 đêm"
+                    android:textColor="#000000"
+                    android:textSize="18sp" />
 
             </LinearLayout>
 

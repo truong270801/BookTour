@@ -4,13 +4,17 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.datn_tranvantruong.Adapter.ProductUserAdapter;
 import com.example.datn_tranvantruong.DBHandler.ProductHandler;
+import com.example.datn_tranvantruong.Fragment.FragmentItem.DetailTour_Fragment;
 import com.example.datn_tranvantruong.Model.Product;
 import com.example.datn_tranvantruong.R;
 
@@ -46,17 +50,29 @@ public class Product_Fragment extends Fragment {
         productUserAdapter = new ProductUserAdapter(getContext(), R.layout.product_item, productList);
         lv.setAdapter(productUserAdapter);
 
-//        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                Intent intent = new Intent(view.getContext(), Tour_Fragment.class);
-//                Product product = (Product) productUserAdapter.getItem(i);
-//                intent.putExtra("product_id", product.getId());
-//                intent.putExtra("category_name", txtCategoryName.getText());
-////                Toast.makeText(ProductListUserActivity.this, ""+product.getId(), Toast.LENGTH_SHORT).show();
-//                startActivity(intent);
-//            }
-//        });
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+
+
+                DetailTour_Fragment detailTourFragment = new DetailTour_Fragment();
+
+                // Truyền dữ liệu từ FragmentA sang FragmentB (nếu cần)
+                Bundle args = new Bundle();
+                Product product = (Product) productUserAdapter.getItem(i);
+                args.putInt("category_id", product.getId());
+                args.putString("category_name", txtCategoryName.getText().toString().trim());
+                detailTourFragment.setArguments(args);
+                Toast.makeText(getContext(), ""+product.getId(), Toast.LENGTH_SHORT).show();
+
+                // Thực hiện thay thế FragmentA bằng FragmentB
+                FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragment_container, detailTourFragment);
+                transaction.addToBackStack(null); // Nếu bạn muốn quản lý việc điều hướng ngược lại
+                transaction.commit();
+            }
+        });
         return view;
     }
 

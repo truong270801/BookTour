@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="16dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="16dp"
+        tools:context=".Admin.FragmentAdmin.AddProduct_Fragment">
+
+        <ScrollView
+            android:id="@+id/scrollView1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <LinearLayout
+                android:id="@+id/linearLayout1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/tv_ID"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:background="#C8C4C4"
+                    android:textSize="18sp"
+                    android:text="Tên sản phẩm" />
+
+                <EditText
+                    android:id="@+id/txtProductName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/tv_Category"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:background="#C8C4C4"
+                    android:textSize="18sp"
+                    android:text="Danh mục" />
+
+                <Spinner
+                    android:id="@+id/spinnerCategory"
+                    android:layout_width="match_parent"
+                    android:layout_height="43dp" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:background="#C8C4C4">
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:layout_height="wrap_content"
+                    android:text="Ngày khởi hành" />
+                <TextView
+                    android:id="@+id/tvStartDate"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:background="#FFFFFF"
+                    android:textSize="20dp"
+                    />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:text="Ngày Kết thúc" />
+                <TextView
+                    android:id="@+id/tvEndDate"
+                    android:layout_width="150dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_height="wrap_content"
+                    android:background="#FFFFFF"
+                    android:textSize="20dp"
+                    />
+                    </LinearLayout>
+                </LinearLayout>
+
+
+                <TextView
+                    android:id="@+id/tv_Location"
+                    android:textColor="@color/black"
+                    android:background="#C8C4C4"
+                    android:layout_marginTop="10dp"
+                    android:textSize="18sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Địa điểm du lịch" />
+
+                <EditText
+                    android:id="@+id/txtLocation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    />
+                <TextView
+                    android:id="@+id/tv_Description"
+                    android:layout_width="wrap_content"
+                    android:background="#C8C4C4"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:text="Nội dung tour"
+                   />
+
+                <EditText
+                    android:id="@+id/txtDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                     />
+
+                <TextView
+                    android:id="@+id/tv_Price"
+                    android:layout_width="wrap_content"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:layout_height="wrap_content"
+                    android:background="#C8C4C4"
+                    android:text="Giá cả" />
+
+                <EditText
+                    android:id="@+id/txtPrice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal" />
+
+                <ImageView
+                    android:id="@+id/imgHinh"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="5.82"
+                    android:scaleType="fitXY"
+                    android:layout_marginTop="26dp"
+
+                    android:src="@drawable/ic_avatar_default" />
+
+                <Button
+                    android:id="@+id/btnSave"
+                    android:layout_width="153dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/radius_button"
+                    android:text="Lưu"
+                    android:layout_gravity="center"
+                    android:textStyle="bold"
+                    android:width="120dp" />
+            </LinearLayout>
+
+        </ScrollView>
+
+    </RelativeLayout>

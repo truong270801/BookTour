@@ -8,11 +8,11 @@
   <component name="DBNavigator.Project.DatabaseBrowserManager">
     <autoscroll-to-editor value="false" />
     <autoscroll-from-editor value="true" />
-    <show-object-properties value="true" />
+    <show-object-properties value="false" />
     <loaded-nodes />
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
-    <connection id="4e7ebff5-57c2-480b-917f-5223b2c39398">
+    <connection id="ecdfb780-555a-4a99-8f99-a12f96fccf17">
       <console name="Connection" type="STANDARD" schema="" session="Main" />
     </connection>
   </component>
@@ -51,7 +51,7 @@
   </component>
   <component name="DBNavigator.Project.Settings">
     <connections>
-      <connection id="4e7ebff5-57c2-480b-917f-5223b2c39398" active="true" signed="true">
+      <connection id="ecdfb780-555a-4a99-8f99-a12f96fccf17" active="true" signed="true">
         <database>
           <name value="Connection" />
           <description value="" />
@@ -68,7 +68,7 @@
           <tns-folder value="" />
           <tns-profile value="" />
           <files>
-            <file path="E:\FAST_STORE\BOOK_TOUR" schema="main" />
+            <file path="D:\database\BOOK_TOURS" schema="main" />
           </files>
           <type value="NONE" />
           <user value="" />
@@ -544,5 +544,9 @@
         </visibility-settings>
       </environment>
     </general-settings>
+  </component>
+  <component name="DBNavigator.Project.StatementExecutionManager">
+    <execution-variables />
+    <execution-variable-types />
   </component>
 </project>

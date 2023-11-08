@@ -56,9 +56,6 @@ public class Profile_Activity extends AppCompatActivity {
 
         CustomerHandler customerHandler = new CustomerHandler(Profile_Activity.this);
 
-
-
-
                 String email = customerHandler.getCustomerInfo(String.valueOf(Intro_Activity.user_id)).getEmail();
                 String fullname = customerHandler.getCustomerInfo(String.valueOf(Intro_Activity.user_id)).getFullname();
                 String address = customerHandler.getCustomerInfo(String.valueOf(Intro_Activity.user_id)).getAddress();
@@ -73,9 +70,6 @@ public class Profile_Activity extends AppCompatActivity {
                   Bitmap avatarBitmap = BitmapFactory.decodeByteArray(avatar, 0, avatar.length);
                   edit_Avatar.setImageBitmap(avatarBitmap);
                 }
-
-
-
 
         bnt_Update.setOnClickListener(new View.OnClickListener() {
             @Override
