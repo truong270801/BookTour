@@ -6,8 +6,11 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.example.datn_tranvantruong.Model.User;
+import com.example.datn_tranvantruong.Model.Category;
+import com.example.datn_tranvantruong.Model.Customer;
 
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class CustomerHandler extends SQLiteOpenHelper {
@@ -19,10 +22,31 @@ public class CustomerHandler extends SQLiteOpenHelper {
 
     }
 
-
-    public User getCustomerInfo(String id) {
+    public List<Customer> getAllCustomer() {
+        List<Customer> ls = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
-        User user = new User();
+        Cursor c = db.query("customers", null, null, null, null, null, null); // Sử dụng "customers" thay vì "categories"
+        c.moveToFirst();
+        while (!c.isAfterLast()) {
+            Customer customer = new Customer();
+            customer.setId(c.getInt(0));
+            customer.setEmail(c.getString(1));
+            customer.setFullname(c.getString(2));
+            customer.setAddress(c.getString(4));
+            customer.setImage_avatar(c.getBlob(5));
+            customer.setPhone(c.getString(6));
+
+            ls.add(customer);
+            c.moveToNext();
+        }
+        c.close();
+        return ls;
+    }
+
+
+    public Customer getCustomerInfo(String id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Customer user = new Customer();
 
         String query = "SELECT fullname,email, address, phone,image_avatar FROM customers WHERE id = ?";
         Cursor cursor = db.rawQuery(query, new String[]{id});
@@ -66,6 +90,10 @@ public class CustomerHandler extends SQLiteOpenHelper {
 
         db.update("customers", values, "id = ?", new String[]{id});
         db.close();
+    }
+    public void deleteCustomer(int i) {
+        SQLiteDatabase database = this.getWritableDatabase();
+        database.delete("customers", "id" + " = " + i, null);
     }
 
 

@@ -13,7 +13,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.datn_tranvantruong.DBHandler.SignupHandler;
-import com.example.datn_tranvantruong.Model.User;
+import com.example.datn_tranvantruong.Model.Customer;
 import com.example.datn_tranvantruong.R;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -66,7 +66,7 @@ public class Signup_Activity extends AppCompatActivity {
         String phone = signup_phone.getText().toString().trim();
         SignupHandler signupHandler = new SignupHandler(this);
 
-        User user = new User();
+        Customer user = new Customer();
         user.setFullname(fullname);
         user.setEmail(email);
         user.setPhone(phone);

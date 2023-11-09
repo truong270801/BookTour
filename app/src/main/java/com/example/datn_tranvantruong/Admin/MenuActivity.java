@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.datn_tranvantruong.Admin.FragmentAdmin.CategoryFragment;
+import com.example.datn_tranvantruong.Admin.FragmentAdmin.CustomerListFragment;
 import com.example.datn_tranvantruong.Admin.FragmentAdmin.ListProductFragment;
 import com.example.datn_tranvantruong.R;
 import com.example.datn_tranvantruong.databinding.ActivityMenuAdminBinding;
@@ -31,6 +32,9 @@ public class MenuActivity extends AppCompatActivity {
                     break;
                 case R.id.product:
                     replaceFragment(new ListProductFragment());
+                    break;
+                case R.id.customer:
+                    replaceFragment(new CustomerListFragment());
                     break;
 
             }

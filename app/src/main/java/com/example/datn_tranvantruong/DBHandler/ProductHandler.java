@@ -110,20 +110,25 @@ public class ProductHandler extends SQLiteOpenHelper {
     public Product findById(int id) {
         String query = "SELECT * FROM products WHERE id = ?";
         Cursor c = dbManager.getReadableDatabase().rawQuery(query, new String[] {"" + id});
-        c.moveToFirst();
 
-        Product product = new Product();
-        product.setId(id);
-        product.setName(c.getString(2));
-        product.setStartdate(c.getString(3));
-        product.setEnddate(c.getString(4));
-        product.setDescription(c.getString(5));
-        product.setLocation(c.getString(6));
-        product.setPrice(c.getInt(7));
-        product.setImage(c.getBlob(8));
+        if (c.moveToFirst()) {
+            Product product = new Product();
+            product.setId(id);
+            product.setName(c.getString(2));
+            product.setStartdate(c.getString(3));
+            product.setEnddate(c.getString(4));
+            product.setLocation(c.getString(6));
+            product.setDescription(c.getString(5));
+            product.setPrice(c.getInt(7));
+            product.setImage(c.getBlob(8));
 
-        return product;
+            return product;
+        } else {
+            // Xử lý trường hợp không tìm thấy dữ liệu với id đã cho.
+            return null;
+        }
     }
+
 
     public List<Product> getAllProductByCategoryId(int category_id) {
         List<Product> productList = new ArrayList<>();
@@ -132,7 +137,7 @@ public class ProductHandler extends SQLiteOpenHelper {
         c.moveToFirst();
         while (!c.isAfterLast()) {
             Product product = new Product();
-            product.setId(c.getInt(1));
+            product.setId(c.getInt(0));
             product.setName(c.getString(2));
             product.setLocation(c.getString(6));
             product.setPrice((int) c.getFloat(7));

@@ -26,7 +26,7 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
-import com.example.datn_tranvantruong.Admin.MenuActivity;
+import com.example.datn_tranvantruong.Activity.Login_Activity;
 import com.example.datn_tranvantruong.DBHandler.CategoryHandler;
 import com.example.datn_tranvantruong.DBHandler.ProductHandler;
 import com.example.datn_tranvantruong.Model.Product;
@@ -92,9 +92,12 @@ public class EditProduct_Fragment extends Fragment {
         ibtnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                // Handle the back button click here
-                Intent i = new Intent(getActivity(), MenuActivity.class);
-                startActivity(i);
+
+                startActivity(new Intent(getActivity(), Login_Activity.class));
+                if (getActivity() != null) {
+                    getActivity().finish();
+                }
+
             }
         });
 

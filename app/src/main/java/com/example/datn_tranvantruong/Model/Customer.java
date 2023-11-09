@@ -1,6 +1,6 @@
 package com.example.datn_tranvantruong.Model;
 
-public class User {
+public class Customer {
     int id;
     String fullname;
     String email;
@@ -9,10 +9,10 @@ public class User {
     String phone;
     private byte[] image_avatar;
 
-    public User() {
+    public Customer() {
     }
 
-    public User(int id, String fullname, String email, String address, String password, String phone, byte[] image_avatar) {
+    public Customer(int id, String fullname, String email, String address, String password, String phone, byte[] image_avatar) {
         this.id = id;
         this.fullname = fullname;
         this.email = email;

@@ -50,7 +50,7 @@ public class DetailTour_Fragment extends Fragment {
 
 
         Bundle bundle = getArguments();
-        int product_id = bundle.getInt("category_id", 1);
+        int product_id = bundle.getInt("product_id");
         String category_name = bundle.getString("category_name");
         ProductHandler productHandler = new ProductHandler(getContext());
         Product product = productHandler.findById(product_id);

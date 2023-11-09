@@ -44,7 +44,7 @@ public class HomeFragment extends Fragment{
                 // Khởi tạo FragmentB
                 Product_Fragment productFragment = new Product_Fragment();
 
-                // Truyền dữ liệu từ FragmentA sang FragmentB (nếu cần)
+                // Truyền dữ liệu từ FragmentA sang FragmentB
                 Bundle args = new Bundle();
                 Category category = (Category) adapter.getItem(i);
                 args.putInt("category_id", category.getIdCategory());
@@ -58,11 +58,6 @@ public class HomeFragment extends Fragment{
                 transaction.commit();
             }
         });
-
-
-
-
-
 
 
         return view;

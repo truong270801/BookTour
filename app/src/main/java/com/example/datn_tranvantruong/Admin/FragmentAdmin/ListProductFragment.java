@@ -92,9 +92,7 @@ public class ListProductFragment extends Fragment {
                         categoryHandler.getCategoryNameById(cursor.getInt(1)),
                         cursor.getString(2),
                         cursor.getString(3),
-
                         cursor.getString(4),
-
                         cursor.getString(5),
                         cursor.getString(6),
                         cursor.getInt(7),

@@ -139,11 +139,14 @@ public class Profile_Activity extends AppCompatActivity {
     }
 
     public byte[] convertToArrayByte(ImageView img) {
-        BitmapDrawable bitmapDrawable = (BitmapDrawable) img.getDrawable();
-        Bitmap bitmap = bitmapDrawable.getBitmap();
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-        return stream.toByteArray();
+        if (img.getDrawable() != null) {
+            BitmapDrawable bitmapDrawable = (BitmapDrawable) img.getDrawable();
+            Bitmap bitmap = bitmapDrawable.getBitmap();
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            return stream.toByteArray();
+        }
+        return null; // Trả về null nếu không có hình ảnh
     }
 
 

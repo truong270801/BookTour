@@ -12,7 +12,7 @@
     <loaded-nodes />
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
-    <connection id="ecdfb780-555a-4a99-8f99-a12f96fccf17">
+    <connection id="ee0eb6b7-acc7-4f8b-88e5-8a168498c813">
       <console name="Connection" type="STANDARD" schema="" session="Main" />
     </connection>
   </component>
@@ -20,19 +20,12 @@
     <last-used-providers />
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
-    <open-files />
+    <open-files>
+      <object connection-id="ee0eb6b7-acc7-4f8b-88e5-8a168498c813" object-ref="schemas/main/tables/customers" />
+    </open-files>
   </component>
   <component name="DBNavigator.Project.DatasetFilterManager">
-    <filter-actions connection-id="4e7ebff5-57c2-480b-917f-5223b2c39398" dataset="main.products" active-filter-id="06c8aba5-3534-41d9-9d3d-6432906355e6">
-      <filter id="06c8aba5-3534-41d9-9d3d-6432906355e6" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND">
-        <condition column="id" operator="=" value="" active="true" />
-      </filter>
-    </filter-actions>
-    <filter-actions connection-id="4e7ebff5-57c2-480b-917f-5223b2c39398" dataset="main.customers" active-filter-id="f0b5d636-42ac-4fa9-8589-831883507ca4">
-      <filter id="f0b5d636-42ac-4fa9-8589-831883507ca4" name="1" temporary="false" custom-name="false" type="basic" join-type="AND">
-        <condition column="id" operator="=" value="1" active="true" />
-      </filter>
-    </filter-actions>
+    <filter-actions connection-id="ee0eb6b7-acc7-4f8b-88e5-8a168498c813" dataset="main.customers" active-filter-id="" />
   </component>
   <component name="DBNavigator.Project.ExecutionManager">
     <retain-sticky-names value="false" />
@@ -51,7 +44,7 @@
   </component>
   <component name="DBNavigator.Project.Settings">
     <connections>
-      <connection id="ecdfb780-555a-4a99-8f99-a12f96fccf17" active="true" signed="true">
+      <connection id="ee0eb6b7-acc7-4f8b-88e5-8a168498c813" active="true" signed="true">
         <database>
           <name value="Connection" />
           <description value="" />
