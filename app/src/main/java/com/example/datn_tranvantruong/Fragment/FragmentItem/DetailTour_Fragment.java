@@ -20,7 +20,8 @@ import com.example.datn_tranvantruong.R;
 
 public class DetailTour_Fragment extends Fragment {
 
-
+    private int qualityValue = 1;
+    TextView quality;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_detai_home, container, false);
@@ -33,6 +34,10 @@ public class DetailTour_Fragment extends Fragment {
         TextView enddaytxt = view.findViewById(R.id.tv_enddate);
         TextView categorytxt = view.findViewById(R.id.tv_Category);
         TextView contenttxt = view.findViewById(R.id.content_tour);
+        ImageView add_quality = view.findViewById(R.id.add_quality);
+        ImageView delete_quality = view.findViewById(R.id.delete_quality);
+        quality = view.findViewById(R.id.quality);
+        quality.setText(String.valueOf(qualityValue));
 
         ImageView addcart = view.findViewById(R.id.btn_addcart);
 //
@@ -47,7 +52,20 @@ public class DetailTour_Fragment extends Fragment {
                 onBackPressed();
             }
         });
+        add_quality.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                increaseQuality();
+            }
+        });
 
+        // Thêm sự kiện cho nút delete_quality
+        delete_quality.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                decreaseQuality();
+            }
+        });
 
         Bundle bundle = getArguments();
         int product_id = bundle.getInt("product_id");
@@ -56,13 +74,6 @@ public class DetailTour_Fragment extends Fragment {
         Product product = productHandler.findById(product_id);
 
 
-//        addcart.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//            }
-//
-//        });
 
         tourNametxt.setText(product.getName());
         tourPricetxt.setText(product.getPrice() + "");
@@ -85,4 +96,18 @@ public class DetailTour_Fragment extends Fragment {
         transaction.addToBackStack(null);
         transaction.commit();
     }
+    // Phương thức tăng giá trị chất lượng
+    private void increaseQuality() {
+        qualityValue++;
+        quality.setText(String.valueOf(qualityValue));
+    }
+
+    // Phương thức giảm giá trị chất lượng
+    private void decreaseQuality() {
+        if (qualityValue > 1) {
+            qualityValue--;
+            quality.setText(String.valueOf(qualityValue));
+        }
+    }
+
 }

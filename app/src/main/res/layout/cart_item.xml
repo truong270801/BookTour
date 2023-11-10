@@ -1,74 +1,137 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="horizontal"
-    android:padding="8dp">
-    <androidx.cardview.widget.CardView
-        android:id="@+id/CarView"
-        android:layout_width="150dp"
-        app:cardCornerRadius="8dp"
-        android:layout_height="150dp">
-        <ImageView
-            android:id="@+id/imageView_cart"
-
+    android:id="@+id/home_item"
+    android:padding="16dp"
+    android:layout_width="match_parent"
+    app:cardCornerRadius="8dp"
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <androidx.cardview.widget.CardView
+            android:id="@+id/CarView"
             android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/imgtest" />
-    </androidx.cardview.widget.CardView>
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
-    <TextView
-        android:id="@+id/productNameTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Product Name"
-        android:textColor="@color/black"
-        android:textSize="18sp"/>
+            app:cardCornerRadius="8dp"
+            android:layout_height="150dp">
+            <ImageView
+                android:id="@+id/Cart_Image"
 
-    <TextView
-        android:id="@+id/productPriceTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/black"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/imgtest" />
+        </androidx.cardview.widget.CardView>
 
-        android:text="Product Price"
-        android:textSize="16sp"/>
 
-    <TextView
-        android:id="@+id/productQuantityTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@color/black"
-        android:text="Quantity: 1"
-        android:textSize="16sp"/>
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/Pay_Button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.5"
-        android:text="thanh toán"
-        android:background="@drawable/radius_button"
-        android:textSize="16sp"/>
-    <Button
-        android:id="@+id/remoeButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Xóa"
-        android:background="@drawable/radius_button"
-        android:backgroundTint="@color/red"
-        android:layout_weight="0.8"
-        android:textSize="16sp"/>
-</LinearLayout>
-</LinearLayout>
-</LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="10dp"
+            android:layout_centerHorizontal="true"
+            android:orientation="vertical"
+            android:layout_toEndOf="@+id/CarView">
+            <TextView
+                android:id="@+id/Cart_Name"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:fontFamily="sans-serif-condensed-medium"
+                android:textColor="@color/black"
+                android:gravity="center|fill_vertical"
+                android:text=" Tour tham quan bốn hòn đảo ở Nam Phú Quốc - 1 ngày"
+                android:textAlignment="center"
+                android:textAllCaps="true"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Số người tham gia: "
+
+                    android:textColor="@color/black"
+                    android:textStyle="italic" />
+                <TextView
+                    android:id="@+id/Cart_Quality"
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:layout_below="@+id/titleTour"
+                    android:text="4.8"
+                    android:textColor="#000000"
+                    android:textStyle="italic" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" người"
+
+                    android:textColor="@color/black"
+                    android:textStyle="italic" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Giá tiền: "
+
+                    android:textColor="@color/black"
+                    android:textStyle="italic" />
+
+                <TextView
+                    android:id="@+id/Cart_Price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="5dp"
+                    android:text="1,000,000"
+                    android:textAlignment="viewStart"
+                    android:textColor="#000000" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" VND"
+                    android:textColor="@color/black"
+                    android:textStyle="italic" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_gravity="center"
+                android:orientation="horizontal">
+            <Button
+                android:id="@+id/btn_Order"
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:background="@drawable/radius_button"
+                android:text="Thanh toán"/>
+            <Button
+                android:id="@+id/btn_Delete"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/red"
+                android:layout_marginLeft="20dp"
+                android:layout_weight="1"
+                android:background="@drawable/radius_button"
+                android:text="Xóa"/>
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+
+
+
+
+</androidx.cardview.widget.CardView>

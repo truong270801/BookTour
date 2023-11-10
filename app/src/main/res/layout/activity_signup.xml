@@ -50,6 +50,7 @@
                 android:layout_marginTop="20dp"
                 android:background="@drawable/border"
                 android:drawableLeft="@drawable/baseline_local_phone"
+                android:inputType="numberDecimal"
                 android:drawablePadding="8dp"
                 android:hint="Số điện thoại"
                 android:padding="8dp" />

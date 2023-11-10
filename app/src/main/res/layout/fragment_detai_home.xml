@@ -174,7 +174,7 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
                 android:fontFamily="serif"
-                android:text="Giới Thiệu Tour"
+                android:text="Lịch Trình Tour"
                 android:textAlignment="center"
                 android:textColor="@color/Lime"
                 android:textSize="24sp"
@@ -202,24 +202,44 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
                 android:orientation="vertical">
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+    <TextView
+        android:id="@+id/tourPricetxtV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_weight="1"
+        android:fontFamily="serif"
+        android:text="Tour Price"
+        android:textAllCaps="false"
+        android:textColor="@color/black"
+        android:textSize="30sp"
+        android:textStyle="bold|italic" />
 
-                <TextView
-                    android:id="@+id/tourPricetxtV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:fontFamily="serif"
+        android:layout_marginLeft="10dp"
+        android:text="VND/1 người lớn."
+        android:textAllCaps="false"
+        android:textColor="@color/black"
+        android:textSize="20sp" />
 
-                    android:layout_marginTop="10dp"
+</LinearLayout>
 
-                    android:layout_weight="1"
-                    android:text="Tour Price"
-                    android:textAllCaps="false"
-                    android:textColor="@color/black"
-                    android:textSize="30sp"
-                    android:textStyle="bold" />
+
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Lựa chọn số người"
+                    android:text="Lựa chọn số người tham gia :"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/black"
                     android:textSize="20sp"
                     />
 
@@ -227,6 +247,7 @@
                <LinearLayout
                    android:layout_width="match_parent"
                    android:layout_height="wrap_content"
+                   android:layout_marginTop="10dp"
                    android:orientation="horizontal">
                    <ImageView
                        android:id="@+id/add_quality"
@@ -234,6 +255,7 @@
                        android:layout_height="50dp"
                        android:src="@drawable/baseline_add_circle_outline_24"/>
                    <TextView
+                       android:id="@+id/quality"
                        android:layout_width="50dp"
                        android:layout_height="50dp"
                        android:text="1"
@@ -247,15 +269,23 @@
                        android:src="@drawable/baseline_remove_circle_outline_24"/>
                    <ImageView
                        android:id="@+id/btn_addcart"
-                       android:layout_width="60dp"
+                       android:layout_width="match_parent"
                        android:layout_height="50dp"
                        android:layout_marginStart="10dp"
-                       android:layout_weight="1"
                        android:background="@drawable/radius_button"
                        android:backgroundTint="@color/light_blue_A200"
                        android:src="@drawable/add_shopping_cart"
                        android:textSize="18sp" />
                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="      Lưu ý: Nếu trong đoàn có trẻ nhỏ dưới 12 tuổi vui lòng liên hệ với công ty để tư vấn kịp thời"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="italic" />
 
 
             </LinearLayout>

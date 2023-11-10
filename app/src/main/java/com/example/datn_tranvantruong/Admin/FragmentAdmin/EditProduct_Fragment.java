@@ -142,6 +142,7 @@ public class EditProduct_Fragment extends Fragment {
 
                         productHandler.deleteProduct(id);
                         Toast.makeText(getContext(), "Đã xóa!", Toast.LENGTH_SHORT).show();
+
                     }
                 }).setNegativeButton("Hủy", null).show();
             }

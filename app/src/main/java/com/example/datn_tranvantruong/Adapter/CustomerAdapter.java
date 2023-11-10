@@ -24,7 +24,6 @@ public class CustomerAdapter extends BaseAdapter {
     private Context context;
     private int layout;
     private List<Customer> customersList;
-
     CustomerHandler customerHandler;
 
     public CustomerAdapter(Context context, int layout, List<Customer> customersList) {
@@ -95,6 +94,9 @@ public class CustomerAdapter extends BaseAdapter {
                     @Override
                     public void onClick(DialogInterface arg0, int arg1) {
                         customerHandler.deleteCustomer(id); // Xóa khách hàng bằng ID
+                        customersList.remove(i); // Xóa khách hàng khỏi danh sách
+                        notifyDataSetChanged(); // Cập nhật Adapter
+
                         Toast.makeText(view.getContext(), "Đã xóa!", Toast.LENGTH_SHORT).show();
                     }
                 }).setNegativeButton("Hủy", null).show();
@@ -109,6 +111,8 @@ public class CustomerAdapter extends BaseAdapter {
             }
         });
 
+
         return view;
     }
+
 }

@@ -145,6 +145,7 @@
                 android:clickable="true"
                 android:elevation="4dp"
                 android:padding="20dp"
+                android:inputType="numberDecimal"
                 android:hint="Số điện thoại"
                 />
 

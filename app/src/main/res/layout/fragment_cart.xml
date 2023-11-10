@@ -24,8 +24,8 @@
             android:textSize="24dp"
             android:textStyle="bold" />
     </LinearLayout>
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView_Cart"
+    <ListView
+        android:id="@+id/lv_Cart"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -33,7 +33,7 @@
         android:layout_marginTop="5dp"
         android:scrollbars="vertical"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/home_item" />
+        tools:listitem="@layout/cart_item" />
 
 
     </LinearLayout>
