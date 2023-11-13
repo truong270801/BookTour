@@ -16,7 +16,7 @@ import java.util.List;
 public class ProductHandler extends SQLiteOpenHelper {
     SQLiteDatabase db;
 
-    private static final String DATABASE_NAME = "BOOK_TOURS";
+    private static final String DATABASE_NAME = "BOOK_TOUR.db";
     private static final int DATABASE_VERSION = 1;
 
     DBManager dbManager;
@@ -96,6 +96,31 @@ public class ProductHandler extends SQLiteOpenHelper {
         SQLiteDatabase database = this.getWritableDatabase();
 
         database.delete("products", "id" + " = " + i, null);
+    }
+    public String getProductNameById(int id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String selectQuery = "SELECT name FROM products WHERE id = ?";
+        String[] selectionArgs = {String.valueOf(id)};
+        Cursor cursor = db.rawQuery(selectQuery, selectionArgs);
+        String name = null;
+        if (cursor.moveToFirst()) {
+            name = cursor.getString(0);
+        }
+        cursor.close();
+        return name;
+    }
+    public byte[] getProducImagetById(int id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String selectQuery = "SELECT image FROM products WHERE id = ?";
+        String[] selectionArgs = {String.valueOf(id)};
+        Cursor cursor = db.rawQuery(selectQuery, selectionArgs);
+       byte[] image = null;
+        if (cursor.moveToFirst()) {
+            image = cursor.getBlob(0);
+
+        }
+        cursor.close();
+        return image;
     }
 
     @Override

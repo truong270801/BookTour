@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.example.datn_tranvantruong.Database.DBManager;
 import com.example.datn_tranvantruong.Model.Category;
 import com.example.datn_tranvantruong.Model.Customer;
 
@@ -15,11 +16,16 @@ import java.util.List;
 
 public class CustomerHandler extends SQLiteOpenHelper {
 
-    private static final String DATABASE_NAME = "BOOK_TOURS";
+    private static final String DATABASE_NAME = "BOOK_TOUR.db";
     private static final int DATABASE_VERSION = 1;
+    Context context;
+    DBManager dbManager;
+    SQLiteDatabase db;
     public CustomerHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
-
+        this.context = context;
+        dbManager = new DBManager(context);
+        db = dbManager.getWritableDatabase();
     }
 
     public List<Customer> getAllCustomer() {
@@ -95,6 +101,7 @@ public class CustomerHandler extends SQLiteOpenHelper {
         SQLiteDatabase database = this.getWritableDatabase();
         database.delete("customers", "id" + " = " + i, null);
     }
+
 
 
     @Override

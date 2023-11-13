@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DBManager extends SQLiteOpenHelper {
 
     // Tên cơ sở dữ liệu
-    private static final String DATABASE_NAME = "BOOK_TOURS";
+    private static final String DATABASE_NAME = "BOOK_TOUR.db";
     // Phiên bản cơ sở dữ liệu
     private static final int DATABASE_VERSION = 1;
 
@@ -17,8 +17,9 @@ public class DBManager extends SQLiteOpenHelper {
     private static final String TABLE_ADMIN = "admin";
     private static final String TABLE_CATEGORIES = "categories";
     private static final String TABLE_PRODUCTS = "products";
+    private static final String TABLE_CARTS = "carts";
     private static final String TABLE_BILLS = "bills";
-    private static final String TABLE_BILL_DETAIL = "bill_detail";
+
 
     // Các trường trong bảng Users
     private static final String COLUMN_USER_ID = "id";
@@ -50,19 +51,22 @@ public class DBManager extends SQLiteOpenHelper {
     private static final String COLUMN_PRODUCT_PRICE = "price";
     private static final String COLUMN_PRODUCT_IMAGE = "image";
 
+    // Các trường trong bảng Carts
+    private static final String COLUMN_CART_ID = "id";
+    private static final String COLUMN_CART_USER_ID = "user_id";
+    private static final String COLUMN_CART_PRODUCT_ID = "product_id";
+    private static final String COLUMN_CART_QUANTITY = "quantity";
+    private static final String COLUMN_CART_PRICE = "price";
+
     // Các trường trong bảng Bills
     private static final String COLUMN_BILL_ID = "id";
     private static final String COLUMN_BILL_USER_ID = "user_id";
+    private static final String COLUMN_BILL_PRODUCT_ID = "product_id";
     private static final String COLUMN_BILL_TOTAL_PRICE = "total_price";
     private static final String COLUMN_BILL_DESCRIPTION = "description";
     private static final String COLUMN_BILL_DATE_CREATED = "date_created";
 
-    // Các trường trong bảng Bill Detail
-    private static final String COLUMN_BILL_DETAIL_ID = "id";
-    private static final String COLUMN_BILL_DETAIL_BILL_ID = "bill_id";
-    private static final String COLUMN_BILL_DETAIL_PRODUCT_NAME = "product_name";
-    private static final String COLUMN_BILL_DETAIL_QUANTITY = "quantity";
-    private static final String COLUMN_BILL_DETAIL_PRICE = "price";
+
 
     // Câu lệnh SQL để tạo bảng Users
     private static final String CREATE_TABLE_USERS = "CREATE TABLE " + TABLE_CUSTOMER + "("
@@ -102,10 +106,23 @@ public class DBManager extends SQLiteOpenHelper {
             + "FOREIGN KEY(" + COLUMN_PRODUCT_CATEGORY_ID + ") REFERENCES " + TABLE_CATEGORIES + "(" + COLUMN_CATEGORY_ID + ")"
             + ")";
 
+    // Câu lệnh SQL để tạo bảng Bill Detail
+    private static final String CREATE_TABLE_CARTS = "CREATE TABLE " + TABLE_CARTS + "("
+            + COLUMN_CART_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+            + COLUMN_CART_USER_ID + " INTEGER,"
+            + COLUMN_CART_PRODUCT_ID + " INTEGER,"
+            + COLUMN_CART_QUANTITY + " INTEGER,"
+            + COLUMN_CART_PRICE + " REAL,"
+            + "FOREIGN KEY(" + COLUMN_CART_USER_ID + ") REFERENCES " + TABLE_CUSTOMER + "(" + COLUMN_USER_ID + "), "
+            + "FOREIGN KEY(" + COLUMN_CART_PRODUCT_ID + ") REFERENCES " + TABLE_PRODUCTS + "(" + COLUMN_PRODUCT_ID + ")"
+            + ")";
+
+
     // Câu lệnh SQL để tạo bảng Bills
     private static final String CREATE_TABLE_BILLS = "CREATE TABLE " + TABLE_BILLS + "("
             + COLUMN_BILL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
             + COLUMN_BILL_USER_ID + " INTEGER,"
+            + COLUMN_BILL_PRODUCT_ID + " INTEGER,"
             + COLUMN_BILL_TOTAL_PRICE + " REAL,"
             + COLUMN_BILL_DESCRIPTION + " TEXT,"
             + COLUMN_BILL_DATE_CREATED + " DATETIME DEFAULT (datetime('now')),"
@@ -113,15 +130,6 @@ public class DBManager extends SQLiteOpenHelper {
             + ")";
 
 
-    // Câu lệnh SQL để tạo bảng Bill Detail
-    private static final String CREATE_TABLE_BILL_DETAIL = "CREATE TABLE " + TABLE_BILL_DETAIL + "("
-            + COLUMN_BILL_DETAIL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-            + COLUMN_BILL_DETAIL_BILL_ID + " INTEGER,"
-            + COLUMN_BILL_DETAIL_PRODUCT_NAME + " TEXT,"
-            + COLUMN_BILL_DETAIL_QUANTITY + " INTEGER,"
-            + COLUMN_BILL_DETAIL_PRICE + " REAL,"
-            + "FOREIGN KEY(" + COLUMN_BILL_DETAIL_BILL_ID + ") REFERENCES " + TABLE_BILLS + "(" + COLUMN_BILL_ID + ")"
-            + ")";
 
     private static final String INSERT_ADMIN = "INSERT INTO admin (" + COLUMN_ADMIN_NAME + ", " + COLUMN_ADMIN_EMAIL + ", " + COLUMN_ADMIN_PASSWORD + ") VALUES ('admin', 'admin', 'password')";
 
@@ -138,7 +146,7 @@ public class DBManager extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_CATEGORIES);
         db.execSQL(CREATE_TABLE_PRODUCTS);
         db.execSQL(CREATE_TABLE_BILLS);
-        db.execSQL(CREATE_TABLE_BILL_DETAIL);
+        db.execSQL(CREATE_TABLE_CARTS);
         db.execSQL(INSERT_ADMIN);
     }
 
@@ -150,7 +158,7 @@ public class DBManager extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_CATEGORIES);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_PRODUCTS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_BILLS);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_BILL_DETAIL);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_CARTS);
         onCreate(db);
     }
 }

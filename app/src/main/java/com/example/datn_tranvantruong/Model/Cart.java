@@ -2,22 +2,19 @@ package com.example.datn_tranvantruong.Model;
 
 public class Cart {
     private int id;
-    private String product_name;
-    private String id_category;
+    private  int product_id;
+    private  int user_id;
     private int quality;
     private int price;
-    private byte[] image;
 
     public Cart() {
     }
 
-    public Cart(int id, String product_name, String id_category, int quality, int price, byte[] image) {
-        this.id = id;
-        this.product_name = product_name;
-        this.id_category = id_category;
+    public Cart(int product_id, int user_id,  int quality, int price) {
+        this.product_id = product_id;
+        this.user_id = user_id;
         this.quality = quality;
         this.price = price;
-        this.image = image;
     }
 
     public int getId() {
@@ -28,21 +25,22 @@ public class Cart {
         this.id = id;
     }
 
-    public String getProduct_name() {
-        return product_name;
+    public int getProduct_id() {
+        return product_id;
     }
 
-    public void setProduct_name(String product_name) {
-        this.product_name = product_name;
+    public void setProduct_id(int product_id) {
+        this.product_id = product_id;
     }
 
-    public String getId_category() {
-        return id_category;
+    public int getUser_id() {
+        return user_id;
     }
 
-    public void setId_category(String id_category) {
-        this.id_category = id_category;
+    public void setUser_id(int user_id) {
+        this.user_id = user_id;
     }
+
 
     public int getQuality() {
         return quality;
@@ -60,11 +58,5 @@ public class Cart {
         this.price = price;
     }
 
-    public byte[] getImage() {
-        return image;
-    }
 
-    public void setImage(byte[] image) {
-        this.image = image;
-    }
 }

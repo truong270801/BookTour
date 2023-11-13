@@ -12,7 +12,7 @@ public class SignupHandler extends SQLiteOpenHelper {
 
     SQLiteDatabase db;
 
-    private static final String DATABASE_NAME = "BOOK_TOURS";
+    private static final String DATABASE_NAME = "BOOK_TOUR.db";
     private static final int DATABASE_VERSION = 1;
 
     DBManager dbManager;
