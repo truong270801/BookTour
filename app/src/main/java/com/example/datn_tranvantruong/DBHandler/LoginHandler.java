@@ -51,6 +51,21 @@ public class LoginHandler extends SQLiteOpenHelper {
         cursor.close();
         return "false";
     }
+    public String checkForgotPassword(String email, String phone) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // Kiểm tra tài khoản trong bảng admin
+        String[] columns = { "email" };
+        String selection = "email" + " = ?" + " AND " + "phone" + " = ?";
+        String[] selectionArgs = { email, phone };
+        Cursor cursor = db.query("customers", columns, selection, selectionArgs, null, null, null);
+        if (cursor.moveToFirst()) {
+            cursor.close();
+            return "customers";
+        }
+        cursor.close();
+        return "false";
+    }
 
     public int getUserId(String email) {
         String query = "SELECT id FROM customers WHERE email = ?";

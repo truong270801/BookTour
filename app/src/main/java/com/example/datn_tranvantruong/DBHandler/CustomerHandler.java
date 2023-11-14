@@ -74,7 +74,27 @@ public class CustomerHandler extends SQLiteOpenHelper {
         db.update("customers", values, "id = ?", new String[]{id});
         db.close();
     }
+    public void updateCustomerForgotPassword(String email, String newPassword) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("password", newPassword);
+
+        db.update("customers", values, "email = ?", new String[]{email});
+        db.close();
+    }
     public String getPasswordFromDB(String id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String password = null;
+
+        Cursor cursor = db.query("customers", new String[]{"password"}, "id = ?", new String[]{id}, null, null, null);
+        if (cursor != null && cursor.moveToFirst()) {
+            password = cursor.getString(cursor.getColumnIndex("password"));
+            cursor.close();
+        }
+
+        return password;
+    }
+    public String getForgotPasswordFromDB(String id) {
         SQLiteDatabase db = this.getReadableDatabase();
         String password = null;
 

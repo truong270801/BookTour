@@ -139,9 +139,5 @@ public class DetailTour_Fragment extends Fragment {
             quality.setText(String.valueOf(qualityValue));
         }
     }
-    private void addToCart() {
-
-
-    }
 
 }

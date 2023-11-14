@@ -65,6 +65,8 @@ TextView user_name,user_email;
 
                 if (currentPassword.isEmpty() || re_newPassword.isEmpty() || newPassword.isEmpty()) {
                     Toast.makeText(RePassword_Activity.this, "Vui lòng nhập đầy đủ các trường", Toast.LENGTH_SHORT).show();
+                }else if (newPassword.length() < 6){
+                    Toast.makeText(RePassword_Activity.this,"Mật khẩu chưa đử 6 kí tự",Toast.LENGTH_SHORT).show();
                 } else if (!newPassword.equals(re_newPassword)) {
                     Toast.makeText(RePassword_Activity.this, "Vui lòng nhập lại mật khẩu", Toast.LENGTH_SHORT).show();
                 } else {

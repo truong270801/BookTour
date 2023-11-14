@@ -81,7 +81,8 @@ bnt_login.setOnClickListener(new View.OnClickListener() {
                     "Tài khoản hoặc mật khẩu không đúng, hãy kiểm tra lại.",
                     Toast.LENGTH_LONG).show();
         }
-    }}
+    }
+    }
 });
 
     }
