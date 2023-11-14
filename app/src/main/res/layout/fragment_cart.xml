@@ -28,10 +28,10 @@
         android:id="@+id/lv_Cart"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="5dp"
         android:scrollbars="vertical"
+        android:divider="#CCCCCC"
+        android:dividerHeight="3dp"
+        android:padding="8dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/cart_item" />
 

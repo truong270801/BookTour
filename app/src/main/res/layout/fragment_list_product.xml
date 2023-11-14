@@ -4,10 +4,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#CCFFFF"
-        android:paddingBottom="16dp"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:paddingTop="16dp"
         tools:context=".Admin.FragmentAdmin.ListProductFragment">
 
         <LinearLayout
@@ -27,33 +23,24 @@
                     android:id="@+id/textView1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="serif"
                     android:gravity="center"
-                    android:text="TẤT CẢ SẢN PHẨM"
-                    android:textSize="25sp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:text="DANH SÁCH TOUR"
+                    android:textAllCaps="true"
+                    android:textColor="@color/black"
+                    android:textSize="30sp"
                     android:textStyle="bold" />
-
-                <Button
-                    android:id="@+id/btnCreateProduct"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:width="300dp"
-                    android:background="@drawable/radius_button"
-                    android:gravity="center"
-                    android:text="Thêm sản phẩm"
-                    android:textColorLink="#000011"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
 
                 <ListView
-                    android:layout_margin="18dp"
                     android:id="@+id/lv_Product"
+                    android:padding="15dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="30dp"
+                    android:divider="#FFFFFF"
+                    android:dividerHeight="10dp"
                     tools:listitem="@layout/product_item" />
             </LinearLayout>
 
@@ -63,13 +50,15 @@
             </LinearLayout>
         </LinearLayout>
 
-        <ImageButton
-            android:id="@+id/btnBackToMenu"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/linearLayout1"
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/btnCreateProduct"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:src="@drawable/baseline_remove_circle_outline_24" />
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:src="@drawable/baseline_add_circle_24"/>
 
 
     </RelativeLayout>

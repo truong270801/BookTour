@@ -27,4 +27,5 @@
         android:title="Thống kê"
         android:icon="@drawable/baseline_stacked_bar_chart_24"
         />
+
 </menu>

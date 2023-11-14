@@ -13,7 +13,7 @@
             android:id="@+id/CarView"
             android:layout_width="150dp"
             app:cardCornerRadius="8dp"
-            android:layout_height="150dp">
+            android:layout_height="wrap_content">
             <ImageView
                 android:id="@+id/Cart_Image"
 
@@ -36,7 +36,7 @@
             <TextView
                 android:id="@+id/Cart_Name"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-condensed-medium"
                 android:textColor="@color/black"
                 android:gravity="center|fill_vertical"
@@ -96,7 +96,6 @@
                     android:layout_height="20dp"
                     android:layout_marginLeft="5dp"
                     android:text="1,000,000"
-                    android:textAlignment="viewStart"
                     android:textColor="#000000" />
                 <TextView
                     android:layout_width="wrap_content"

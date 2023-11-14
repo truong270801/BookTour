@@ -3,18 +3,26 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#FFFFFF"
-        android:paddingLeft="16dp"
-        android:paddingTop="16dp"
-        android:paddingRight="16dp"
-        android:paddingBottom="16dp"
+        android:background="#CCFFFF"
+        android:padding="20dp"
     android:orientation="vertical"
     tools:context=".Admin.FragmentAdmin.CategoryFragment">
-
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="serif"
+        android:text="Quản lý Loại tour"
+        android:gravity="center"
+        android:textAllCaps="true"
+        android:textColor="@color/black"
+        android:textSize="30sp"
+        android:textStyle="bold" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Id danh mục "
+        android:layout_marginTop="20dp"
         android:textSize="18sp"
         android:layout_marginLeft="5dp"
         android:textColor="@color/black" />
@@ -25,6 +33,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:enabled="false">
+
         <requestFocus />
     </EditText>
 
@@ -53,7 +62,7 @@
 
         <Button
             android:id="@+id/add"
-            android:layout_width="78dp"
+            android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:background="@drawable/radius_button"
             android:text="Thêm "
@@ -63,14 +72,14 @@
             android:id="@+id/edit"
             android:layout_width="80dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
+            android:layout_marginLeft="40dp"
             android:background="@drawable/radius_button"
             android:text="Sửa" />
         <Button
             android:id="@+id/delete"
             android:layout_width="80dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
+            android:layout_marginLeft="40dp"
             android:background="@drawable/radius_button"
             android:text="Xóa" />
 
@@ -88,8 +97,12 @@
         android:textStyle="bold" />
         <ListView
             android:id="@+id/lvCategory"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp">
+            android:layout_width="match_parent"
+            android:padding="5dp"
+            android:divider="#BAEFEB"
+            android:dividerHeight="10dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp"
+            >
         </ListView>
     </LinearLayout>

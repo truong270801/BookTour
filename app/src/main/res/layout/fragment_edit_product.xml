@@ -1,18 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#CCFFFF"
-        android:paddingBottom="16dp"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:paddingTop="16dp"
+    android:orientation="vertical"
         tools:context=".Admin.FragmentAdmin.EditProduct_Fragment">
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:elevation="0dp">
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="serif"
+            android:text="QUẢN LÝ TOUR"
+            android:gravity="center"
+            android:textAllCaps="true"
+            android:textColor="@color/black"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+    </androidx.appcompat.widget.Toolbar>
 
         <ScrollView
             android:id="@+id/scrollView1"
             android:layout_width="match_parent"
+            android:padding="15dp"
             android:layout_height="match_parent" >
 
             <LinearLayout
@@ -24,8 +40,12 @@
                 <TextView
                     android:id="@+id/tv_ID"
                     android:layout_width="wrap_content"
+
                     android:layout_height="wrap_content"
-                    android:text="Tên Tour du lịch" />
+                    android:text="Tên Tour du lịch"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:textStyle="italic" />
 
                 <EditText
                     android:id="@+id/txtProductName"
@@ -36,7 +56,10 @@
                     android:id="@+id/tv_Category"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Danh mục" />
+                    android:text="Danh mục"
+                    android:textColor="#000000"
+                    android:textSize="18sp"
+                    android:textStyle="italic" />
 
                 <Spinner
                     android:id="@+id/spinnerCategory"
@@ -51,14 +74,20 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="vertical">
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Ngày khởi hành" />
+                            android:text="Ngày khởi hành"
+                            android:textColor="#000000"
+                            android:textSize="16sp"
+                            android:textStyle="italic" />
                         <TextView
                             android:id="@+id/txtStartDate"
                             android:layout_width="150dp"
                             android:layout_height="wrap_content"
+                            android:text="dd/MM/yyyy"
+
                             android:layout_marginLeft="10dp"
                             android:textSize="20dp"
                             />
@@ -67,14 +96,20 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:orientation="vertical">
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Ngày Kết thúc" />
+                            android:text="Ngày Kết thúc"
+                            android:textColor="#000000"
+                            android:textSize="16sp"
+                            android:textStyle="italic" />
                         <TextView
                             android:id="@+id/txtEndDate"
                             android:layout_width="150dp"
                             android:layout_marginLeft="10dp"
+                            android:text="dd/MM/yyyy"
+
                             android:layout_height="wrap_content"
                             android:textSize="20dp"
                             />
@@ -85,18 +120,25 @@
                     android:id="@+id/tv_Location"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Địa chỉ" />
+                    android:text="Địa chỉ"
+                    android:textColor="#000000"
+                    android:textSize="18sp"
+                    android:textStyle="italic" />
 
                 <EditText
                     android:id="@+id/txtLocation"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                    />
+
                 <TextView
                     android:id="@+id/tv_Description"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Nội dung Tour" />
+                    android:text="Nội dung Tour"
+                    android:textColor="#000000"
+                    android:textSize="18sp"
+                    android:textStyle="italic" />
 
                 <EditText
                     android:id="@+id/txtDescription"
@@ -108,7 +150,10 @@
                     android:id="@+id/tv_Price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Giá cả" />
+                    android:text="Giá cả"
+                    android:textColor="#000000"
+                    android:textSize="18sp"
+                    android:textStyle="italic" />
 
                 <EditText
                     android:id="@+id/txtPrice"
@@ -120,6 +165,7 @@
                     android:id="@+id/imgHinh"
                     android:layout_width="150dp"
                     android:layout_height="150dp"
+                    android:layout_marginTop="20dp"
                     android:layout_weight="5.82"
                     android:layout_gravity="center"
                     android:scaleType="fitXY"
@@ -155,16 +201,9 @@
                         android:textStyle="bold" />
                 </LinearLayout>
 
-                <ImageButton
-                    android:id="@+id/ibtnBack"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:layout_weight="5.82"
-                    android:src="@drawable/baseline_remove_circle_outline_24" />
             </LinearLayout>
 
         </ScrollView>
 
 
-    </RelativeLayout>
+    </LinearLayout>

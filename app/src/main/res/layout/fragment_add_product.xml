@@ -1,17 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingBottom="16dp"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:paddingTop="16dp"
+    android:background="#CCFFFF"
+    android:orientation="vertical"
         tools:context=".Admin.FragmentAdmin.AddProduct_Fragment">
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:elevation="0dp">
 
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="serif"
+            android:gravity="center"
+            android:text="THÊM TOUR MỚI"
+            android:textAllCaps="true"
+            android:textColor="@color/black"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+    </androidx.appcompat.widget.Toolbar>
         <ScrollView
             android:id="@+id/scrollView1"
             android:layout_width="match_parent"
+            android:padding="15dp"
+            android:layout_marginTop="10dp"
             android:layout_height="match_parent" >
 
             <LinearLayout
@@ -20,14 +37,23 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical" >
 
+                <ImageView
+                    android:id="@+id/imgHinh"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:scaleType="fitXY"
+                    android:layout_marginTop="26dp"
+                    android:src="@drawable/ic_avatar_default" />
+
                 <TextView
                     android:id="@+id/tv_ID"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"
-                    android:background="#C8C4C4"
+                    android:layout_marginTop="15dp"
                     android:textSize="18sp"
-                    android:text="Tên sản phẩm" />
+                    android:text="Tên tour du lịch" />
 
                 <EditText
                     android:id="@+id/txtProductName"
@@ -36,10 +62,9 @@
 
                 <TextView
                     android:id="@+id/tv_Category"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"
-                    android:background="#C8C4C4"
                     android:textSize="18sp"
                     android:text="Danh mục" />
 
@@ -52,7 +77,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:orientation="horizontal"
-                    android:background="#C8C4C4">
+                   >
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
@@ -69,6 +94,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:background="#FFFFFF"
+                    android:text="dd/MM/yyyy"
                     android:textSize="20dp"
                     />
                     </LinearLayout>
@@ -88,6 +114,8 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_height="wrap_content"
+                    android:text="dd/MM/yyyy"
+
                     android:background="#FFFFFF"
                     android:textSize="20dp"
                     />
@@ -98,10 +126,9 @@
                 <TextView
                     android:id="@+id/tv_Location"
                     android:textColor="@color/black"
-                    android:background="#C8C4C4"
                     android:layout_marginTop="10dp"
                     android:textSize="18sp"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Địa điểm du lịch" />
 
@@ -112,8 +139,7 @@
                     />
                 <TextView
                     android:id="@+id/tv_Description"
-                    android:layout_width="wrap_content"
-                    android:background="#C8C4C4"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"
                     android:textSize="18sp"
@@ -128,11 +154,10 @@
 
                 <TextView
                     android:id="@+id/tv_Price"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:textColor="@color/black"
                     android:textSize="18sp"
                     android:layout_height="wrap_content"
-                    android:background="#C8C4C4"
                     android:text="Giá cả" />
 
                 <EditText
@@ -141,22 +166,13 @@
                     android:layout_height="wrap_content"
                     android:inputType="numberDecimal" />
 
-                <ImageView
-                    android:id="@+id/imgHinh"
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
-                    android:layout_gravity="center"
-                    android:layout_weight="5.82"
-                    android:scaleType="fitXY"
-                    android:layout_marginTop="26dp"
 
-                    android:src="@drawable/ic_avatar_default" />
 
                 <Button
                     android:id="@+id/btnSave"
                     android:layout_width="153dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="20dp"
                     android:background="@drawable/radius_button"
                     android:text="Lưu"
                     android:layout_gravity="center"
@@ -166,4 +182,4 @@
 
         </ScrollView>
 
-    </RelativeLayout>
+    </LinearLayout>

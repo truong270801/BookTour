@@ -24,7 +24,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.datn_tranvantruong.Activity.Login_Activity;
 import com.example.datn_tranvantruong.DBHandler.CategoryHandler;
@@ -41,13 +43,13 @@ import java.util.List;
 public class EditProduct_Fragment extends Fragment {
     private Product product;
     private EditText txtProductName, txtLocation, txtdescription, txtPrice;
-    private TextView txtStartDate,txtEndDate;
+    private TextView txtStartDate, txtEndDate;
     private ImageView imgHinh;
     private ProductHandler productHandler;
     private CategoryHandler categoryHandler;
+
     private Spinner spinnerCategory;
-    private int category;
-    private ImageButton ibtnBack;
+    private Integer category;
     private Button btnEdit, btnDelete;
     private int id;
     private static final int REQUEST_CODE_FOLDER = 352;
@@ -65,121 +67,128 @@ public class EditProduct_Fragment extends Fragment {
         spinnerCategory = view.findViewById(R.id.spinnerCategory);
         btnEdit = view.findViewById(R.id.btnEdit);
         btnDelete = view.findViewById(R.id.btnDelete);
-        ibtnBack = view.findViewById(R.id.ibtnBack);
         imgHinh = view.findViewById(R.id.imgHinh);
 
         productHandler = new ProductHandler(getContext());
         categoryHandler = new CategoryHandler(getContext());
 
+        androidx.appcompat.widget.Toolbar toolbar = view.findViewById(R.id.toolbar);
+        AppCompatActivity activity = (AppCompatActivity) requireActivity();
+        activity.setSupportActionBar(toolbar);
+        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        ((AppCompatActivity) requireActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
         loadSpinner();
+        setListeners();
         getData();
-        txtStartDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDatePickerDialog(txtStartDate);
-            }
-        });
 
-        txtEndDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDatePickerDialog(txtEndDate);
-            }
+        return view;
+    }
 
+    private void setListeners() {
+        txtStartDate.setOnClickListener(v -> showDatePickerDialog(txtStartDate));
 
-        });
+        txtEndDate.setOnClickListener(v -> showDatePickerDialog(txtEndDate));
 
-        ibtnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-
-                startActivity(new Intent(getActivity(), Login_Activity.class));
-                if (getActivity() != null) {
-                    getActivity().finish();
-                }
-
-            }
-        });
 
         btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View arg0) {
+            public void onClick(View v) {
                 try {
-                    // Lấy giá trị từ các thành phần giao diện và kiểm tra tính hợp lệ.
-                    String selectedCategory = spinnerCategory.getSelectedItem().toString().trim();
-                    category = categoryHandler.getCategoryIdByName(selectedCategory);
+                    // Get values from UI components and validate them.
+                    category = categoryHandler.getCategoryIdByName(spinnerCategory.getSelectedItem().toString());
+                    if (category != null) {
                     String productName = txtProductName.getText().toString();
                     String productStartDate = txtStartDate.getText().toString();
                     String productEndDate = txtEndDate.getText().toString();
-
                     String productDescription = txtdescription.getText().toString();
                     String productLocation = txtLocation.getText().toString();
                     int productPrice = Integer.parseInt(txtPrice.getText().toString());
 
-                    // Thực hiện sự kiện sửa hàng.
-                    productHandler.editProduct(id, category, productName,productStartDate, productEndDate, productDescription, productLocation, productPrice, convertToArrayByte(imgHinh));
+                    // Perform edit product event.
+                    productHandler.editProduct(id, category, productName, productStartDate, productEndDate, productDescription, productLocation, productPrice, convertToArrayByte(imgHinh));
 
-                    // Thông báo cho người dùng về thành công và cung cấp thông tin cụ thể.
+                    // Notify the user about the success and provide specific information.
                     Toast.makeText(getContext(), "Sửa hàng " + productName + " thành công!", Toast.LENGTH_SHORT).show();
+                        ListProductFragment listProductFragment = new ListProductFragment();
+                        // Thực hiện thay thế FragmentA bằng FragmentB
+                        FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+                        transaction.replace(R.id.fragment_container_admin, listProductFragment);
+                        transaction.addToBackStack(null); // Nếu bạn muốn quản lý việc điều hướng ngược lại
+                        transaction.commit();
+                    } else {
+                        Toast.makeText(requireContext(), "Loại Tour không tồn tại" , Toast.LENGTH_SHORT).show();
+                        // Handle the case where category is null, show a message or take appropriate action.
+                    }
                 } catch (NumberFormatException e) {
-                    // Xử lý trường hợp không thể chuyển đổi giá trị giá thành một số nguyên.
-                    Toast.makeText(getContext(), "Lỗi: Giá không hợp lệ.", Toast.LENGTH_SHORT).show();
+                    // Handle the case where the price value cannot be converted to an integer.
+                    Toast.makeText(getContext(), "Lỗi", Toast.LENGTH_SHORT).show();
                 }
-            }
-        });
 
+            }
+
+        });
 
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View arg0) {
+            public void onClick(View v) {
+
+
                 // Handle the delete button click here
                 AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
                 dialog.setTitle("XÓA SẢN PHẨM NÀY?");
                 dialog.setMessage("Bạn thật sự muốn xóa sản phẩm này?");
-                dialog.setPositiveButton("XÓA", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface arg0, int arg1) {
-
-                        productHandler.deleteProduct(id);
-                        Toast.makeText(getContext(), "Đã xóa!", Toast.LENGTH_SHORT).show();
-
-                    }
+                dialog.setPositiveButton("XÓA", (dialogInterface, which) -> {
+                    productHandler.deleteProduct(id);
+                    ListProductFragment listProductFragment = new ListProductFragment();
+                    // Thực hiện thay thế FragmentA bằng FragmentB
+                    FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+                    transaction.replace(R.id.fragment_container_admin, listProductFragment);
+                    transaction.addToBackStack(null); // Nếu bạn muốn quản lý việc điều hướng ngược lại
+                    transaction.commit();
+                    Toast.makeText(getContext(), "Đã xóa!", Toast.LENGTH_SHORT).show();
                 }).setNegativeButton("Hủy", null).show();
+
+
             }
+
         });
 
         imgHinh.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View arg0) {
+            public void onClick(View v) {
+
                 // Handle image selection here
                 Intent in = new Intent(Intent.ACTION_PICK);
                 in.setType("image/*");
                 startActivityForResult(in, REQUEST_CODE_FOLDER);
             }
         });
-
-        return view;
     }
+
     private void showDatePickerDialog(final TextView textView) {
         final Calendar c = Calendar.getInstance();
-        int mYear = c.get(Calendar.YEAR); // Lấy năm hiện tại
-        int mMonth = c.get(Calendar.MONTH); // Lấy tháng hiện tại
-        int mDay = c.get(Calendar.DAY_OF_MONTH); // Lấy ngày hiện tại
+        int mYear = c.get(Calendar.YEAR); // Get the current year
+        int mMonth = c.get(Calendar.MONTH); // Get the current month
+        int mDay = c.get(Calendar.DAY_OF_MONTH); // Get the current day
         DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(),
-                new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        textView.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
-                    }
-                }, mYear, mMonth, mDay);
+                (view, year, monthOfYear, dayOfMonth) ->
+                        textView.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year),
+                mYear, mMonth, mDay);
         datePickerDialog.show();
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-        // TODO Auto-generated method stub
-
+        // Handle the result of image selection
         if (requestCode == REQUEST_CODE_FOLDER && resultCode == RESULT_OK & data != null) {
             Uri uri = data.getData();
             try {
@@ -187,21 +196,16 @@ public class EditProduct_Fragment extends Fragment {
                 Bitmap bitmap = BitmapFactory.decodeStream(ipstream);
                 imgHinh.setImageBitmap(bitmap);
             } catch (FileNotFoundException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-
-
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    public void loadSpinner() {
-        CategoryHandler categoryHandler = new CategoryHandler(getContext());
+    private void loadSpinner() {
         List<String> categories = categoryHandler.getAllNameCategoryForCreateProduct();
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, categories);
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, categories);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
-
         spinnerCategory.setAdapter(dataAdapter);
 
         if (product != null) {
@@ -210,7 +214,7 @@ public class EditProduct_Fragment extends Fragment {
         }
     }
 
-    public byte[] convertToArrayByte(ImageView img) {
+    private byte[] convertToArrayByte(ImageView img) {
         BitmapDrawable bitmapDrawable = (BitmapDrawable) img.getDrawable();
         Bitmap bitmap = bitmapDrawable.getBitmap();
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
@@ -218,7 +222,7 @@ public class EditProduct_Fragment extends Fragment {
         return stream.toByteArray();
     }
 
-    public void getData() {
+    private void getData() {
         if (getArguments() != null) {
             product = (Product) getArguments().getSerializable("Edit");
             id = product.getId();
@@ -232,5 +236,12 @@ public class EditProduct_Fragment extends Fragment {
             txtLocation.setText(product.getLocation());
             txtPrice.setText(String.valueOf(product.getPrice()));
         }
+    }
+    public void onBackPressed() {
+        AppCompatActivity activity = (AppCompatActivity) getContext();
+        FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment_container_admin, new ListProductFragment());
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 }

@@ -24,6 +24,10 @@ public class ProductUserAdapter extends BaseAdapter {
         this.layout = layout;
         this.productList = productList;
     }
+    public void setData(List<Product> newData) {
+        this.productList = newData;
+        notifyDataSetChanged();
+    }
 
     @Override
     public int getCount() {

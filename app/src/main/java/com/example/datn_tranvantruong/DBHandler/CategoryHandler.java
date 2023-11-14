@@ -75,7 +75,7 @@ public class CategoryHandler extends SQLiteOpenHelper {
 
     public Integer getCategoryIdByName(String categoryName) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Integer categoryId = null;
+        Integer categoryId = (null);
 
         String[] columns = {"id"};
         String selection = "name" + "=?";
@@ -143,28 +143,7 @@ public class CategoryHandler extends SQLiteOpenHelper {
         return ls;
     }
 
-    public Category searchItems(String keyword) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        List<Category> categories = new ArrayList<>();
-        // Xây dựng truy vấn SQL
-        String query = "SELECT * FROM categories WHERE name LIKE ?";
 
-        // Thực hiện truy vấn
-        Cursor cursor = db.rawQuery(query, new String[]{"%" + keyword + "%"});
-
-        // Xử lý kết quả trả về từ truy vấn
-        if (cursor != null) {
-            cursor.moveToFirst();
-            while (!cursor.isAfterLast()) {
-                int id = (int) cursor.getLong(cursor.getColumnIndex("id"));
-                String name = cursor.getString(cursor.getColumnIndex("name"));
-                categories.add(new Category(id, name));
-                cursor.moveToNext();
-            }
-            cursor.close();
-        }
-        return null;
-    }
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {

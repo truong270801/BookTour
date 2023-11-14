@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import androidx.fragment.app.Fragment;
@@ -24,8 +25,7 @@ import java.util.ArrayList;
 
 public class ListProductFragment extends Fragment {
 
-    Button btnCreateProduct;
-    ImageButton btnBackToMenu;
+    ImageView btnCreateProduct;
     ArrayList<Product> productArrayList = new ArrayList<Product>();
     ProductAdapter productAdapter;
     Cursor cursor;
@@ -38,8 +38,7 @@ public class ListProductFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_list_product, container, false);
         lv = (ListView) view.findViewById(R.id.lv_Product);
-        btnCreateProduct = (Button) view.findViewById(R.id.btnCreateProduct);
-        btnBackToMenu = (ImageButton) view.findViewById(R.id.btnBackToMenu);
+        btnCreateProduct = view.findViewById(R.id.btnCreateProduct);
         productHandler = new ProductHandler(getContext());
         categoryHandler = new CategoryHandler(getContext());
         display();

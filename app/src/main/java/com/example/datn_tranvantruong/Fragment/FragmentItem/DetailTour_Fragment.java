@@ -8,12 +8,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.datn_tranvantruong.Activity.Intro_Activity;
+import com.example.datn_tranvantruong.Activity.Profile_Activity;
 import com.example.datn_tranvantruong.DBHandler.CartHandler;
 import com.example.datn_tranvantruong.DBHandler.ProductHandler;
 import com.example.datn_tranvantruong.Fragment.HomeFragment;
@@ -100,7 +102,7 @@ public class DetailTour_Fragment extends Fragment {
                 int productId = getArguments().getInt("product_id");
                 ProductHandler productHandler = new ProductHandler(getContext());
                 Product product = productHandler.findById(productId);
-                String name = product.getName();
+                String name = tourNametxt.getText().toString() ;
                 int price = Integer.parseInt(tourPricetxt.getText().toString().trim());
                 int quatity = Integer.parseInt(quality.getText().toString().trim());
                 int total = price * quatity;
@@ -111,6 +113,7 @@ public class DetailTour_Fragment extends Fragment {
                 //Thêm vào giỏ hàng
                 CartHandler cartHandler = new CartHandler(getContext());
                 cartHandler.addToCart(cart);
+                Toast.makeText(getContext(), "Thêm sản phẩm:" + name + " vào giỏ hàng thành công!", Toast.LENGTH_SHORT).show();
             }
         });
         return view;

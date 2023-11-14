@@ -11,22 +11,25 @@
         android:paddingTop="16dp"
         tools:context=".Admin.FragmentAdmin.CustomerListFragment">
 
-        <TextView
-            android:id="@+id/textView1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="20dp"
-            android:gravity="center"
-            android:text="Danh sách khách hàng "
-            android:textColor="@color/black"
-            android:textSize="30sp"
-            android:textStyle="bold" />
-        <ListView
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="serif"
+        android:text="quản lý khách hàng"
+        android:gravity="center"
+        android:textAllCaps="true"
+        android:textColor="@color/black"
+        android:textSize="30sp"
+        android:textStyle="bold" />
+
+    <ListView
             android:id="@+id/lv_Customer"
-            android:layout_width="match_parent"
-            android:layout_marginTop="10dp"
-            android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:divider="#FFFFFF"
+        android:dividerHeight="10dp"
             tools:listitem="@layout/customer_item">
 
         </ListView>
