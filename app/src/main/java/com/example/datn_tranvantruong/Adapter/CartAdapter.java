@@ -14,20 +14,28 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
+
+import com.example.datn_tranvantruong.Activity.Intro_Activity;
+import com.example.datn_tranvantruong.DBHandler.BillHandler;
 import com.example.datn_tranvantruong.DBHandler.CartHandler;
 import com.example.datn_tranvantruong.DBHandler.CustomerHandler;
+import com.example.datn_tranvantruong.Fragment.Order_Fragment;
+import com.example.datn_tranvantruong.Model.Bill;
 import com.example.datn_tranvantruong.Model.Cart;
 import com.example.datn_tranvantruong.Model.CartStatistic;
 import com.example.datn_tranvantruong.Model.Customer;
 import com.example.datn_tranvantruong.R;
 
+import java.util.Date;
 import java.util.List;
 
 public class CartAdapter extends BaseAdapter {
     Context context;
     int layout;
     List<CartStatistic> cartList;
-    CartHandler cartHandler;
+CartHandler cartHandler;
     public CartAdapter(Context context, int layout, List<CartStatistic> cartList) {
         this.context = context;
         this.layout = layout;
@@ -68,6 +76,45 @@ public class CartAdapter extends BaseAdapter {
         } else {
             holder = (CartAdapter.ViewHolder) view.getTag();
         }
+        holder.btn_Order.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                Date now = new Date();
+                int product_id = cartList.get(i).getProduct_id();
+
+                CartStatistic cart = cartList.get(i);
+                int id = cart.getIdCart(); // Lấy ID của khách hàng
+
+                String price = holder.Cart_Price.getText().toString();
+                String description = "Đã thanh toán";
+                Bill bill = new Bill(Intro_Activity.user_id, product_id, price, description, now.toString());
+                BillHandler billHandler = new BillHandler(context);
+                billHandler.addBill(bill);
+
+                // Clear the cart (assuming you have a method to clear it in your CartHandler)
+                    cartHandler.deleteCart(id);
+                    cartList.remove(i);
+
+
+                // Show a toast indicating successful payment
+                Toast.makeText(v.getContext(), "Thanh toán thành công!!", Toast.LENGTH_SHORT).show();
+
+                // Navigate to another fragment (replace with your navigation logic)
+                FragmentTransaction transaction = ((AppCompatActivity) context).getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragment_container, new Order_Fragment()); // Replace with the fragment you want to navigate to
+                transaction.addToBackStack(null);
+                transaction.commit();
+                    }
+                catch (Exception e) {
+                    e.printStackTrace();
+
+                    // Handle the exception, show an error message, or log it
+                    Toast.makeText(v.getContext(), "Có lỗi xảy ra", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
         holder.btn_Delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -100,8 +147,8 @@ public class CartAdapter extends BaseAdapter {
             holder.Cart_Image.setImageResource(R.drawable.ic_avatar_default);
         }
         holder.Cart_Name.setText(cart.getProduct_name());
-       holder.Cart_Quality.setText(String.valueOf(cart.getQuatity()));
-      holder.Cart_Price.setText("" + cart.getTotal());
+        holder.Cart_Quality.setText(String.valueOf(cart.getQuatity()));
+        holder.Cart_Price.setText("" + cart.getTotal());
 
         return view;
     }

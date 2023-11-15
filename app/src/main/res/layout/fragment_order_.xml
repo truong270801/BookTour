@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_height="match_parent"
-    tools:context=".Fragment.CartFragment">
+    tools:context=".Fragment.Order_Fragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -24,16 +24,16 @@
             android:textSize="24dp"
             android:textStyle="bold" />
     </LinearLayout>
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView_Order"
+    <ListView
+        android:id="@+id/lv_Bill"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="5dp"
         android:scrollbars="vertical"
+        android:divider="#CCCCCC"
+        android:dividerHeight="5dp"
+        android:padding="8dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/home_item" />
+        tools:listitem="@layout/order_item" />
 
 
 </LinearLayout>

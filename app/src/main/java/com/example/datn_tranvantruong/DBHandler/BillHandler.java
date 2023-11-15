@@ -8,52 +8,40 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.example.datn_tranvantruong.Database.DBManager;
+import com.example.datn_tranvantruong.Model.Bill;
 import com.example.datn_tranvantruong.Model.Cart;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class CartHandler extends SQLiteOpenHelper {
+public class BillHandler extends SQLiteOpenHelper {
     DBManager dbManager;
     private static final String DATABASE_NAME = "BOOK_TOUR.db";
     private static final int DATABASE_VERSION = 1;
     private Context context;
-    public CartHandler(Context context) {
+    public BillHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.context = context;
         dbManager = new DBManager(context); // tạo db
     }
-    // Trong CartHandler hoặc lớp xử lý giỏ hàng tương tự
-    // Trong CartHandler hoặc lớp xử lý giỏ hàng tương tự
-    public void addToCart(Cart cartItem) {
+    public void addBill(Bill bill) {
         ContentValues values = new ContentValues();
-        values.put("product_id", cartItem.getProduct_id());
-        values.put("user_id", cartItem.getUser_id());
-        values.put("quantity", cartItem.getQuality());
-        values.put("price", cartItem.getPrice());
-
+        values.put("user_id", bill.getUser_id());
+        values.put("product_id", bill.getProduct_id());
+        values.put("total_price", bill.getPrice());
+        values.put("description", bill.getDescription());
+        values.put("date_created", bill.getDate_created());
         // Chèn dữ liệu vào bảng giỏ hàng
-        dbManager.getWritableDatabase().insert("carts", null, values);
-
+      dbManager.getWritableDatabase().insert("bills", null, values);
         dbManager.close();
-
     }
+    public static Cursor getBillByUserID(Context context, int id) {
+        BillHandler billHandler = new BillHandler(context);
+        SQLiteDatabase db = billHandler.getReadableDatabase();
 
-    public static Cursor getCartByUserID(Context context, int id) {
-        CartHandler cartHandler = new CartHandler(context);
-        SQLiteDatabase db = cartHandler.getReadableDatabase();
-
-        String selectQuery = "SELECT * FROM carts WHERE user_id = ?";
+        String selectQuery = "SELECT * FROM bills WHERE user_id = ?";
         String[] selectionArgs = {String.valueOf(id)};
         Cursor cursor = db.rawQuery(selectQuery, selectionArgs);
 
         return cursor;
     }
-    public void deleteCart(int i) {
-        SQLiteDatabase database = this.getWritableDatabase();
-        database.delete("carts", "id" + " = " + i, null);
-    }
-
     @Override
     public void onCreate(SQLiteDatabase db) {
 

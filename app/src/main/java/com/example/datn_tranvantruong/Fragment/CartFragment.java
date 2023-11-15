@@ -43,9 +43,12 @@ public class CartFragment extends Fragment {
        Cursor cursor = cartHandler.getCartByUserID(getContext(),Intro_Activity.user_id);
         if (cartAdapter==null){
             while (cursor.moveToNext()){
-                cartStatistics.add(new CartStatistic(cursor.getInt(0),
+                cartStatistics.add(new CartStatistic(
+                        cursor.getInt(0),
+                        cursor.getInt(2),
                         productHandler.getProductNameById(cursor.getInt(2)),
-                        cursor.getInt(3), cursor.getFloat(4),
+                        cursor.getInt(3),
+                        cursor.getFloat(4),
                         productHandler.getProducImagetById(cursor.getInt(2))));
             }
             cartAdapter = new CartAdapter(getContext(), R.layout.cart_item, cartStatistics);
