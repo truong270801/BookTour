@@ -4,6 +4,7 @@ public class Bill {
     private int id;
     private  int user_id;
     private int product_id;
+    private  int quatity;
     private String price;
     private  String description;
     private  String date_created;
@@ -11,9 +12,10 @@ public class Bill {
     public Bill() {
     }
 
-    public Bill(int user_id, int product_id, String price, String description, String date_created) {
+    public Bill(int user_id, int product_id,int quatity, String price, String description, String date_created) {
         this.user_id = user_id;
         this.product_id = product_id;
+        this.quatity = quatity;
         this.price = price;
         this.description = description;
         this.date_created = date_created;
@@ -34,6 +36,14 @@ public class Bill {
 
     public void setProduct_id(int product_id) {
         this.product_id = product_id;
+    }
+
+    public int getQuatity() {
+        return quatity;
+    }
+
+    public void setQuatity(int quatity) {
+        this.quatity = quatity;
     }
 
     public String getPrice() {

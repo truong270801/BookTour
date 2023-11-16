@@ -25,6 +25,7 @@ public class BillHandler extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put("user_id", bill.getUser_id());
         values.put("product_id", bill.getProduct_id());
+        values.put("quatity",bill.getQuatity());
         values.put("total_price", bill.getPrice());
         values.put("description", bill.getDescription());
         values.put("date_created", bill.getDate_created());

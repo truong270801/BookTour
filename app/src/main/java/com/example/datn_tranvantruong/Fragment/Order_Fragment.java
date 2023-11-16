@@ -4,17 +4,18 @@ import android.database.Cursor;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.datn_tranvantruong.Activity.Intro_Activity;
 import com.example.datn_tranvantruong.Adapter.BillAdapter;
-import com.example.datn_tranvantruong.Adapter.CartAdapter;
 import com.example.datn_tranvantruong.DBHandler.BillHandler;
-import com.example.datn_tranvantruong.DBHandler.ProductHandler;
+import com.example.datn_tranvantruong.Fragment.FragmentItem.BillDetailFragment;
 import com.example.datn_tranvantruong.Model.BillStatistic;
 import com.example.datn_tranvantruong.R;
 
@@ -34,20 +35,14 @@ public class Order_Fragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_order_, container, false);
         lv = view.findViewById(R.id.lv_Bill);
         userId = Intro_Activity.user_id;
-        display();
-        return  view;
-    }
-
-    private void display() {
-        ProductHandler productHandler = new ProductHandler(getContext());
         Cursor cursor = billHandler.getBillByUserID(getContext(),Intro_Activity.user_id);
         if (billAdapter==null){
             while (cursor.moveToNext()){
                 billStatistics.add(new BillStatistic(
                         cursor.getInt(0),
-                        cursor.getInt(3),
-                        cursor.getString(4),
-                        cursor.getString(5)
+                        cursor.getInt(4),
+                        cursor.getString(5),
+                        cursor.getString(6)
                 ));
             }
             billAdapter = new BillAdapter(getContext(), R.layout.order_item, billStatistics);
@@ -55,5 +50,26 @@ public class Order_Fragment extends Fragment {
         }else {
             billAdapter.notifyDataSetChanged();
         }
+
+        billAdapter = new BillAdapter(getContext(), R.layout.order_item, billStatistics);
+        lv.setAdapter(billAdapter);
+        //xuwr lys
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+
+                    BillDetailFragment billDetailFragment = new BillDetailFragment();
+                    FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+                    transaction.replace(R.id.fragment_container, billDetailFragment);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+
+            }
+        });
+
+        return  view;
     }
+
+
 }

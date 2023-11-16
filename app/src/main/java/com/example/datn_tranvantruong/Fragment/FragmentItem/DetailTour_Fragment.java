@@ -100,8 +100,6 @@ public class DetailTour_Fragment extends Fragment {
             @Override
             public void onClick(View v) {
                 int productId = getArguments().getInt("product_id");
-                ProductHandler productHandler = new ProductHandler(getContext());
-                Product product = productHandler.findById(productId);
                 String name = tourNametxt.getText().toString() ;
                 int price = Integer.parseInt(tourPricetxt.getText().toString().trim());
                 int quatity = Integer.parseInt(quality.getText().toString().trim());

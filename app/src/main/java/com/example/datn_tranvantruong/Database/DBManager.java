@@ -62,6 +62,7 @@ public class DBManager extends SQLiteOpenHelper {
     private static final String COLUMN_BILL_ID = "id";
     private static final String COLUMN_BILL_USER_ID = "user_id";
     private static final String COLUMN_BILL_PRODUCT_ID = "product_id";
+    private static final String COLUMN_BILL_PRODUCT_QUATITY = "quatity";
     private static final String COLUMN_BILL_TOTAL_PRICE = "total_price";
     private static final String COLUMN_BILL_DESCRIPTION = "description";
     private static final String COLUMN_BILL_DATE_CREATED = "date_created";
@@ -123,6 +124,7 @@ public class DBManager extends SQLiteOpenHelper {
             + COLUMN_BILL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
             + COLUMN_BILL_USER_ID + " INTEGER,"
             + COLUMN_BILL_PRODUCT_ID + " INTEGER,"
+            + COLUMN_BILL_PRODUCT_QUATITY + " INTEGER,"
             + COLUMN_BILL_TOTAL_PRICE + " REAL,"
             + COLUMN_BILL_DESCRIPTION + " TEXT,"
             + COLUMN_BILL_DATE_CREATED + " DATETIME DEFAULT (datetime('now')),"

@@ -85,10 +85,10 @@ CartHandler cartHandler;
 
                 CartStatistic cart = cartList.get(i);
                 int id = cart.getIdCart(); // Lấy ID của khách hàng
-
+int quatity = Integer.parseInt(String.valueOf(cart.getQuatity()));
                 String price = holder.Cart_Price.getText().toString();
                 String description = "Đã thanh toán";
-                Bill bill = new Bill(Intro_Activity.user_id, product_id, price, description, now.toString());
+                Bill bill = new Bill(Intro_Activity.user_id, product_id,quatity, price, description, now.toString());
                 BillHandler billHandler = new BillHandler(context);
                 billHandler.addBill(bill);
 

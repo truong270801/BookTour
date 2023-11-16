@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="5dp"
+    android:layout_margin="8dp"
     android:orientation="vertical"
     tools:context=".Fragment.FragmentItem.BillDetailFragment">
 
@@ -49,6 +49,7 @@
                 android:textStyle="italic" />
         </LinearLayout>
         <TextView
+            android:id="@+id/bill_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Mã số:"
@@ -73,6 +74,7 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal">
 
         <TextView
@@ -84,6 +86,7 @@
             android:textStyle="bold|italic" />
 
         <TextView
+            android:id="@+id/users_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
@@ -108,20 +111,20 @@
             android:textStyle="bold|italic" />
 
         <TextView
+            android:id="@+id/users_address"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
-            android:text="Tên khách hàng:"
+            android:text="Nghĩa Phú, Nghĩa Hưng, Nam Định."
             android:textColor="@color/black"
             android:textSize="16sp"
-            android:textStyle="bold" />
+             />
 
     </LinearLayout>
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-
         android:orientation="horizontal">
 
         <TextView
@@ -133,13 +136,14 @@
             android:textStyle="bold|italic" />
 
         <TextView
+            android:id="@+id/users_phone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
-            android:text="Tên khách hàng:"
+            android:text="0353745740"
             android:textColor="@color/black"
             android:textSize="16sp"
-            android:textStyle="bold" />
+            />
 
     </LinearLayout>
     <LinearLayout
@@ -158,71 +162,167 @@
             android:textStyle="bold|italic" />
 
         <TextView
+            android:id="@+id/users_email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
-            android:text="Tên khách hàng:"
+            android:text="tranvantruong27082001@gmail.com"
             android:textColor="@color/black"
             android:textSize="16sp"
-            android:textStyle="bold" />
+             />
     </LinearLayout>
 
     <TableLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="20dp">
 
         <TableRow>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
 
+            <TextView
+                android:layout_width="30dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:text="Mã tour"
-                android:textStyle="bold"/>
+                android:textColor="#000000"
+                android:textStyle="bold" />
+
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-android:layout_marginLeft="20dp"
+                android:layout_width="240dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
                 android:text="Tên tour"
-                android:textStyle="bold"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_marginLeft="20dp"
+                android:textColor="#000000"
+                android:textStyle="bold" />
 
+            <TextView
+                android:layout_width="40dp"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:text="Số lượng người"
-                android:textStyle="bold"/>
+                android:textColor="#000000"
+                android:textStyle="bold" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-
+                android:layout_gravity="center"
+                android:gravity="right"
                 android:text="Giá"
-                android:textStyle="bold"/>
+                android:textColor="#000000"
+                android:textStyle="bold" />
         </TableRow>
 
         <!-- Table Rows -->
         <TableRow>
+
+            <TextView
+                android:id="@+id/product_id"
+
+                android:layout_width="30dp"
+                android:layout_height="wrap_content"
+                android:text="1"
+                android:textColor="#000000" />
+
+            <TextView
+                android:id="@+id/product_name"
+                android:layout_width="240dp"
+                android:layout_height="wrap_content"
+
+                android:text="Tour A"
+                android:textColor="#000000" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="1"/>
+                android:id="@+id/product_quatity"
+
+                android:text="10"
+                android:textColor="#000000" />
+
             <TextView
+                android:id="@+id/product_price"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Tour A"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="10"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="1000000 VND"/>
+                android:text="1000000 VND"
+                android:textColor="#000000" />
         </TableRow>
-
-
     </TableLayout>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Thời gian mua hàng"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        android:textStyle="bold|italic" />
+    <TextView
+        android:id="@+id/bill_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="............................................................"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        />
+
+</LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Số tiền (Bằng chữ):"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            android:textStyle="bold|italic" />
+        <TextView
+            android:id="@+id/bill_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="............................................................"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            />
+
+    </LinearLayout>
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_gravity="right"
+
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Chữ kí khách hàng"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:layout_margin="40dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/customer_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:fontFamily="cursive"
+        android:text="Trường"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:textStyle="italic" />
+</LinearLayout>
+
 
 
 </LinearLayout>
