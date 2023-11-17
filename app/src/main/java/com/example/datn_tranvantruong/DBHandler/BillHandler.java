@@ -5,11 +5,13 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import com.example.datn_tranvantruong.Database.DBManager;
 import com.example.datn_tranvantruong.Model.Bill;
-import com.example.datn_tranvantruong.Model.Cart;
+import com.example.datn_tranvantruong.Model.Customer;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class BillHandler extends SQLiteOpenHelper {
     DBManager dbManager;
@@ -43,6 +45,31 @@ public class BillHandler extends SQLiteOpenHelper {
 
         return cursor;
     }
+    public String getBillQuatityById(int id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String selectQuery = "SELECT quatity FROM bills WHERE id = ?";
+        String[] selectionArgs = {String.valueOf(id)};
+        Cursor cursor = db.rawQuery(selectQuery, selectionArgs);
+        String billQuatity = null;
+        if (cursor.moveToFirst()) {
+            billQuatity = cursor.getString(0);
+        }
+        cursor.close();
+        return billQuatity;
+    }
+    public String getUserIdById(int id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String selectQuery = "SELECT user_id FROM bills WHERE id = ?";
+        String[] selectionArgs = {String.valueOf(id)};
+        Cursor cursor = db.rawQuery(selectQuery, selectionArgs);
+        String user_id = null;
+        if (cursor.moveToFirst()) {
+            user_id = cursor.getString(0);
+        }
+        cursor.close();
+        return user_id;
+    }
+
     @Override
     public void onCreate(SQLiteDatabase db) {
 

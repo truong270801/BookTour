@@ -21,6 +21,13 @@ public class Bill {
         this.date_created = date_created;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public int getUser_id() {
         return user_id;

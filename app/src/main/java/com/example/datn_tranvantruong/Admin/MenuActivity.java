@@ -13,6 +13,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.datn_tranvantruong.Activity.Login_Activity;
+import com.example.datn_tranvantruong.Admin.FragmentAdmin.AdminOrderFragment;
 import com.example.datn_tranvantruong.Admin.FragmentAdmin.CategoryFragment;
 import com.example.datn_tranvantruong.Admin.FragmentAdmin.CustomerListFragment;
 import com.example.datn_tranvantruong.Admin.FragmentAdmin.ListProductFragment;
@@ -51,6 +52,9 @@ public class MenuActivity extends AppCompatActivity {
                     break;
                 case R.id.customer:
                     replaceFragment(new CustomerListFragment());
+                    break;
+                case R.id.order:
+                    replaceFragment(new AdminOrderFragment());
                     break;
 
             }

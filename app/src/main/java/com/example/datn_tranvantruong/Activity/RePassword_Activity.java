@@ -92,30 +92,22 @@ TextView user_name,user_email;
 
     }
     private void  showUserInformation(){
-        DBManager dbManager = new DBManager(this);
-        SQLiteDatabase db = dbManager.getWritableDatabase();
-// Xây dựng câu lệnh truy vấn SQL
-        String query = "SELECT email,fullname,image_avatar FROM customers";
+        CustomerHandler customerHandler = new CustomerHandler(this);
 
-// Thực hiện truy vấn SQL và lấy dữ liệu
-        Cursor cursor = db.rawQuery(query, null);
-
-        if (cursor != null) {
-            if (cursor.moveToFirst()) {
-                String email = cursor.getString(cursor.getColumnIndex("email"));
-                String name = cursor.getString(cursor.getColumnIndex("fullname"));
-                byte[] avatar = cursor.getBlob(cursor.getColumnIndex("image_avatar"));
+        String email = customerHandler.getCustomerInfo(String.valueOf(Intro_Activity.user_id)).getEmail();
+        String name = customerHandler.getCustomerInfo(String.valueOf(Intro_Activity.user_id)).getFullname();
+        byte[] avatar = customerHandler.getCustomerInfo(String.valueOf(Intro_Activity.user_id)).getImage_avatar();
 
 
-                // Gán giá trị "email" vào TextView
-                user_email.setText(email);
-                user_name.setText(name);
-                if (avatar != null) {
-                    Bitmap avatarBitmap = BitmapFactory.decodeByteArray(avatar, 0, avatar.length);
-                    img_avatar.setImageBitmap(avatarBitmap);
-                }
-            }
-            cursor.close();
+        // Gán giá trị "email" vào TextView
+        user_email.setText(email);
+        user_name.setText(name);
+        if (avatar != null) {
+            Bitmap avatarBitmap = BitmapFactory.decodeByteArray(avatar, 0, avatar.length);
+            img_avatar.setImageBitmap(avatarBitmap);
         }
-    }
-}
+        }
+            }
+
+
+

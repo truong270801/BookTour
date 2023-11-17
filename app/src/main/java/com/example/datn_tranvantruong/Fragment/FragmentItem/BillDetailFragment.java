@@ -11,7 +11,9 @@ import androidx.fragment.app.Fragment;
 import com.example.datn_tranvantruong.Activity.Intro_Activity;
 import com.example.datn_tranvantruong.DBHandler.BillHandler;
 import com.example.datn_tranvantruong.DBHandler.CustomerHandler;
+import com.example.datn_tranvantruong.DBHandler.ProductHandler;
 import com.example.datn_tranvantruong.Model.BillStatistic;
+import com.example.datn_tranvantruong.Model.Product;
 import com.example.datn_tranvantruong.R;
 
 import java.text.NumberFormat;
@@ -24,13 +26,12 @@ public class BillDetailFragment extends Fragment {
     TextView users_email;
     TextView product_id;
     TextView product_name;
-    TextView product_quatity;
+    TextView quatity;
     TextView price;
     TextView bill_date;
     TextView bill_price;
     TextView customer_name;
-    BillHandler billHandler;
-    BillStatistic billStatistic;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -44,40 +45,53 @@ public class BillDetailFragment extends Fragment {
         users_email = view.findViewById(R.id.users_email);
         product_id = view.findViewById(R.id.product_id);
         product_name = view.findViewById(R.id.product_name);
-        product_quatity = view.findViewById(R.id.product_quatity);
+        quatity = view.findViewById(R.id.product_quatity);
         price = view.findViewById(R.id.product_price);
         bill_date = view.findViewById(R.id.bill_date);
         bill_price = view.findViewById(R.id.bill_price);
         customer_name = view.findViewById(R.id.customer_name);
-
-        // Lấy thông tin khách hàng
+        ProductHandler productHandler = new ProductHandler(getContext());
         CustomerHandler customerHandler = new CustomerHandler(getContext());
-        users_email.setText(customerHandler.getCustomerInfo(String.valueOf(Intro_Activity.user_id)).getEmail());
-        users_name.setText(customerHandler.getCustomerInfo(String.valueOf(Intro_Activity.user_id)).getFullname());
-        users_address.setText(customerHandler.getCustomerInfo(String.valueOf(Intro_Activity.user_id)).getAddress());
-        users_phone.setText(customerHandler.getCustomerInfo(String.valueOf(Intro_Activity.user_id)).getPhone());
-        customer_name.setText(users_name.getText().toString());
+        BillHandler billHandler = new BillHandler(getContext());
 
-        // Lấy thông tin hóa đơn
-//        bill_id.setText(billStatistic.getBill_id());
-//        product_id.setText(billStatistic.getProduct_id());
-//        product_name.setText(billStatistic.getProduct_name());
-//        product_quatity.setText(billStatistic.getProduct_quantity());
-//        price.setText(billStatistic.getPrice());
-//        bill_date.setText(billStatistic.getDate());
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            String billdate = bundle.getString("billdate");
+            String billid = bundle.getString("billid");
+            String billPrice = bundle.getString("billprice");
+            int productId = bundle.getInt("productId");
 
-        // Chuyển đổi giá từ dạng số sang dạng chữ và hiển thị trong TextView bill_price
-        String priceValue = "10000";
-        String priceInWords = convertNumberToWords(Integer.parseInt(priceValue));
-        bill_price.setText(priceInWords);
+            // Lấy thông tin khách hàng
 
+
+            int user_id = Integer.parseInt(billHandler.getUserIdById(Integer.parseInt(billid)));
+                    users_email.setText(customerHandler.getCustomerInfo(String.valueOf(user_id)).getEmail());
+            users_name.setText(customerHandler.getCustomerInfo(String.valueOf(user_id)).getFullname());
+            users_address.setText(customerHandler.getCustomerInfo(String.valueOf(user_id)).getAddress());
+            users_phone.setText(customerHandler.getCustomerInfo(String.valueOf(user_id)).getPhone());
+            customer_name.setText(users_name.getText().toString());
+
+            // Lấy thông tin hóa đơn
+            bill_id.setText("Mã số: #KTTRAVEL" + billid);
+            price.setText(billPrice + "VND");
+            bill_date.setText(billdate);
+            product_id.setText(String.valueOf(productId));
+
+
+            product_name.setText(productHandler.getProductNameById(productId));
+
+            quatity.setText(billHandler.getBillQuatityById(Integer.parseInt(billid)));
+
+            // Chuyển đổi giá từ dạng số sang dạng chữ và hiển thị trong TextView bill_price
+            String priceInWords = convertNumberToWords(Integer.parseInt(billPrice));
+            bill_price.setText(priceInWords + " việt nam đồng.");
+        }
         return view;
     }
 
     private String convertNumberToWords(int number) {
         // Sử dụng đoạn mã chuyển đổi số thành chữ ở đây
-        NumberFormat format = NumberFormat.getInstance();
-        String[] units = {"", "nghìn", "triệu", "tỷ"};
+        String[] units = {"", " nghìn ", " triệu ", " tỷ "};
         String result = "";
 
         int unitIndex = 0;
@@ -107,7 +121,6 @@ public class BillDetailFragment extends Fragment {
         } else {
             result = numNames[number % 10];
             number /= 10;
-
             result = tensNames[number % 10] + " " + result;
             number /= 10;
         }

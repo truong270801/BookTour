@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="8dp"
+    android:background="@drawable/txtlogo"
     android:orientation="vertical"
     tools:context=".Fragment.FragmentItem.BillDetailFragment">
 
@@ -173,8 +174,12 @@
     </LinearLayout>
 
     <TableLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:divider="#000000"
+        android:showDividers="beginning|middle|end"
+        android:dividerHeight="1dp"
+
         android:layout_marginTop="20dp">
 
         <TableRow>
@@ -258,7 +263,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="Thời gian mua hàng"
+        android:text="Thời gian mua hàng: "
         android:textColor="#000000"
         android:textSize="16sp"
         android:textStyle="bold|italic" />
@@ -282,7 +287,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Số tiền (Bằng chữ):"
+            android:text="Số tiền (Bằng chữ): "
             android:textColor="#000000"
             android:textSize="16sp"
             android:textStyle="bold|italic" />

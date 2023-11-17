@@ -1,4 +1,4 @@
-package com.example.datn_tranvantruong.Fragment;
+package com.example.datn_tranvantruong.Admin.FragmentAdmin;
 
 import android.database.Cursor;
 import android.os.Bundle;
@@ -16,15 +16,13 @@ import com.example.datn_tranvantruong.Activity.Intro_Activity;
 import com.example.datn_tranvantruong.Adapter.BillAdapter;
 import com.example.datn_tranvantruong.DBHandler.BillHandler;
 import com.example.datn_tranvantruong.Fragment.FragmentItem.BillDetailFragment;
-import com.example.datn_tranvantruong.Model.Bill;
 import com.example.datn_tranvantruong.Model.BillStatistic;
-import com.example.datn_tranvantruong.Model.Product;
 import com.example.datn_tranvantruong.R;
 
 import java.util.ArrayList;
 
 
-public class Order_Fragment extends Fragment {
+public class AdminOrderFragment extends Fragment {
     private ArrayList<BillStatistic> billStatistics = new ArrayList<>();
     private ListView lv;
     private BillAdapter billAdapter;
@@ -71,10 +69,10 @@ public class Order_Fragment extends Fragment {
 
 
                 billDetailFragment.setArguments(args);
-                    FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-                    transaction.replace(R.id.fragment_container, billDetailFragment);
-                    transaction.addToBackStack(null);
-                    transaction.commit();
+                FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragment_container_admin, billDetailFragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
 
             }
         });
