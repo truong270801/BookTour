@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="serif"
-        android:text="quản lý khách hàng"
+        android:text="quản lý đơn hàng"
         android:gravity="center"
         android:textAllCaps="true"
         android:textColor="@color/black"
@@ -24,14 +24,16 @@
         android:textStyle="bold" />
 
     <ListView
-        android:id="@+id/lv_Customer"
+        android:id="@+id/lv_Bill"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:divider="#FFFFFF"
-        android:dividerHeight="10dp"
-        tools:listitem="@layout/customer_item">
+        android:scrollbars="vertical"
+        android:divider="#CCCCCC"
+        android:dividerHeight="5dp"
+        android:padding="8dp"
+        tools:listitem="@layout/order_item" />
 
-    </ListView>
+
 
 </LinearLayout>

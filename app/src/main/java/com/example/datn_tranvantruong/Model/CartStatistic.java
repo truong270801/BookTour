@@ -5,13 +5,13 @@ package com.example.datn_tranvantruong.Model;
     private int product_id;
     private String product_name;
     private int quatity;
-    private float total;
+    private double total;
     private byte[] product_image;
 
         public CartStatistic() {
         }
 
-        public CartStatistic(int idCart, int product_id, String product_name, int quatity, float total, byte[] product_image) {
+        public CartStatistic(int idCart, int product_id, String product_name, int quatity, double total, byte[] product_image) {
             this.idCart = idCart;
             this.product_id = product_id;
             this.product_name = product_name;
@@ -52,11 +52,11 @@ package com.example.datn_tranvantruong.Model;
             this.quatity = quatity;
         }
 
-        public float getTotal() {
+        public double getTotal() {
             return total;
         }
 
-        public void setTotal(float total) {
+        public void setTotal(double total) {
             this.total = total;
         }
 

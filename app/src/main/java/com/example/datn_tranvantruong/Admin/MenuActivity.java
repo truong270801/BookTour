@@ -17,6 +17,7 @@ import com.example.datn_tranvantruong.Admin.FragmentAdmin.AdminOrderFragment;
 import com.example.datn_tranvantruong.Admin.FragmentAdmin.CategoryFragment;
 import com.example.datn_tranvantruong.Admin.FragmentAdmin.CustomerListFragment;
 import com.example.datn_tranvantruong.Admin.FragmentAdmin.ListProductFragment;
+import com.example.datn_tranvantruong.Admin.FragmentAdmin.RevenueFragment;
 import com.example.datn_tranvantruong.R;
 import com.example.datn_tranvantruong.databinding.ActivityMenuAdminBinding;
 
@@ -55,6 +56,9 @@ public class MenuActivity extends AppCompatActivity {
                     break;
                 case R.id.order:
                     replaceFragment(new AdminOrderFragment());
+                    break;
+                case R.id.statistic:
+                    replaceFragment(new RevenueFragment());
                     break;
 
             }

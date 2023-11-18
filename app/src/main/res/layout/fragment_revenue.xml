@@ -1,14 +1,157 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".Admin.FragmentAdmin.RevenueFragment">
-
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:orientation="vertical"
+        android:background="#CCFFFF"
+        tools:context=".Admin.FragmentAdmin.RevenueFragment">
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="serif"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:text="DANH SÁCH TOUR"
+        android:textAllCaps="true"
+        android:textColor="@color/black"
+        android:textSize="30sp"
+        android:textStyle="bold" />
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="30dp"
+    android:orientation="horizontal">
+    <Button
+        android:id="@+id/buttonDateStart"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/radius_button"
+        android:text="Ngày bắt đầu"
+        android:textColorLink="#000011"
+        android:textStyle="bold" />
+        <TextView
+            android:id="@+id/textViewStartDate"
+            android:layout_width="150dp"
+            android:background="#DAD1D1"
+
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:textSize="20dp"
+            />
+</LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/buttonEndDate"
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/radius_button"
+            android:text="Ngày kết thúc"
+            android:backgroundTint="@color/yellow"
+            android:textColorLink="#000011"
+            android:textStyle="bold" />
+        <TextView
+            android:id="@+id/textViewEndDate"
+            android:layout_width="150dp"
+            android:background="#DAD1D1"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:textSize="20dp"
+            android:layout_toRightOf="@+id/textViewStartDate"
+            />
+
+    </LinearLayout>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="30dp"
+    android:layout_marginRight="30dp"
+    android:layout_marginTop="30dp"
+    android:orientation="horizontal">
+
+    <Button
+        android:id="@+id/buttonRevenue"
+        android:layout_width="120dp"
+        android:layout_height="60dp"
+        android:background="@drawable/radius_button"
+        android:text="Doanh thu"
+        android:backgroundTint="@color/red"
+        android:textColorLink="#000011"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textViewTotalBill"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="40dp"
+        android:background="#DAD1D1"
+        android:fontFamily="sans-serif"
+
+android:gravity="center"
+        android:textAllCaps="true"
+        android:textColor="#000000"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+</LinearLayout>
+
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+        android:layout_marginTop="20dp"
+            android:gravity="center"
+        android:background="#A8A5A5"
+            android:text="ĐƠN HÀNG"
+            android:textSize="30sp"
+        android:textColor="@color/black"
+            android:textStyle="bold" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:padding="10dp"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/textViewHeaderNameProduct"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ID Tour"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+        <TextView
+            android:id="@+id/textViewHeaderQuantityProduct"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="Số lượng người"
+            android:layout_marginLeft="90dp"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+        <TextView
+            android:id="@+id/textViewHeaderTotalProduct"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tổng tiền"
+            android:layout_marginLeft="40dp"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            />
+    </LinearLayout>
+
+        <ListView
+            android:id="@+id/lvRevenue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            tools:listitem="@layout/revenue_item"
+            ></ListView>
+
+    </LinearLayout>

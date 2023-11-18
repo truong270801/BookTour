@@ -14,9 +14,12 @@ import android.widget.ListView;
 
 import com.example.datn_tranvantruong.Activity.Intro_Activity;
 import com.example.datn_tranvantruong.Adapter.BillAdapter;
+import com.example.datn_tranvantruong.Adapter.CustomerAdapter;
 import com.example.datn_tranvantruong.DBHandler.BillHandler;
+import com.example.datn_tranvantruong.DBHandler.CustomerHandler;
 import com.example.datn_tranvantruong.Fragment.FragmentItem.BillDetailFragment;
 import com.example.datn_tranvantruong.Model.BillStatistic;
+import com.example.datn_tranvantruong.Model.Customer;
 import com.example.datn_tranvantruong.R;
 
 import java.util.ArrayList;
@@ -26,33 +29,19 @@ public class AdminOrderFragment extends Fragment {
     private ArrayList<BillStatistic> billStatistics = new ArrayList<>();
     private ListView lv;
     private BillAdapter billAdapter;
-    private int userId;
+    ArrayList<BillStatistic> billStatisticArrayList;
     BillHandler billHandler;
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_order_, container, false);
+        View view = inflater.inflate(R.layout.fragment_admin_order, container, false);
         lv = view.findViewById(R.id.lv_Bill);
-        userId = Intro_Activity.user_id;
-        Cursor cursor = billHandler.getBillByUserID(getContext(),Intro_Activity.user_id);
-        if (billAdapter==null){
-            while (cursor.moveToNext()){
-                billStatistics.add(new BillStatistic(
-                        cursor.getInt(0),
-                        cursor.getInt(2),
-                        cursor.getInt(4),
-                        cursor.getString(5),
-                        cursor.getString(6)
-                ));
-            }
-            billAdapter = new BillAdapter(getContext(), R.layout.order_item, billStatistics);
-            lv.setAdapter(billAdapter);
-        }else {
-            billAdapter.notifyDataSetChanged();
-        }
+        billHandler = new BillHandler(getContext());
 
-        billAdapter = new BillAdapter(getContext(), R.layout.order_item, billStatistics);
+        display();
         lv.setAdapter(billAdapter);
         //xuwr lys
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -78,6 +67,13 @@ public class AdminOrderFragment extends Fragment {
         });
 
         return  view;
+    }
+
+    private void display() {
+        billStatisticArrayList = (ArrayList<BillStatistic>) billHandler.getAllBill();
+        billAdapter = new BillAdapter(getContext(), R.layout.order_item, billStatisticArrayList);
+        lv.setAdapter(billAdapter);
+        billAdapter.notifyDataSetChanged();
     }
 
 

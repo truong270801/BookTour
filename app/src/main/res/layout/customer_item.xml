@@ -121,14 +121,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-        <Button
-            android:id="@+id/btn_customerBill"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_margin="10dp"
-            android:layout_weight="1"
-            android:background="@drawable/radius_button"
-            android:text="thông tin Đơn hàng"/>
 
             <Button
                 android:id="@+id/btn_deleteCustomer"

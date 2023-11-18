@@ -103,13 +103,6 @@ public class CustomerAdapter extends BaseAdapter {
             }
         });
 
-        Button btn_customerBill = (Button) view.findViewById(R.id.btn_customerBill);
-        btn_customerBill.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//
-            }
-        });
 
 
         return view;
