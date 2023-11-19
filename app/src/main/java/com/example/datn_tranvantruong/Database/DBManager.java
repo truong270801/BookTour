@@ -32,7 +32,6 @@ public class DBManager extends SQLiteOpenHelper {
 
     // Các trường trong bảng Admin
     private static final String COLUMN_ADMIN_ID = "id";
-    private static final String COLUMN_ADMIN_NAME = "name";
     private static final String COLUMN_ADMIN_EMAIL = "email";
     private static final String COLUMN_ADMIN_PASSWORD = "password";
 
@@ -82,7 +81,6 @@ public class DBManager extends SQLiteOpenHelper {
     // Câu lệnh SQL để tạo bảng Admin
     private static final String CREATE_TABLE_ADMIN = "CREATE TABLE " + TABLE_ADMIN + "("
             + COLUMN_ADMIN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-            + COLUMN_ADMIN_NAME + " TEXT,"
             + COLUMN_ADMIN_EMAIL + " TEXT,"
             + COLUMN_ADMIN_PASSWORD + " TEXT"
             + ")";
@@ -107,7 +105,7 @@ public class DBManager extends SQLiteOpenHelper {
             + "FOREIGN KEY(" + COLUMN_PRODUCT_CATEGORY_ID + ") REFERENCES " + TABLE_CATEGORIES + "(" + COLUMN_CATEGORY_ID + ")"
             + ")";
 
-    // Câu lệnh SQL để tạo bảng Bill Detail
+    // Câu lệnh SQL để tạo bảng cart
     private static final String CREATE_TABLE_CARTS = "CREATE TABLE " + TABLE_CARTS + "("
             + COLUMN_CART_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
             + COLUMN_CART_USER_ID + " INTEGER,"
@@ -133,7 +131,7 @@ public class DBManager extends SQLiteOpenHelper {
 
 
 
-    private static final String INSERT_ADMIN = "INSERT INTO admin (" + COLUMN_ADMIN_NAME + ", " + COLUMN_ADMIN_EMAIL + ", " + COLUMN_ADMIN_PASSWORD + ") VALUES ('admin', 'admin', 'password')";
+    private static final String INSERT_ADMIN = "INSERT INTO admin (" + COLUMN_ADMIN_EMAIL + ", " + COLUMN_ADMIN_PASSWORD + ") VALUES ( 'admin', '270801')";
 
     // Constructor của DatabaseHelper
     public DBManager(Context context) {
