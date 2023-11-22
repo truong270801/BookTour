@@ -38,6 +38,8 @@ public class DBManager extends SQLiteOpenHelper {
     // Các trường trong bảng Categories
     private static final String COLUMN_CATEGORY_ID = "id";
     private static final String COLUMN_CATEGORY_NAME = "name";
+    private static final String COLUMN_CATEGORY_IMAGE = "image";
+
 
     // Các trường trong bảng Products
     private static final String COLUMN_PRODUCT_ID = "id";

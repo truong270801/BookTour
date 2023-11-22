@@ -69,6 +69,8 @@ public class ProductHandler extends SQLiteOpenHelper {
 
 
 
+
+
     public void editProduct(int id, int category_id, String name, String startdate, String enddate, String description, String location,
                             int price, byte[] image) {
 
