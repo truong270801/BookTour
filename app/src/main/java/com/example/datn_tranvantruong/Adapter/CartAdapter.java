@@ -80,31 +80,41 @@ CartHandler cartHandler;
             @Override
             public void onClick(View v) {
                 try {
-                Date now = new Date();
-                int product_id = cartList.get(i).getProduct_id();
 
-                CartStatistic cart = cartList.get(i);
-                int id = cart.getIdCart(); // Lấy ID của khách hàng
-                int quatity = Integer.parseInt(String.valueOf(cart.getQuatity()));
-                String price = holder.Cart_Price.getText().toString();
-                String description = "Đã thanh toán";
-                Bill bill = new Bill(Intro_Activity.user_id, product_id,quatity, price, description, now.toString());
-                BillHandler billHandler = new BillHandler(context);
-                billHandler.addBill(bill);
+                    AlertDialog.Builder dialog = new AlertDialog.Builder(v.getContext());
+                    dialog.setTitle("THANH TOÁN?");
+                    dialog.setMessage("Bạn thực sự muốn mua mặt hàng này?");
+                    dialog.setPositiveButton("XÁC NHẬN", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface arg0, int arg1) {
+                            Date now = new Date();
+                            int product_id = cartList.get(i).getProduct_id();
+                            CartStatistic cart = cartList.get(i);
+                            int id = cart.getIdCart(); // Lấy ID của khách hàng
+                            int quatity = Integer.parseInt(String.valueOf(cart.getQuatity()));
+                            String price = holder.Cart_Price.getText().toString();
+                            String description = "Đã thanh toán";
+                            Bill bill = new Bill(Intro_Activity.user_id, product_id,quatity, price, description, now.toString());
+                            BillHandler billHandler = new BillHandler(context);
+                            billHandler.addBill(bill);
 
-                // Clear the cart (assuming you have a method to clear it in your CartHandler)
-                    cartHandler.deleteCart(id);
-                    cartList.remove(i);
+                            // Clear the cart (assuming you have a method to clear it in your CartHandler)
+                            cartHandler.deleteCart(id);
+                            cartList.remove(i);
 
 
-                // Show a toast indicating successful payment
-                Toast.makeText(v.getContext(), "Thanh toán thành công!!", Toast.LENGTH_SHORT).show();
+                            // Show a toast indicating successful payment
+                            Toast.makeText(v.getContext(), "Thanh toán thành công!!", Toast.LENGTH_SHORT).show();
 
-                // Navigate to another fragment (replace with your navigation logic)
-                FragmentTransaction transaction = ((AppCompatActivity) context).getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.fragment_container, new Order_Fragment()); // Replace with the fragment you want to navigate to
-                transaction.addToBackStack(null);
-                transaction.commit();
+                            // Navigate to another fragment (replace with your navigation logic)
+                            FragmentTransaction transaction = ((AppCompatActivity) context).getSupportFragmentManager().beginTransaction();
+                            transaction.replace(R.id.fragment_container, new Order_Fragment()); // Replace with the fragment you want to navigate to
+                            transaction.addToBackStack(null);
+                            transaction.commit();
+
+                        }
+                    }).setNegativeButton("Hủy", null).show();
+
                     }
                 catch (Exception e) {
                     e.printStackTrace();

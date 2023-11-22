@@ -25,6 +25,8 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     private Context context;
     private List<Category> categoryList;
 
+
+
     public CategoryAdapter(Context context) {
         this.context = context;
     }
@@ -32,6 +34,9 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     public void setData(List<Category> categoryList) {
         this.categoryList = categoryList;
         notifyDataSetChanged();
+    }
+    public String getData() {
+        return categoryList.toString();
     }
 
     @NonNull

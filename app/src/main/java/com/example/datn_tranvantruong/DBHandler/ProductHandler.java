@@ -111,6 +111,30 @@ public class ProductHandler extends SQLiteOpenHelper {
         cursor.close();
         return name;
     }
+    public int getCategoryIdById(int id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String selectQuery = "SELECT category_id FROM products WHERE id = ?";
+        String[] selectionArgs = {String.valueOf(id)};
+        Cursor cursor = db.rawQuery(selectQuery, selectionArgs);
+
+        int category_id = -1; // Default value in case the category_id is not found
+
+        try {
+            if (cursor != null && cursor.moveToFirst()) {
+                category_id = cursor.getInt(cursor.getColumnIndex("category_id"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            db.close();
+        }
+
+        return category_id;
+    }
+
     public byte[] getProducImagetById(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
         String selectQuery = "SELECT image FROM products WHERE id = ?";

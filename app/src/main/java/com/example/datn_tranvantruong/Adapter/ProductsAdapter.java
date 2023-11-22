@@ -16,7 +16,10 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.datn_tranvantruong.DBHandler.CategoryHandler;
+import com.example.datn_tranvantruong.DBHandler.ProductHandler;
 import com.example.datn_tranvantruong.Fragment.FragmentItem.DetailTour_Fragment;
+import com.example.datn_tranvantruong.Model.Category;
 import com.example.datn_tranvantruong.Model.Product;
 import com.example.datn_tranvantruong.R;
 
@@ -25,6 +28,8 @@ import java.util.List;
 public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ProductsViewHolder>{
     private List<Product> productList;
     private Context context;
+
+
     public ProductsAdapter(Context context) {
         this.context = context;
     }
@@ -56,24 +61,26 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.Produc
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DetailTour_Fragment detailTourFragment = new DetailTour_Fragment();
-
-                // Truyền dữ liệu từ FragmentA sang FragmentB (nếu cần)
                 Bundle args = new Bundle();
                 Product product = productList.get(position);
+                DetailTour_Fragment detailTourFragment = new DetailTour_Fragment();
+                ProductHandler productHandler = new ProductHandler(v.getContext());
+                int categoryId = productHandler.getCategoryIdById(product.getId());
+                CategoryHandler categoryHandler = new CategoryHandler(v.getContext());
                 args.putInt("product_id", product.getId());
-                args.putString("category_name", product.getCategoryName());
+                args.putString("category_name", categoryHandler.getCategoryNameById(categoryId));
                 detailTourFragment.setArguments(args);
                 Toast.makeText(context, "" + product.getId(), Toast.LENGTH_SHORT).show();
 
                 // Thực hiện thay thế FragmentA bằng FragmentB
                 FragmentTransaction transaction = ((FragmentActivity) context).getSupportFragmentManager().beginTransaction();
                 transaction.replace(R.id.fragment_container, detailTourFragment);
-                transaction.addToBackStack(null); // Nếu bạn muốn quản lý việc điều hướng ngược lại
+                transaction.addToBackStack(null);
                 transaction.commit();
             }
         });
     }
+
 
     @Override
     public int getItemCount() {

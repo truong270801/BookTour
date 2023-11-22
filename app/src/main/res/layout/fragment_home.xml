@@ -28,7 +28,7 @@
                 android:layout_margin="16dp"
                 android:padding="5dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/avata_truong"
+                android:src="@drawable/ic_avatar_default"
                 app:civ_border_color="#FFFFFF"
                 app:civ_border_width="1dp" />
             <LinearLayout
@@ -54,7 +54,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:fontFamily="serif"
-                    android:text="Trần Văn Trường "
                     android:textColor="@color/white"
                     android:textSize="26sp"
                     android:textStyle="bold" />
@@ -83,6 +82,7 @@
                 android:background="@drawable/border"
                 app:queryHint="Bạn muốn tìm tour ?" />
         </LinearLayout>
+       
         <androidx.recyclerview.widget.RecyclerView
             android:layout_marginTop="20dp"
             android:layout_marginRight="10dp"
