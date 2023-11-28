@@ -86,7 +86,7 @@ public class BillHandler extends SQLiteOpenHelper {
         while (!c.isAfterLast()) {
             BillStatistic bill = new BillStatistic();
             bill.setBill_id(c.getInt(0));
-bill.setProduct_id(c.getInt(2));
+            bill.setProduct_id(c.getInt(2));
             // Sử dụng Double.parseDouble() thay vì Integer.parseInt()
             bill.setPrice((int) Double.parseDouble(c.getString(4)));
 
