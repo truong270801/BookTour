@@ -30,7 +30,7 @@ public class CustomerAdapter extends BaseAdapter {
         this.context = context;
         this.layout = layout;
         this.customersList = customersList;
-        customerHandler = new CustomerHandler(context);
+        customerHandler = new CustomerHandler();
     }
 
     @Override

@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.datn_tranvantruong.DBHandler.CategoryHandler;
 import com.example.datn_tranvantruong.DBHandler.ProductHandler;
-import com.example.datn_tranvantruong.Fragment.FragmentItem.DetailTour_Fragment;
+//import com.example.datn_tranvantruong.Fragment.FragmentItem.DetailTour_Fragment;
 import com.example.datn_tranvantruong.Model.Category;
 import com.example.datn_tranvantruong.Model.Product;
 import com.example.datn_tranvantruong.R;
@@ -61,22 +61,22 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.Produc
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bundle args = new Bundle();
-                Product product = productList.get(position);
-                DetailTour_Fragment detailTourFragment = new DetailTour_Fragment();
-                ProductHandler productHandler = new ProductHandler(v.getContext());
-                int categoryId = productHandler.getCategoryIdById(product.getId());
-                CategoryHandler categoryHandler = new CategoryHandler(v.getContext());
-                args.putInt("product_id", product.getId());
-                args.putString("category_name", categoryHandler.getCategoryNameById(categoryId));
-                detailTourFragment.setArguments(args);
-                Toast.makeText(context, "" + product.getId(), Toast.LENGTH_SHORT).show();
-
-                // Thực hiện thay thế FragmentA bằng FragmentB
-                FragmentTransaction transaction = ((FragmentActivity) context).getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.fragment_container, detailTourFragment);
-                transaction.addToBackStack(null);
-                transaction.commit();
+//                Bundle args = new Bundle();
+//                Product product = productList.get(position);
+//                DetailTour_Fragment detailTourFragment = new DetailTour_Fragment();
+//                ProductHandler productHandler = new ProductHandler();
+//                int categoryId = productHandler.getCategoryIdById(product.getId());
+//                CategoryHandler categoryHandler = new CategoryHandler();
+//                args.putInt("product_id", product.getId());
+//                args.putString("category_name", categoryHandler.getCategoryNameById(categoryId));
+//                detailTourFragment.setArguments(args);
+//                Toast.makeText(context, "" + product.getId(), Toast.LENGTH_SHORT).show();
+//
+//                // Thực hiện thay thế FragmentA bằng FragmentB
+//                FragmentTransaction transaction = ((FragmentActivity) context).getSupportFragmentManager().beginTransaction();
+//                transaction.replace(R.id.fragment_container, detailTourFragment);
+//                transaction.addToBackStack(null);
+//                transaction.commit();
             }
         });
     }

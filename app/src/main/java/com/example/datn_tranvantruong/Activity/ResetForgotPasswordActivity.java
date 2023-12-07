@@ -40,7 +40,7 @@ Button done;
                 } else {
                     // Kiểm tra mật khẩu cũ
 
-                    CustomerHandler customerHandler = new CustomerHandler(ResetForgotPasswordActivity.this); // Khởi tạo đối tượng DBManager
+                    CustomerHandler customerHandler = new CustomerHandler();
 
 
                         // Cập nhật mật khẩu mới vào cơ sở dữ liệu

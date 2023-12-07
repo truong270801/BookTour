@@ -5,14 +5,14 @@ public class Bill {
     private  int user_id;
     private int product_id;
     private  int quatity;
-    private String price;
+    private int price;
     private  String description;
     private  String date_created;
 
     public Bill() {
     }
 
-    public Bill(int user_id, int product_id,int quatity, String price, String description, String date_created) {
+    public Bill(int user_id, int product_id,int quatity, int price, String description, String date_created) {
         this.user_id = user_id;
         this.product_id = product_id;
         this.quatity = quatity;
@@ -53,11 +53,11 @@ public class Bill {
         this.quatity = quatity;
     }
 
-    public String getPrice() {
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 

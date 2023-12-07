@@ -54,13 +54,13 @@ public class Profile_Activity extends AppCompatActivity {
         add_avatar = findViewById(R.id.add_avatar);
         bnt_Update = findViewById(R.id.bnt_Update);
 
-        CustomerHandler customerHandler = new CustomerHandler(Profile_Activity.this);
+        CustomerHandler customerHandler = new CustomerHandler();
 
-                String email = customerHandler.getCustomerInfo(String.valueOf(Intro_Activity.user_id)).getEmail();
-                String fullname = customerHandler.getCustomerInfo(String.valueOf(Intro_Activity.user_id)).getFullname();
-                String address = customerHandler.getCustomerInfo(String.valueOf(Intro_Activity.user_id)).getAddress();
-                String phone = customerHandler.getCustomerInfo(String.valueOf(Intro_Activity.user_id)).getPhone();
-                byte[] avatar = customerHandler.getCustomerInfo(String.valueOf(Intro_Activity.user_id)).getImage_avatar();
+                String email = customerHandler.getCustomerInfo(String.valueOf(MainActivity.user_id)).getEmail();
+                String fullname = customerHandler.getCustomerInfo(String.valueOf(MainActivity.user_id)).getFullname();
+                String address = customerHandler.getCustomerInfo(String.valueOf(MainActivity.user_id)).getAddress();
+                String phone = customerHandler.getCustomerInfo(String.valueOf(MainActivity.user_id)).getPhone();
+                byte[] avatar = customerHandler.getCustomerInfo(String.valueOf(MainActivity.user_id)).getImage_avatar();
                 // Gán giá trị "email" vào TextView
                 user_email.setText(email);
                 edit_name.setText(fullname);
@@ -75,7 +75,7 @@ public class Profile_Activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                int id = Intro_Activity.user_id;
+                int id = MainActivity.user_id;
                 String fullname = edit_name.getText().toString().trim(); // Corrected .getText() method call
                 String address = edit_address.getText().toString().trim();  // Corrected .getText() method call
                 String phone = edit_phone.getText().toString().trim();  // Corrected .getText() method call

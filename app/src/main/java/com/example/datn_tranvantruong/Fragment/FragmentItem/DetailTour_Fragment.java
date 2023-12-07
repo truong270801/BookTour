@@ -14,12 +14,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.datn_tranvantruong.Activity.Intro_Activity;
-import com.example.datn_tranvantruong.Activity.Profile_Activity;
+//import com.example.datn_tranvantruong.DBHandler.CartHandler;
 import com.example.datn_tranvantruong.DBHandler.CartHandler;
 import com.example.datn_tranvantruong.DBHandler.ProductHandler;
 import com.example.datn_tranvantruong.Fragment.HomeFragment;
+import com.example.datn_tranvantruong.MainActivity;
 import com.example.datn_tranvantruong.Model.Cart;
+import com.example.datn_tranvantruong.Model.CartStatistic;
 import com.example.datn_tranvantruong.Model.Product;
 import com.example.datn_tranvantruong.R;
 
@@ -80,7 +81,7 @@ public class DetailTour_Fragment extends Fragment {
         if (bundle != null) {
             int product_id = bundle.getInt("product_id");
             String category_name = bundle.getString("category_name");
-            ProductHandler productHandler = new ProductHandler(getContext());
+            ProductHandler productHandler = new ProductHandler();
             Product product = productHandler.findById(product_id);
 
 
@@ -106,10 +107,10 @@ public class DetailTour_Fragment extends Fragment {
                 int total = price * quatity;
 
                 // Tạo đối tượng Cart
-                Cart cart = new Cart(productId, Intro_Activity.user_id, quatity, total);
+                Cart cart = new Cart(productId, MainActivity.user_id, quatity, total);
 
                 //Thêm vào giỏ hàng
-                CartHandler cartHandler = new CartHandler(getContext());
+                CartHandler cartHandler = new CartHandler();
                 cartHandler.addToCart(cart);
                 Toast.makeText(getContext(), "Thêm sản phẩm:" + name + " vào giỏ hàng thành công!", Toast.LENGTH_SHORT).show();
             }

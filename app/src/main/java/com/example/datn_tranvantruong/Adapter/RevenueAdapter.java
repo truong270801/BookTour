@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.example.datn_tranvantruong.Model.Bill;
 import com.example.datn_tranvantruong.Model.BillRevenue;
 import com.example.datn_tranvantruong.Model.BillStatistic;
 import com.example.datn_tranvantruong.R;

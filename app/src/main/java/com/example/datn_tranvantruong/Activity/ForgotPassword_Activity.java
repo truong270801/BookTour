@@ -10,7 +10,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.datn_tranvantruong.Admin.MenuActivity;
 import com.example.datn_tranvantruong.DBHandler.LoginHandler;
 import com.example.datn_tranvantruong.R;
 
@@ -40,7 +39,7 @@ public class ForgotPassword_Activity extends AppCompatActivity {
     private void resetPassword() {
         String email = emailEditText.getText().toString().trim();
         String phone = phoneEditText.getText().toString().trim();
-        LoginHandler loginHandler = new LoginHandler(this);
+        LoginHandler loginHandler = new LoginHandler();
         if (TextUtils.isEmpty(email)||TextUtils.isEmpty(phone)){
             Toast.makeText(ForgotPassword_Activity.this,"Không được để trống các trường",Toast.LENGTH_SHORT).show();
         }else {

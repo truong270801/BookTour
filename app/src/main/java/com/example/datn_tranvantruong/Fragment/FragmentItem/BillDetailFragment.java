@@ -50,9 +50,9 @@ public class BillDetailFragment extends Fragment {
         bill_date = view.findViewById(R.id.bill_date);
         bill_price = view.findViewById(R.id.bill_price);
         customer_name = view.findViewById(R.id.customer_name);
-        ProductHandler productHandler = new ProductHandler(getContext());
-        CustomerHandler customerHandler = new CustomerHandler(getContext());
-        BillHandler billHandler = new BillHandler(getContext());
+        ProductHandler productHandler = new ProductHandler();
+        CustomerHandler customerHandler = new CustomerHandler();
+        BillHandler billHandler = new BillHandler();
 
         Bundle bundle = getArguments();
         if (bundle != null) {
@@ -61,7 +61,6 @@ public class BillDetailFragment extends Fragment {
             String billPrice = bundle.getString("billprice");
             int productId = bundle.getInt("productId");
 
-            // Lấy thông tin khách hàng
 
 
             int user_id = Integer.parseInt(billHandler.getUserIdById(Integer.parseInt(billid)));
@@ -80,7 +79,7 @@ public class BillDetailFragment extends Fragment {
 
             product_name.setText(productHandler.getProductNameById(productId));
 
-            quatity.setText(billHandler.getBillQuatityById(Integer.parseInt(billid)));
+            quatity.setText(billHandler.getBillQuantityById(Integer.parseInt(billid)));
 
             // Chuyển đổi giá từ dạng số sang dạng chữ và hiển thị trong TextView bill_price
             String priceInWords = convertNumberToWords(Integer.parseInt(billPrice));

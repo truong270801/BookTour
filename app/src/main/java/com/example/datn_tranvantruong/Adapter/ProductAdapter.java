@@ -39,7 +39,6 @@ public class ProductAdapter extends ArrayAdapter<Product> {
             TextView txtCategory =  view.findViewById(R.id.tvCategory);
             byte[] productImage = product.getImage();
             Bitmap bitmap = BitmapFactory.decodeByteArray(productImage, 0, productImage.length);
-
             image.setImageBitmap(bitmap);
             txtName.setText(product.getName());
             txtLocation.setText(String.valueOf(product.getLocation()));

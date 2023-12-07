@@ -27,7 +27,7 @@ public class CustomerListFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_customer_list, container, false);
         lv = view.findViewById(R.id.lv_Customer);
-        customerHandler = new CustomerHandler(getContext());
+        customerHandler = new CustomerHandler();
         customerArrayList = new ArrayList<>();
 
         display();

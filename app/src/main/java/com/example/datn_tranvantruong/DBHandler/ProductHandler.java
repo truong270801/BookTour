@@ -1,203 +1,207 @@
 package com.example.datn_tranvantruong.DBHandler;
 
-import android.content.Context;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteException;
-import android.database.sqlite.SQLiteOpenHelper;
-import android.database.sqlite.SQLiteStatement;
 
-import com.example.datn_tranvantruong.Database.DBManager;
+import com.example.datn_tranvantruong.Database.DBConnection;
 import com.example.datn_tranvantruong.Model.Product;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProductHandler extends SQLiteOpenHelper {
-    SQLiteDatabase db;
+public class ProductHandler {
 
-    private static final String DATABASE_NAME = "BOOK_TOUR.db";
-    private static final int DATABASE_VERSION = 1;
+    private DBConnection dbConnection;
 
-    DBManager dbManager;
-    private Context context;
-
-    public ProductHandler(Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
-        this.context = context;
-        dbManager = new DBManager(context);
-        db = dbManager.getWritableDatabase();
+    public ProductHandler() {
+        this.dbConnection = new DBConnection();
     }
 
-    public Cursor getAllProduct() {
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM products;", null);
-        return cursor;
+    public List<Product> getAllProducts() {
+        List<Product> productList = new ArrayList<>();
+        try (Connection connection = dbConnection.createConection()) {
+            String query = "SELECT * FROM products";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(query);
+                 ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    CategoryHandler categoryHandler = new CategoryHandler();
+                    Product product = new Product();
+                    product.setId(resultSet.getInt("id"));
+                    product.setCategoryName(categoryHandler.getCategoryNameById(resultSet.getInt("category_id")));
+                    product.setName(resultSet.getString("name"));
+                    product.setStartdate(resultSet.getString("startdate"));
+                    product.setEnddate(resultSet.getString("enddate"));
+                    product.setLocation(resultSet.getString("location"));
+                    product.setDescription(resultSet.getString("description"));
+                    product.setPrice(resultSet.getInt("price"));
+                    product.setImage(resultSet.getBytes("image"));
+                    productList.add(product);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return productList;
     }
+
     public void createProduct(int category_id, String name, String startdate, String enddate, String description, String location,
                               int price, byte[] image) {
-        // Mở cơ sở dữ liệu để ghi
-        SQLiteDatabase db = getWritableDatabase();
-        // Bắt đầu một giao dịch để đảm bảo tính nhất quán của cơ sở dữ liệu
-        db.beginTransaction();
-        try {
+        try (Connection connection = dbConnection.createConection()) {
             String sql = "INSERT INTO products (category_id, name, startdate, enddate, description, location, price, image) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-            SQLiteStatement statement = db.compileStatement(sql);
-            statement.clearBindings();
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setInt(1, category_id);
+                preparedStatement.setString(2, name);
+                preparedStatement.setString(3, startdate);
+                preparedStatement.setString(4, enddate);
+                preparedStatement.setString(5, description);
+                preparedStatement.setString(6, location);
+                preparedStatement.setInt(7, price);
+                preparedStatement.setBytes(8, image);
 
-            // Gán giá trị cho các placeholder
-            statement.bindLong(1, category_id);
-            statement.bindString(2, name);
-            statement.bindString(3, startdate);
-            statement.bindString(4, enddate);
-            statement.bindString(5, description);
-            statement.bindString(6, location);
-            statement.bindLong(7, price);
-            statement.bindBlob(8, image);
-            // Thực hiện câu lệnh chèn dữ liệu và lấy ra ID của dòng vừa chèn
-            long rowId = statement.executeInsert();
-            // Đánh dấu giao dịch thành công
-            db.setTransactionSuccessful();
-        } catch (SQLiteException e) {
-            // Xử lý ngoại lệ, ví dụ: Log lỗi hoặc thông báo cho người dùng
-        } finally {
-            // Kết thúc giao dịch và đảm bảo đóng cơ sở dữ liệu
-            db.endTransaction();
-            db.close();
+                preparedStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
-
-
-
-
 
     public void editProduct(int id, int category_id, String name, String startdate, String enddate, String description, String location,
                             int price, byte[] image) {
+        try (Connection connection = dbConnection.createConection()) {
+            String sql = "UPDATE products SET category_id = ?, name = ?, startdate = ?, enddate = ?, description = ?, location = ?, price = ?, image = ? WHERE id = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setInt(1, category_id);
+                preparedStatement.setString(2, name);
+                preparedStatement.setString(3, startdate);
+                preparedStatement.setString(4, enddate);
+                preparedStatement.setString(5, description);
+                preparedStatement.setString(6, location);
+                preparedStatement.setInt(7, price);
+                preparedStatement.setBytes(8, image);
+                preparedStatement.setInt(9, id);
 
-        SQLiteDatabase db = getWritableDatabase();
-        String sql = "UPDATE products SET category_id = ?, name = ?, startdate = ?, enddate = ?, description = ?, location = ?, price = ?, image = ? WHERE id = ?";
-        SQLiteStatement statement = db.compileStatement(sql);
-        statement.clearBindings();
-        statement.bindLong(1, category_id);
-        statement.bindString(2, name);
-        statement.bindString(3, startdate);  // Gán giá trị DATETIME cho startdate
-        statement.bindString(4, enddate);    // Gán giá trị DATETIME cho enddate
-        statement.bindString(5, description);
-        statement.bindString(6, location);
-        statement.bindLong(7, price);
-        statement.bindBlob(8, image);
-        statement.bindLong(9, id);
-        statement.execute();
-        db.close();
-    }
-
-
-
-
-    public void deleteProduct(int i) {
-        SQLiteDatabase database = this.getWritableDatabase();
-
-        database.delete("products", "id" + " = " + i, null);
-    }
-    public String getProductNameById(int id) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        String selectQuery = "SELECT name FROM products WHERE id = ?";
-        String[] selectionArgs = {String.valueOf(id)};
-        Cursor cursor = db.rawQuery(selectQuery, selectionArgs);
-        String name = null;
-        if (cursor.moveToFirst()) {
-            name = cursor.getString(0);
+                preparedStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        cursor.close();
+    }
+
+    public void deleteProduct(int id) {
+        try (Connection connection = dbConnection.createConection()) {
+            String sql = "DELETE FROM products WHERE id = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setInt(1, id);
+                preparedStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String getProductNameById(int id) {
+        String name = null;
+        try (Connection connection = dbConnection.createConection()) {
+            String query = "SELECT name FROM products WHERE id = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+                preparedStatement.setInt(1, id);
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    if (resultSet.next()) {
+                        name = resultSet.getString("name");
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return name;
     }
+
     public int getCategoryIdById(int id) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        String selectQuery = "SELECT category_id FROM products WHERE id = ?";
-        String[] selectionArgs = {String.valueOf(id)};
-        Cursor cursor = db.rawQuery(selectQuery, selectionArgs);
-
-        int category_id = -1; // Default value in case the category_id is not found
-
-        try {
-            if (cursor != null && cursor.moveToFirst()) {
-                category_id = cursor.getInt(cursor.getColumnIndex("category_id"));
+        int category_id = -1;
+        try (Connection connection = dbConnection.createConection()) {
+            String query = "SELECT category_id FROM products WHERE id = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+                preparedStatement.setInt(1, id);
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    if (resultSet.next()) {
+                        category_id = resultSet.getInt("category_id");
+                    }
+                }
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            if (cursor != null) {
-                cursor.close();
-            }
-            db.close();
         }
-
         return category_id;
     }
 
-    public byte[] getProducImagetById(int id) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        String selectQuery = "SELECT image FROM products WHERE id = ?";
-        String[] selectionArgs = {String.valueOf(id)};
-        Cursor cursor = db.rawQuery(selectQuery, selectionArgs);
-       byte[] image = null;
-        if (cursor.moveToFirst()) {
-            image = cursor.getBlob(0);
-
+    public byte[] getProductImageById(int id) {
+        byte[] image = null;
+        try (Connection connection = dbConnection.createConection()) {
+            String query = "SELECT image FROM products WHERE id = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+                preparedStatement.setInt(1, id);
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    if (resultSet.next()) {
+                        image = resultSet.getBytes("image");
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        cursor.close();
         return image;
     }
 
-    @Override
-    public void onCreate(SQLiteDatabase sqLiteDatabase) {
-
-    }
-
-    @Override
-    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-
-    }
     public Product findById(int id) {
-        String query = "SELECT * FROM products WHERE id = ?";
-        Cursor c = dbManager.getReadableDatabase().rawQuery(query, new String[] {"" + id});
-
-        if (c.moveToFirst()) {
-            Product product = new Product();
-            product.setId(id);
-            product.setName(c.getString(2));
-            product.setStartdate(c.getString(3));
-            product.setEnddate(c.getString(4));
-            product.setLocation(c.getString(6));
-            product.setDescription(c.getString(5));
-            product.setPrice(c.getInt(7));
-            product.setImage(c.getBlob(8));
-
-            return product;
-        } else {
-            // Xử lý trường hợp không tìm thấy dữ liệu với id đã cho.
-            return null;
+        Product product = null;
+        try (Connection connection = dbConnection.createConection()) {
+            String query = "SELECT * FROM products WHERE id = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+                preparedStatement.setInt(1, id);
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    if (resultSet.next()) {
+                        product = new Product();
+                        product.setId(id);
+                        product.setName(resultSet.getString("name"));
+                        product.setStartdate(resultSet.getString("startdate"));
+                        product.setEnddate(resultSet.getString("enddate"));
+                        product.setLocation(resultSet.getString("location"));
+                        product.setDescription(resultSet.getString("description"));
+                        product.setPrice(resultSet.getInt("price"));
+                        product.setImage(resultSet.getBytes("image"));
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+        return product;
     }
-
 
     public List<Product> getAllProductByCategoryId(int category_id) {
         List<Product> productList = new ArrayList<>();
-        String query = "SELECT * FROM products WHERE category_id = ?";
-        Cursor c = dbManager.getReadableDatabase().rawQuery(query, new String[] {"" + category_id});
-        c.moveToFirst();
-        while (!c.isAfterLast()) {
-            Product product = new Product();
-            product.setId(c.getInt(0));
-            product.setName(c.getString(2));
-            product.setLocation(c.getString(6));
-            product.setPrice((int) c.getFloat(7));
-            product.setImage(c.getBlob(8));
-
-            productList.add(product);
-            c.moveToNext();
+        try (Connection connection = dbConnection.createConection()) {
+            String query = "SELECT * FROM products WHERE category_id = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+                preparedStatement.setInt(1, category_id);
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    while (resultSet.next()) {
+                        Product product = new Product();
+                        product.setId(resultSet.getInt("id"));
+                        product.setName(resultSet.getString("name"));
+                        product.setLocation(resultSet.getString("location"));
+                        product.setPrice(resultSet.getInt("price"));
+                        product.setImage(resultSet.getBytes("image"));
+                        productList.add(product);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        c.close();
         return productList;
     }
 }

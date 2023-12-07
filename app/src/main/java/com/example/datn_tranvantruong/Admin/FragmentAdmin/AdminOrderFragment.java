@@ -39,7 +39,7 @@ public class AdminOrderFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_admin_order, container, false);
         lv = view.findViewById(R.id.lv_Bill);
-        billHandler = new BillHandler(getContext());
+        billHandler = new BillHandler();
 
         display();
         lv.setAdapter(billAdapter);

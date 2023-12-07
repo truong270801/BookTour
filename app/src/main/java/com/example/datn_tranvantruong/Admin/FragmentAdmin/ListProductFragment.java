@@ -21,16 +21,17 @@ import com.example.datn_tranvantruong.Model.Product;
 import com.example.datn_tranvantruong.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class ListProductFragment extends Fragment {
 
-    ImageView btnCreateProduct;
-    ArrayList<Product> productArrayList = new ArrayList<Product>();
+    ImageView createProductButton;
+    List<Product> productArrayList;
     ProductAdapter productAdapter;
-    Cursor cursor;
+    ImageView btnCreateProduct;
     ProductHandler productHandler;
-    CategoryHandler categoryHandler;
+
     ListView lv;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -39,8 +40,7 @@ public class ListProductFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_list_product, container, false);
         lv = (ListView) view.findViewById(R.id.lv_Product);
         btnCreateProduct = view.findViewById(R.id.btnCreateProduct);
-        productHandler = new ProductHandler(getContext());
-        categoryHandler = new CategoryHandler(getContext());
+        productHandler = new ProductHandler();
         display();
 
 
@@ -83,26 +83,8 @@ public class ListProductFragment extends Fragment {
         return  view;
     }
     public void display() {
-        try {
-            cursor = productHandler.getAllProduct();
-            while (cursor.moveToNext()) {
-                productArrayList.add(new Product(
-                        cursor.getInt(0),
-                        categoryHandler.getCategoryNameById(cursor.getInt(1)),
-                        cursor.getString(2),
-                        cursor.getString(3),
-                        cursor.getString(4),
-                        cursor.getString(5),
-                        cursor.getString(6),
-                        cursor.getInt(7),
-                        cursor.getBlob(8))
-                );
-            }
-            productAdapter = new ProductAdapter(getContext(), R.layout.productadmin_item, productArrayList);
-            lv.setAdapter(productAdapter);
-        }catch (Exception e){
-
-        }
+        productArrayList = productHandler.getAllProducts();
+        productAdapter = new ProductAdapter(requireContext(), R.layout.productadmin_item, productArrayList);
+        lv.setAdapter(productAdapter);
     }
-
 }

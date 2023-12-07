@@ -1,6 +1,5 @@
 package com.example.datn_tranvantruong.Fragment;
 
-import android.database.Cursor;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -12,50 +11,29 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.example.datn_tranvantruong.Activity.Intro_Activity;
 import com.example.datn_tranvantruong.Adapter.BillAdapter;
 import com.example.datn_tranvantruong.DBHandler.BillHandler;
+//import com.example.datn_tranvantruong.Fragment.FragmentItem.BillDetailFragment;
 import com.example.datn_tranvantruong.Fragment.FragmentItem.BillDetailFragment;
-import com.example.datn_tranvantruong.Model.Bill;
+import com.example.datn_tranvantruong.MainActivity;
 import com.example.datn_tranvantruong.Model.BillStatistic;
-import com.example.datn_tranvantruong.Model.Product;
 import com.example.datn_tranvantruong.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class Order_Fragment extends Fragment {
-    private ArrayList<BillStatistic> billStatistics = new ArrayList<>();
+    private List<BillStatistic> billStatistics = new ArrayList<>();
     private ListView lv;
     private BillAdapter billAdapter;
-    private int userId;
-    BillHandler billHandler;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_order_, container, false);
         lv = view.findViewById(R.id.lv_Bill);
-        userId = Intro_Activity.user_id;
-        Cursor cursor = billHandler.getBillByUserID(getContext(),Intro_Activity.user_id);
-        if (billAdapter==null){
-            while (cursor.moveToNext()){
-                billStatistics.add(new BillStatistic(
-                        cursor.getInt(0),
-                        cursor.getInt(2),
-                        cursor.getInt(4),
-                        cursor.getString(5),
-                        cursor.getString(6)
-                ));
-            }
-            billAdapter = new BillAdapter(getContext(), R.layout.order_item, billStatistics);
-            lv.setAdapter(billAdapter);
-        }else {
-            billAdapter.notifyDataSetChanged();
-        }
-
-        billAdapter = new BillAdapter(getContext(), R.layout.order_item, billStatistics);
-        lv.setAdapter(billAdapter);
+       display();
         //xuwr lys
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -82,5 +60,11 @@ public class Order_Fragment extends Fragment {
         return  view;
     }
 
-
+    private void display() {
+        BillHandler billHandler = new BillHandler();
+        billStatistics = billHandler.getBillByUserID(MainActivity.user_id);
+        billAdapter = new BillAdapter(getContext(), R.layout.order_item, billStatistics);
+        lv.setAdapter(billAdapter);
+        billAdapter.notifyDataSetChanged();
+    }
 }

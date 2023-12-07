@@ -1,157 +1,156 @@
 package com.example.datn_tranvantruong.DBHandler;
 
-import android.content.ContentValues;
-import android.content.Context;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
-
-import com.example.datn_tranvantruong.Database.DBManager;
+import com.example.datn_tranvantruong.Database.DBConnection;
 import com.example.datn_tranvantruong.Model.Category;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CategoryHandler extends SQLiteOpenHelper {
-    DBManager dbManager;
-    private static final String DATABASE_NAME = "BOOK_TOUR.db";
-    private static final int DATABASE_VERSION = 1;
-    private Context context;
+public class CategoryHandler {
 
-    public CategoryHandler(Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
-        this.context = context;
-        dbManager = new DBManager(context); // tạo db
+    private DBConnection dbConnection;
+
+    public CategoryHandler() {
+        this.dbConnection = new DBConnection();
     }
 
     public int insertCategory(Category category) {
-        ContentValues values = new ContentValues(); //tạo đối tượng chứa dữ liệu
-        //đưa dữ liệu vào đối tượng chứa
-        values.put("name", category.getNameCategory());
-        //Thực thi insert
-        long kq = dbManager.getWritableDatabase().insert("categories", null, values);
-        if (kq <= 0) {
+        try (Connection connection = dbConnection.createConection()) {
+            String sql = "INSERT INTO categories (name) VALUES (?)";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setString(1, category.getNameCategory());
+
+                preparedStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
             return -1;
         }
         return 1;
     }
 
     public List<String> getAllCategory() {
-        List<String> ls = new ArrayList<>(); //tạo danh sách rỗng
-        //Tạo con trỏ đọc dl trong bảng
-        Cursor c = dbManager.getReadableDatabase().query("categories", null, null, null, null, null, null);
-        c.moveToFirst(); //di chuyển con trỏ về bản ghi đầu tiên
-        //đọc
-        while (c.isAfterLast() == false) { // lặp đến bản ghi cuối
-            Category category = new Category(); // tạo đtg
-            category.setIdCategory(c.getInt(0)); //đọc mã category
-            category.setNameCategory(c.getString(1)); //đọc tên category
-            //Chuyển thành chuỗi
-            String chuoi = category.getIdCategory() + " - " + category.getNameCategory();
-            //đưa chuỗi vào list
-            ls.add(chuoi);
-            c.moveToNext();
+        List<String> ls = new ArrayList<>();
+        try (Connection connection = dbConnection.createConection()) {
+            String query = "SELECT * FROM categories";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    while (resultSet.next()) {
+                        Category category = new Category();
+                        category.setIdCategory(resultSet.getInt("id"));
+                        category.setNameCategory(resultSet.getString("name"));
+                        String chuoi = category.getIdCategory() + " - " + category.getNameCategory();
+                        ls.add(chuoi);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        c.close(); //đóng trỏ
         return ls;
     }
 
     public List<String> getAllNameCategoryForCreateProduct() {
-        List<String> listCategory = new ArrayList<String>();
-        String selectQuery = "SELECT * FROM categories;";
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(selectQuery, null);
-        if (cursor.moveToFirst()) {
-            do {
-                listCategory.add(cursor.getString(1));
-
-            } while (cursor.moveToNext());
-
+        List<String> listCategory = new ArrayList<>();
+        try (Connection connection = dbConnection.createConection()) {
+            String query = "SELECT name FROM categories";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    while (resultSet.next()) {
+                        listCategory.add(resultSet.getString("name"));
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        cursor.close();
-        db.close();
         return listCategory;
     }
 
     public Integer getCategoryIdByName(String categoryName) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        Integer categoryId = (null);
-
-        String[] columns = {"id"};
-        String selection = "name" + "=?";
-        String[] selectionArgs = {categoryName};
-        Cursor cursor = db.query("categories", columns, selection, selectionArgs, null, null, null);
-
-        if (cursor.moveToFirst()) {
-            categoryId = cursor.getInt(0);
+        try (Connection connection = dbConnection.createConection()) {
+            String query = "SELECT id FROM categories WHERE name = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+                preparedStatement.setString(1, categoryName);
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    if (resultSet.next()) {
+                        return resultSet.getInt("id");
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-
-        cursor.close();
-        db.close();
-
-        return categoryId;
+        return null;
     }
 
     public String getCategoryNameById(int id) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        String selectQuery = "SELECT name FROM categories WHERE id = ?";
-        String[] selectionArgs = {String.valueOf(id)};
-        Cursor cursor = db.rawQuery(selectQuery, selectionArgs);
-        String categoryName = null;
-        if (cursor.moveToFirst()) {
-            categoryName = cursor.getString(0);
+        try (Connection connection = dbConnection.createConection()) {
+            String query = "SELECT name FROM categories WHERE id = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+                preparedStatement.setInt(1, id);
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    if (resultSet.next()) {
+                        return resultSet.getString("name");
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        cursor.close();
-        return categoryName;
+        return null;
     }
 
     public int deleteCategory(String _id) {
-        int kq = dbManager.getWritableDatabase().delete("categories", "id=?",
-                new String[]{_id});
-        if (kq <= 0) {
-            return -1;
+        try (Connection connection = dbConnection.createConection()) {
+            String sql = "DELETE FROM categories WHERE id=?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setInt(1, Integer.parseInt(_id));
+                return preparedStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        return 1;
+        return -1;
     }
 
     public int updateCategory(Category category) {
-        ContentValues values = new ContentValues(); //tạo đối tượng chứa dữ liệu
-        //đưa dữ liệu vào đối tượng chứa
-        values.put("name", category.getNameCategory());
-        //Thực thi insert
-        long kq = dbManager.getWritableDatabase().update("categories", values, "id=?",
-                new String[]{Integer.toString(category.getIdCategory())});
-        if (kq <= 0) {
-            return -1;
+        try (Connection connection = dbConnection.createConection()) {
+            String sql = "UPDATE categories SET name=? WHERE id=?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setString(1, category.getNameCategory());
+                preparedStatement.setInt(2, category.getIdCategory());
+                return preparedStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        return 1;
+        return -1;
     }
 
     public List<Category> getAllCategoriesWithIdCategory() {
         List<Category> ls = new ArrayList<>();
-        Cursor c = dbManager.getReadableDatabase().query("categories", null, null, null, null, null, null);
-        c.moveToFirst();
-        while (!c.isAfterLast()) {
-            Category category = new Category();
-            category.setIdCategory(c.getInt(0));
-            category.setNameCategory(c.getString(1));
+        try (Connection connection = dbConnection.createConection()) {
+            String query = "SELECT * FROM categories";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    while (resultSet.next()) {
+                        Category category = new Category();
+                        category.setIdCategory(resultSet.getInt("id"));
+                        category.setNameCategory(resultSet.getString("name"));
 
-            ls.add(category);
-            c.moveToNext();
+                        ls.add(category);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        c.close();
         return ls;
     }
 
-
-
-    @Override
-    public void onCreate(SQLiteDatabase sqLiteDatabase) {
-
-    }
-
-    @Override
-    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-
-    }
 }

@@ -64,8 +64,8 @@ public class AddProduct_Fragment extends Fragment {
         tvEndDate = view.findViewById(R.id.tvEndDate);
         txtLocation = view.findViewById(R.id.txtLocation);
         txtdescription = view.findViewById(R.id.txtDescription);
-        productHandler = new ProductHandler(requireContext());
-        categoryHandler = new CategoryHandler(requireContext());
+        productHandler = new ProductHandler();
+        categoryHandler = new CategoryHandler();
 
         androidx.appcompat.widget.Toolbar toolbar = view.findViewById(R.id.toolbar);
         AppCompatActivity activity = (AppCompatActivity) requireActivity();

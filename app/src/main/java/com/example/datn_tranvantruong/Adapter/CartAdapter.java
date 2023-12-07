@@ -21,13 +21,19 @@ import com.example.datn_tranvantruong.Activity.Intro_Activity;
 import com.example.datn_tranvantruong.DBHandler.BillHandler;
 import com.example.datn_tranvantruong.DBHandler.CartHandler;
 import com.example.datn_tranvantruong.DBHandler.CustomerHandler;
+import com.example.datn_tranvantruong.Database.DBConnection;
 import com.example.datn_tranvantruong.Fragment.Order_Fragment;
+import com.example.datn_tranvantruong.MainActivity;
 import com.example.datn_tranvantruong.Model.Bill;
 import com.example.datn_tranvantruong.Model.Cart;
 import com.example.datn_tranvantruong.Model.CartStatistic;
 import com.example.datn_tranvantruong.Model.Customer;
 import com.example.datn_tranvantruong.R;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -35,12 +41,12 @@ public class CartAdapter extends BaseAdapter {
     Context context;
     int layout;
     List<CartStatistic> cartList;
-CartHandler cartHandler;
+    CartHandler cartHandler;
     public CartAdapter(Context context, int layout, List<CartStatistic> cartList) {
         this.context = context;
         this.layout = layout;
         this.cartList = cartList;
-        cartHandler = new CartHandler(context);
+        cartHandler = new CartHandler();
 
     }
     @Override
@@ -87,16 +93,30 @@ CartHandler cartHandler;
                     dialog.setPositiveButton("XÁC NHẬN", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface arg0, int arg1) {
-                            Date now = new Date();
-                            int product_id = cartList.get(i).getProduct_id();
                             CartStatistic cart = cartList.get(i);
-                            int id = cart.getIdCart(); // Lấy ID của khách hàng
-                            int quatity = Integer.parseInt(String.valueOf(cart.getQuatity()));
-                            String price = holder.Cart_Price.getText().toString();
-                            String description = "Đã thanh toán";
-                            Bill bill = new Bill(Intro_Activity.user_id, product_id,quatity, price, description, now.toString());
-                            BillHandler billHandler = new BillHandler(context);
-                            billHandler.addBill(bill);
+                            int product_id = cart.getProduct_id();
+                            int id = cart.getIdCart();
+                            int quatity = Integer.parseInt(holder.Cart_Quality.getText().toString());
+                            int price = Integer.parseInt(holder.Cart_Price.getText().toString());
+                            DBConnection dbConnection = new DBConnection();
+                            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                            String currentDateTimeString = sdf.format(new Date(System.currentTimeMillis()));
+
+                            try (Connection connection = dbConnection.createConection()) {
+                                String sql = "INSERT INTO bills (user_id, product_id, quatity, total_price, description, date_created) VALUES (?, ?, ?, ?, ?, ?)";
+                                try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                                    preparedStatement.setInt(1, MainActivity.user_id);
+                                    preparedStatement.setInt(2, product_id);
+                                    preparedStatement.setInt(3, quatity);
+                                    preparedStatement.setInt(4, price);
+                                    preparedStatement.setString(5, "Đã thanh toán");
+                                    preparedStatement.setString(6, currentDateTimeString);
+
+                                    preparedStatement.executeUpdate();
+                                }
+                            } catch (SQLException e) {
+                                e.printStackTrace();
+                            }
 
                             // Clear the cart (assuming you have a method to clear it in your CartHandler)
                             cartHandler.deleteCart(id);
@@ -115,7 +135,7 @@ CartHandler cartHandler;
                         }
                     }).setNegativeButton("Hủy", null).show();
 
-                    }
+                }
                 catch (Exception e) {
                     e.printStackTrace();
 

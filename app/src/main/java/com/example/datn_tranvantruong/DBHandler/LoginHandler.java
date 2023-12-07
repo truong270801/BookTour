@@ -1,92 +1,79 @@
 package com.example.datn_tranvantruong.DBHandler;
 
+import com.example.datn_tranvantruong.Database.DBConnection;
 
-import android.content.Context;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
-import com.example.datn_tranvantruong.Database.DBManager;
+public class LoginHandler {
 
-public class LoginHandler extends SQLiteOpenHelper {
+    private final DBConnection dbConnection;
 
-    SQLiteDatabase db;
-
-    private static final String DATABASE_NAME = "BOOK_TOUR.db";
-    private static final int DATABASE_VERSION = 1;
-
-    DBManager dbManager;
-    private Context context;
-
-    public LoginHandler(Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
-        this.context = context;
-        dbManager = new DBManager(context);
-        db = dbManager.getWritableDatabase();
+    public LoginHandler() {
+        this.dbConnection = new DBConnection();
     }
 
     public String checkLogin(String email, String password) {
-        SQLiteDatabase db = this.getReadableDatabase();
+        try (Connection connection = dbConnection.createConection()) {
+            String adminQuery = "SELECT email FROM admin WHERE email = ? AND password = ?";
+            if (checkUser(connection, adminQuery, email, password)) {
+                return "admin";
+            }
 
-        // Kiểm tra tài khoản trong bảng admin
-        String[] columns = { "email" };
-        String selection = "email" + " = ?" + " AND " + "password" + " = ?";
-        String[] selectionArgs = { email, password };
-        Cursor cursor = db.query("admin", columns, selection, selectionArgs, null, null, null);
-        if (cursor.moveToFirst()) {
-            cursor.close();
-            return "admin";
+            String customerQuery = "SELECT email FROM customers WHERE email = ? AND password = ?";
+            if (checkUser(connection, customerQuery, email, password)) {
+                return "customers";
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
-        // Kiểm tra tài khoản trong bảng customer
-        columns = new String[]{ "email" };
-        selection = "email" + " = ?" + " AND " + "password" + " = ?";
-        selectionArgs = new String[]{ email, password };
-        cursor = db.query("customers", columns, selection, selectionArgs, null, null, null);
-        if (cursor.moveToFirst()) {
-            cursor.close();
-            return "customer";
-        }
-
-        cursor.close();
         return "false";
     }
-    public String checkForgotPassword(String email, String phone) {
-        SQLiteDatabase db = this.getReadableDatabase();
 
-        // Kiểm tra tài khoản trong bảng admin
-        String[] columns = { "email" };
-        String selection = "email" + " = ?" + " AND " + "phone" + " = ?";
-        String[] selectionArgs = { email, phone };
-        Cursor cursor = db.query("customers", columns, selection, selectionArgs, null, null, null);
-        if (cursor.moveToFirst()) {
-            cursor.close();
-            return "customers";
+    public String checkForgotPassword(String email, String phone) {
+        try (Connection connection = dbConnection.createConection()) {
+            String query = "SELECT email FROM customers WHERE email = ? AND phone = ?";
+            if (checkUser(connection, query, email, phone)) {
+                return "customers";
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        cursor.close();
         return "false";
     }
 
     public int getUserId(String email) {
-        String query = "SELECT id FROM customers WHERE email = ?";
-        Cursor c = db.rawQuery(query, new String[] {email});
-        c.moveToFirst();
-        int user_id = -1;
-        if (!c.isAfterLast()) {
-            user_id = c.getInt(0);
+        int userId = -1;
+        try (Connection connection = dbConnection.createConection()) {
+            String query = "SELECT id FROM customers WHERE email = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+                preparedStatement.setString(1, email);
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    if (resultSet.next()) {
+                        userId = resultSet.getInt("id");
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        c.close();
-        return user_id;
-    }
-    @Override
-    public void onCreate(SQLiteDatabase sqLiteDatabase) {
 
+        return userId;
     }
 
-    @Override
-    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-
+    private boolean checkUser(Connection connection, String query, String param1, String param2) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, param1);
+            preparedStatement.setString(2, param2);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                return resultSet.next();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
-
-
 }

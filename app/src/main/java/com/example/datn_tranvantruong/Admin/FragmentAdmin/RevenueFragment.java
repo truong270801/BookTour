@@ -76,7 +76,7 @@ public class RevenueFragment extends Fragment {
                     String startDate = formatDateString(textViewStartDate.getText().toString() + " 00:00:00");
                     String endDate = formatDateString(textViewEndDate.getText().toString() + " 23:59:59");
 
-                    BillHandler billHandler = new BillHandler(getContext());
+                    BillHandler billHandler = new BillHandler();
 
                     int totalBill = billHandler.getTotalBill(startDate, endDate);
                     List<BillRevenue> productSales = billHandler.getAllBillRevenue();

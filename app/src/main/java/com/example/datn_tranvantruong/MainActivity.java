@@ -8,6 +8,10 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+//import com.example.datn_tranvantruong.Fragment.CartFragment;
+//import com.example.datn_tranvantruong.Fragment.HomeFragment;
+//import com.example.datn_tranvantruong.Fragment.Order_Fragment;
+//import com.example.datn_tranvantruong.Fragment.SettingFragment;
 import com.example.datn_tranvantruong.Fragment.CartFragment;
 import com.example.datn_tranvantruong.Fragment.HomeFragment;
 import com.example.datn_tranvantruong.Fragment.Order_Fragment;
@@ -16,6 +20,7 @@ import com.example.datn_tranvantruong.databinding.ActivityMainBinding;
 
 
 public class MainActivity extends AppCompatActivity {
+    public static int user_id = 1;
 
 ActivityMainBinding binding;
 

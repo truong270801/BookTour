@@ -16,12 +16,13 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 
 import com.example.datn_tranvantruong.Activity.InforApp_Activity;
-import com.example.datn_tranvantruong.Activity.Intro_Activity;
 import com.example.datn_tranvantruong.Activity.Login_Activity;
+
 import com.example.datn_tranvantruong.Activity.Profile_Activity;
 import com.example.datn_tranvantruong.Activity.RePassword_Activity;
 import com.example.datn_tranvantruong.DBHandler.CustomerHandler;
-import com.example.datn_tranvantruong.Database.DBManager;
+import com.example.datn_tranvantruong.Database.DBConnection;
+import com.example.datn_tranvantruong.MainActivity;
 import com.example.datn_tranvantruong.R;
 
 
@@ -42,8 +43,6 @@ TextView user_name,user_email;
         user_name = view.findViewById(R.id.user_name);
         user_email = view.findViewById(R.id.user_email);
 
-        DBManager dbManager = new DBManager(getContext());
-        SQLiteDatabase db = dbManager.getWritableDatabase();
 
         btn_infor = view.findViewById(R.id.btn_infor);
         btn_infor.setOnClickListener(new View.OnClickListener() {
@@ -87,9 +86,6 @@ TextView user_name,user_email;
             @Override
             public void onClick(View v) {
 
-
-                db.close();
-
                 startActivity(new Intent(getActivity(), Login_Activity.class));
                 if (getActivity() != null) {
                     getActivity().finish();
@@ -99,11 +95,11 @@ TextView user_name,user_email;
         return view;
     }
     private void  showUserInformation(){
-        CustomerHandler customerHandler = new CustomerHandler(getContext());
+        CustomerHandler customerHandler = new CustomerHandler();
 
-                String email = customerHandler.getCustomerInfo(String.valueOf(Intro_Activity.user_id)).getEmail();
-                String name = customerHandler.getCustomerInfo(String.valueOf(Intro_Activity.user_id)).getFullname();
-                byte[] avatar = customerHandler.getCustomerInfo(String.valueOf(Intro_Activity.user_id)).getImage_avatar();
+                String email = customerHandler.getCustomerInfo(String.valueOf(MainActivity.user_id)).getEmail();
+                String name = customerHandler.getCustomerInfo(String.valueOf(MainActivity.user_id)).getFullname();
+                byte[] avatar = customerHandler.getCustomerInfo(String.valueOf(MainActivity.user_id)).getImage_avatar();
 
 
                 // Gán giá trị "email" vào TextView

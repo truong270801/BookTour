@@ -4,16 +4,16 @@ public class Cart {
     private int id;
     private  int product_id;
     private  int user_id;
-    private int quality;
+    private int quatity;
     private int price;
 
     public Cart() {
     }
 
-    public Cart(int product_id, int user_id,  int quality, int price) {
+    public Cart(int product_id, int user_id,  int quatity, int price) {
         this.product_id = product_id;
         this.user_id = user_id;
-        this.quality = quality;
+        this.quatity = quatity;
         this.price = price;
     }
 
@@ -42,12 +42,12 @@ public class Cart {
     }
 
 
-    public int getQuality() {
-        return quality;
+    public int getQuatity() {
+        return quatity;
     }
 
-    public void setQuality(int quality) {
-        this.quality = quality;
+    public void setQuatity(int quality) {
+        this.quatity = quality;
     }
 
     public int getPrice() {

@@ -145,7 +145,7 @@ public class CategoryFragment extends Fragment {
     }
     protected void display(){
         list.clear();
-        handleCategory = new CategoryHandler(content);
+        handleCategory = new CategoryHandler();
         list = handleCategory.getAllCategory();
         arrayAdapter = new ArrayAdapter<>(content, android.R.layout.simple_list_item_1,list);
         lv.setAdapter(arrayAdapter);

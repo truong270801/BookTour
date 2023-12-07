@@ -25,7 +25,7 @@ public class BillAdapter extends BaseAdapter {
         this.context = context;
         this.layout = layout;
         this.billStatisticList = billStatisticList;
-        billHandler = new BillHandler(context);
+        billHandler = new BillHandler();
 
     }
     @Override

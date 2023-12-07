@@ -11,18 +11,17 @@ import android.widget.TextView;
 
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.datn_tranvantruong.Activity.Intro_Activity;
 import com.example.datn_tranvantruong.Adapter.CategoryAdapter;
-import com.example.datn_tranvantruong.Adapter.ProductsAdapter;
+//import com.example.datn_tranvantruong.Adapter.ProductsAdapter;
 import com.example.datn_tranvantruong.DBHandler.CategoryHandler;
 import com.example.datn_tranvantruong.DBHandler.CustomerHandler;
 import com.example.datn_tranvantruong.DBHandler.ProductHandler;
+import com.example.datn_tranvantruong.MainActivity;
 import com.example.datn_tranvantruong.Model.Category;
-import com.example.datn_tranvantruong.Model.Product;
 import com.example.datn_tranvantruong.R;
 import java.util.ArrayList;
 import java.util.List;
@@ -76,15 +75,15 @@ public class HomeFragment extends Fragment {
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(adapter);
         categoryList = new ArrayList<>();
-        categoryHandler = new CategoryHandler(getContext());
+        categoryHandler = new CategoryHandler();
         categoryList = categoryHandler.getAllCategoriesWithIdCategory();
         adapter.setData(categoryList);
     }
     private void  showUserInformation(){
-        CustomerHandler customerHandler = new CustomerHandler(getContext());
+        CustomerHandler customerHandler = new CustomerHandler();
 
-        String name = customerHandler.getCustomerInfo(String.valueOf(Intro_Activity.user_id)).getFullname();
-        byte[] avatar = customerHandler.getCustomerInfo(String.valueOf(Intro_Activity.user_id)).getImage_avatar();
+        String name = customerHandler.getCustomerInfo(String.valueOf(MainActivity.user_id)).getFullname();
+        byte[] avatar = customerHandler.getCustomerInfo(String.valueOf(MainActivity.user_id)).getImage_avatar();
         // Gán giá trị "email" vào TextView
         tv_name.setText(name);
         if (avatar != null) {

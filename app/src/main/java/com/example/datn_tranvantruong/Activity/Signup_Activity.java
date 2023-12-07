@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+//import com.example.datn_tranvantruong.DBHandler.SignupHandler;
 import com.example.datn_tranvantruong.DBHandler.SignupHandler;
 import com.example.datn_tranvantruong.Model.Customer;
 import com.example.datn_tranvantruong.R;
@@ -64,12 +65,8 @@ public class Signup_Activity extends AppCompatActivity {
         String password = signup_password.getText().toString().trim();
         String conpassword = signup_conpassword.getText().toString().trim();
         String phone = signup_phone.getText().toString().trim();
-        SignupHandler signupHandler = new SignupHandler(this);
+        SignupHandler signupHandler = new SignupHandler();
 
-        Customer user = new Customer();
-        user.setFullname(fullname);
-        user.setEmail(email);
-        user.setPhone(phone);
 
         if (TextUtils.isEmpty(phone)||TextUtils.isEmpty(fullname)||TextUtils.isEmpty(email)||TextUtils.isEmpty(password)){
             Toast.makeText(this,"Không được để trống các trường",Toast.LENGTH_SHORT).show();
@@ -94,13 +91,6 @@ public class Signup_Activity extends AppCompatActivity {
                         "Đăng ký tài khoản không thành công.",
                         Toast.LENGTH_LONG).show();
             }
-
-
-
-
         }
-
-
-
     }
 }

@@ -1,139 +1,161 @@
 package com.example.datn_tranvantruong.DBHandler;
 
-import android.content.ContentValues;
-import android.content.Context;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
-
-import com.example.datn_tranvantruong.Database.DBManager;
-import com.example.datn_tranvantruong.Model.Category;
+import com.example.datn_tranvantruong.Database.DBConnection;
 import com.example.datn_tranvantruong.Model.Customer;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+public class CustomerHandler {
 
-public class CustomerHandler extends SQLiteOpenHelper {
+    private DBConnection dbConnection;
 
-    private static final String DATABASE_NAME = "BOOK_TOUR.db";
-    private static final int DATABASE_VERSION = 1;
-    Context context;
-    DBManager dbManager;
-    SQLiteDatabase db;
-    public CustomerHandler(Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
-        this.context = context;
-        dbManager = new DBManager(context);
-        db = dbManager.getWritableDatabase();
+    public CustomerHandler() {
+        this.dbConnection = new DBConnection();
     }
 
     public List<Customer> getAllCustomer() {
         List<Customer> ls = new ArrayList<>();
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor c = db.query("customers", null, null, null, null, null, null); // Sử dụng "customers" thay vì "categories"
-        c.moveToFirst();
-        while (!c.isAfterLast()) {
-            Customer customer = new Customer();
-            customer.setId(c.getInt(0));
-            customer.setEmail(c.getString(1));
-            customer.setFullname(c.getString(2));
-            customer.setAddress(c.getString(4));
-            customer.setImage_avatar(c.getBlob(5));
-            customer.setPhone(c.getString(6));
+        try (Connection connection = dbConnection.createConection()) {
+            String query = "SELECT * FROM customers";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    while (resultSet.next()) {
+                        Customer customer = new Customer();
+                        customer.setId(resultSet.getInt("id"));
+                        customer.setEmail(resultSet.getString("email"));
+                        customer.setFullname(resultSet.getString("fullname"));
+                        customer.setAddress(resultSet.getString("address"));
+                        customer.setImage_avatar(resultSet.getBytes("image_avatar"));
+                        customer.setPhone(resultSet.getString("phone"));
 
-            ls.add(customer);
-            c.moveToNext();
+                        ls.add(customer);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        c.close();
         return ls;
     }
 
-
     public Customer getCustomerInfo(String id) {
-        SQLiteDatabase db = this.getReadableDatabase();
         Customer user = new Customer();
-
-        String query = "SELECT fullname,email, address, phone,image_avatar FROM customers WHERE id = ?";
-        Cursor cursor = db.rawQuery(query, new String[]{id});
-
-        if (cursor.moveToFirst()) {
-            user.setFullname(cursor.getString(0));
-            user.setEmail(cursor.getString(1));
-            user.setAddress(cursor.getString(2));
-            user.setPhone(cursor.getString(3));
-            user.setImage_avatar(cursor.getBlob(4));
+        try (Connection connection = dbConnection.createConection()) {
+            String query = "SELECT fullname, email, address, phone, image_avatar FROM customers WHERE id = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+                preparedStatement.setInt(1, Integer.parseInt(id));
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    if (resultSet.next()) {
+                        user.setFullname(resultSet.getString("fullname"));
+                        user.setEmail(resultSet.getString("email"));
+                        user.setAddress(resultSet.getString("address"));
+                        user.setPhone(resultSet.getString("phone"));
+                        user.setImage_avatar(resultSet.getBytes("image_avatar"));
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return user;
     }
+
     public void updateCustomerPassword(String id, String newPassword) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put("password", newPassword);
+        try (Connection connection = dbConnection.createConection()) {
+            String sql = "UPDATE customers SET password = ? WHERE id = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setString(1, newPassword);
+                preparedStatement.setInt(2, Integer.parseInt(id));
 
-        db.update("customers", values, "id = ?", new String[]{id});
-        db.close();
+                preparedStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
+
     public void updateCustomerForgotPassword(String email, String newPassword) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put("password", newPassword);
+        try (Connection connection = dbConnection.createConection()) {
+            String sql = "UPDATE customers SET password = ? WHERE email = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setString(1, newPassword);
+                preparedStatement.setString(2, email);
 
-        db.update("customers", values, "email = ?", new String[]{email});
-        db.close();
+                preparedStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
+
     public String getPasswordFromDB(String id) {
-        SQLiteDatabase db = this.getReadableDatabase();
         String password = null;
-
-        Cursor cursor = db.query("customers", new String[]{"password"}, "id = ?", new String[]{id}, null, null, null);
-        if (cursor != null && cursor.moveToFirst()) {
-            password = cursor.getString(cursor.getColumnIndex("password"));
-            cursor.close();
+        try (Connection connection = dbConnection.createConection()) {
+            String query = "SELECT password FROM customers WHERE id = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+                preparedStatement.setInt(1, Integer.parseInt(id));
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    if (resultSet.next()) {
+                        password = resultSet.getString("password");
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-
         return password;
     }
-    public String getForgotPasswordFromDB(String id) {
-        SQLiteDatabase db = this.getReadableDatabase();
+
+    public String getForgotPasswordFromDB(String email) {
         String password = null;
-
-        Cursor cursor = db.query("customers", new String[]{"password"}, "id = ?", new String[]{id}, null, null, null);
-        if (cursor != null && cursor.moveToFirst()) {
-            password = cursor.getString(cursor.getColumnIndex("password"));
-            cursor.close();
+        try (Connection connection = dbConnection.createConection()) {
+            String query = "SELECT password FROM customers WHERE email = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+                preparedStatement.setString(1, email);
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    if (resultSet.next()) {
+                        password = resultSet.getString("password");
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-
         return password;
     }
+
     public void updateCustomerInfo(String id, String fullname, String address, String phone, byte[] avatar) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put("fullname", fullname);
-        values.put("address", address);
-        values.put("phone", phone);
-        values.put("image_avatar", avatar);
+        try (Connection connection = dbConnection.createConection()) {
+            String sql = "UPDATE customers SET fullname = ?, address = ?, phone = ?, image_avatar = ? WHERE id = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setString(1, fullname);
+                preparedStatement.setString(2, address);
+                preparedStatement.setString(3, phone);
+                preparedStatement.setBytes(4, avatar);
+                preparedStatement.setInt(5, Integer.parseInt(id));
 
-        db.update("customers", values, "id = ?", new String[]{id});
-        db.close();
-    }
-    public void deleteCustomer(int i) {
-        SQLiteDatabase database = this.getWritableDatabase();
-        database.delete("customers", "id" + " = " + i, null);
-    }
-
-
-
-    @Override
-    public void onCreate(SQLiteDatabase sqLiteDatabase) {
-
+                preparedStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
-    @Override
-    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-
+    public void deleteCustomer(int id) {
+        try (Connection connection = dbConnection.createConection()) {
+            String sql = "DELETE FROM customers WHERE id = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setInt(1, id);
+                preparedStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
-
 
 }
-

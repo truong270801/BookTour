@@ -1,66 +1,77 @@
 package com.example.datn_tranvantruong.DBHandler;
 
-import android.content.ContentValues;
-import android.content.Context;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
-
-import com.example.datn_tranvantruong.Database.DBManager;
+import com.example.datn_tranvantruong.Database.DBConnection;
 import com.example.datn_tranvantruong.Model.Cart;
+import com.example.datn_tranvantruong.Model.CartStatistic;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CartHandler extends SQLiteOpenHelper {
-    DBManager dbManager;
-    private static final String DATABASE_NAME = "BOOK_TOUR.db";
-    private static final int DATABASE_VERSION = 1;
-    private Context context;
-    public CartHandler(Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
-        this.context = context;
-        dbManager = new DBManager(context); // tạo db
+public class CartHandler {
+
+    private DBConnection dbConnection;
+
+    public CartHandler() {
+        this.dbConnection = new DBConnection();
     }
-    // Trong CartHandler hoặc lớp xử lý giỏ hàng tương tự
-    // Trong CartHandler hoặc lớp xử lý giỏ hàng tương tự
+
     public void addToCart(Cart cartItem) {
-        ContentValues values = new ContentValues();
-        values.put("product_id", cartItem.getProduct_id());
-        values.put("user_id", cartItem.getUser_id());
-        values.put("quantity", cartItem.getQuality());
-        values.put("price", cartItem.getPrice());
+        try (Connection connection = dbConnection.createConection()) {
+            String sql = "INSERT INTO carts (product_id, user_id, quantity, price) VALUES (?, ?, ?, ?)";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setInt(1, cartItem.getProduct_id());
+                preparedStatement.setInt(2, cartItem.getUser_id());
+                preparedStatement.setInt(3, cartItem.getQuatity());
+                preparedStatement.setInt(4, cartItem.getPrice());
 
-        // Chèn dữ liệu vào bảng giỏ hàng
-        dbManager.getWritableDatabase().insert("carts", null, values);
-
-        dbManager.close();
-
+                preparedStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
-    public static Cursor getCartByUserID(Context context, int id) {
-        CartHandler cartHandler = new CartHandler(context);
-        SQLiteDatabase db = cartHandler.getReadableDatabase();
+    public List<CartStatistic> getCartByUserID(int id) {
+        List<CartStatistic> cartList = new ArrayList<>();
+        try (Connection connection = dbConnection.createConection()) {
+            String query = "SELECT * FROM carts WHERE user_id = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+                preparedStatement.setInt(1, id);
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    while (resultSet.next()) {
+                        ProductHandler productHandler = new ProductHandler();
+                        CartStatistic cartItem = new CartStatistic(
+                        resultSet.getInt("id"),
+                                resultSet.getInt("product_id"),
+                                productHandler.getProductNameById(resultSet.getInt("product_id")),
+                                resultSet.getInt("quantity"),
+                                resultSet.getInt("price"),
+                                productHandler.getProductImageById(resultSet.getInt("product_id")));
 
-        String selectQuery = "SELECT * FROM carts WHERE user_id = ?";
-        String[] selectionArgs = {String.valueOf(id)};
-        Cursor cursor = db.rawQuery(selectQuery, selectionArgs);
+                        cartList.add(cartItem);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
-        return cursor;
+        return cartList;
     }
-    public void deleteCart(int i) {
-        SQLiteDatabase database = this.getWritableDatabase();
-        database.delete("carts", "id" + " = " + i, null);
-    }
 
-    @Override
-    public void onCreate(SQLiteDatabase db) {
-
-    }
-
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+    public void deleteCart(int id) {
+        try (Connection connection = dbConnection.createConection()) {
+            String sql = "DELETE FROM carts WHERE id = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setInt(1, id);
+                preparedStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

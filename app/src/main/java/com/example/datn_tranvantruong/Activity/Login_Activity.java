@@ -17,13 +17,14 @@ import com.example.datn_tranvantruong.DBHandler.LoginHandler;
 import com.example.datn_tranvantruong.MainActivity;
 import com.example.datn_tranvantruong.R;
 
-
 public class Login_Activity extends AppCompatActivity {
-EditText login_email,login_password;
-Button bnt_login;
-ProgressDialog progressDialog;
 
-TextView loginRedirectText,Forgot_password;
+    EditText login_email, login_password;
+    Button bnt_login;
+    ProgressDialog progressDialog;
+    TextView loginRedirectText, Forgot_password;
+
+    private LoginHandler loginHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,15 +33,12 @@ TextView loginRedirectText,Forgot_password;
 
         login_email = findViewById(R.id.login_email);
         login_password = findViewById(R.id.login_password);
-        LoginHandler loginHandler = new LoginHandler(this);
-
         progressDialog = new ProgressDialog(this);
         Forgot_password = findViewById(R.id.Forgot_password);
         Forgot_password.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(Login_Activity.this, ForgotPassword_Activity.class));
-
             }
         });
 
@@ -53,38 +51,35 @@ TextView loginRedirectText,Forgot_password;
         });
 
         bnt_login = findViewById(R.id.bnt_login);
-bnt_login.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View v) {
-        String email = login_email.getText().toString().trim();
-        String password = login_password.getText().toString().trim();
 
-        if (TextUtils.isEmpty(email)||TextUtils.isEmpty(password)){
-            Toast.makeText(Login_Activity.this,"Không được để trống các trường",Toast.LENGTH_SHORT).show();
-        }else {
-        if (loginHandler.checkLogin(email, password) == "admin") {
-            Intent i = new Intent(getApplicationContext(), MenuActivity.class);
-            startActivity(i);
-            Toast.makeText(getApplicationContext(),
-                    "Đăng nhập thành công", Toast.LENGTH_LONG).show();
-            finish();
-        } else if (loginHandler.checkLogin(email, password) == "customer"){
-            Intro_Activity.user_id = loginHandler.getUserId(email);
+        loginHandler = new LoginHandler();
 
-            Intent i = new Intent(getApplicationContext(), MainActivity.class);
-            startActivity(i);
-            Toast.makeText(getApplicationContext(),
-                    "Đăng nhập thành công", Toast.LENGTH_LONG).show();
-            finish();
-        } else {
-            Toast.makeText(getApplicationContext(),
-                    "Tài khoản hoặc mật khẩu không đúng, hãy kiểm tra lại.",
-                    Toast.LENGTH_LONG).show();
-        }
+        bnt_login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String email = login_email.getText().toString().trim();
+                String password = login_password.getText().toString().trim();
+
+                if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
+                    Toast.makeText(Login_Activity.this, "Không được để trống các trường", Toast.LENGTH_SHORT).show();
+                } else {
+                    // Call the authenticateUser method from LoginHandler
+                    String userType = loginHandler.checkLogin(email, password);
+
+                    if ("admin".equals(userType)) {
+                        // Handle admin login
+                        startActivity(new Intent(Login_Activity.this, MenuActivity.class));
+                        finish();
+                    } else if ("customers".equals(userType)) {
+                        MainActivity.user_id = loginHandler.getUserId(email);
+                        startActivity(new Intent(Login_Activity.this, MainActivity.class));
+                        finish();
+                    } else {
+                        // Authentication failed
+                        Toast.makeText(Login_Activity.this, "Đăng nhập không thành công", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        });
     }
-    }
-});
-
-    }
-
 }

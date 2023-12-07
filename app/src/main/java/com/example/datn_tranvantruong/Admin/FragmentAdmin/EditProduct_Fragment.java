@@ -69,8 +69,8 @@ public class EditProduct_Fragment extends Fragment {
         btnDelete = view.findViewById(R.id.btnDelete);
         imgHinh = view.findViewById(R.id.imgHinh);
 
-        productHandler = new ProductHandler(getContext());
-        categoryHandler = new CategoryHandler(getContext());
+        productHandler = new ProductHandler();
+        categoryHandler = new CategoryHandler();
 
         androidx.appcompat.widget.Toolbar toolbar = view.findViewById(R.id.toolbar);
         AppCompatActivity activity = (AppCompatActivity) requireActivity();

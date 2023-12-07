@@ -69,7 +69,7 @@ public class Product_Fragment extends Fragment {
         String category_name = bundle.getString("category_name");
         txtCategoryName.setText(category_name);
 
-        productHandler = new ProductHandler(getContext());
+        productHandler = new ProductHandler();
         productList = productHandler.getAllProductByCategoryId(category_id);
 
         productUserAdapter = new ProductUserAdapter(getContext(), R.layout.product_item, productList);
@@ -78,8 +78,6 @@ public class Product_Fragment extends Fragment {
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-
 
                 DetailTour_Fragment detailTourFragment = new DetailTour_Fragment();
 

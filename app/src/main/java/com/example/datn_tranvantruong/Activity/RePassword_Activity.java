@@ -1,8 +1,7 @@
 package com.example.datn_tranvantruong.Activity;
 
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
+
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -17,7 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.datn_tranvantruong.DBHandler.CustomerHandler;
-import com.example.datn_tranvantruong.Database.DBManager;
+import com.example.datn_tranvantruong.MainActivity;
 import com.example.datn_tranvantruong.R;
 
 
@@ -72,12 +71,12 @@ TextView user_name,user_email;
                 } else {
                     // Kiểm tra mật khẩu cũ
 
-                    CustomerHandler customerHandler = new CustomerHandler(RePassword_Activity.this); // Khởi tạo đối tượng DBManager
-                    String currentPasswordFromDB = customerHandler.getPasswordFromDB(String.valueOf(Intro_Activity.user_id));
+                    CustomerHandler customerHandler = new CustomerHandler(); // Khởi tạo đối tượng DBManager
+                    String currentPasswordFromDB = customerHandler.getPasswordFromDB(String.valueOf(MainActivity.user_id));
 
                     if (currentPassword.equals(currentPasswordFromDB)) {
                         // Cập nhật mật khẩu mới vào cơ sở dữ liệu
-                        customerHandler.updateCustomerPassword(String.valueOf(Intro_Activity.user_id), newPassword);
+                        customerHandler.updateCustomerPassword(String.valueOf(MainActivity.user_id), newPassword);
                         Toast.makeText(RePassword_Activity.this, "Mật khẩu đã được cập nhật", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(RePassword_Activity.this, Login_Activity.class));
                         finish();
@@ -92,11 +91,11 @@ TextView user_name,user_email;
 
     }
     private void  showUserInformation(){
-        CustomerHandler customerHandler = new CustomerHandler(this);
+        CustomerHandler customerHandler = new CustomerHandler();
 
-        String email = customerHandler.getCustomerInfo(String.valueOf(Intro_Activity.user_id)).getEmail();
-        String name = customerHandler.getCustomerInfo(String.valueOf(Intro_Activity.user_id)).getFullname();
-        byte[] avatar = customerHandler.getCustomerInfo(String.valueOf(Intro_Activity.user_id)).getImage_avatar();
+        String email = customerHandler.getCustomerInfo(String.valueOf(MainActivity.user_id)).getEmail();
+        String name = customerHandler.getCustomerInfo(String.valueOf(MainActivity.user_id)).getFullname();
+        byte[] avatar = customerHandler.getCustomerInfo(String.valueOf(MainActivity.user_id)).getImage_avatar();
 
 
         // Gán giá trị "email" vào TextView
