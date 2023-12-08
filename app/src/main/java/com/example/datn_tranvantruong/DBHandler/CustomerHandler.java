@@ -43,12 +43,12 @@ public class CustomerHandler {
         return ls;
     }
 
-    public Customer getCustomerInfo(String id) {
+    public Customer getCustomerInfo(int id) {
         Customer user = new Customer();
         try (Connection connection = dbConnection.createConection()) {
             String query = "SELECT fullname, email, address, phone, image_avatar FROM customers WHERE id = ?";
             try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-                preparedStatement.setInt(1, Integer.parseInt(id));
+                preparedStatement.setInt(1, id);
                 try (ResultSet resultSet = preparedStatement.executeQuery()) {
                     if (resultSet.next()) {
                         user.setFullname(resultSet.getString("fullname"));

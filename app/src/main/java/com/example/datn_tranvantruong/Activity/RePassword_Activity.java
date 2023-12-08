@@ -93,9 +93,9 @@ TextView user_name,user_email;
     private void  showUserInformation(){
         CustomerHandler customerHandler = new CustomerHandler();
 
-        String email = customerHandler.getCustomerInfo(String.valueOf(MainActivity.user_id)).getEmail();
-        String name = customerHandler.getCustomerInfo(String.valueOf(MainActivity.user_id)).getFullname();
-        byte[] avatar = customerHandler.getCustomerInfo(String.valueOf(MainActivity.user_id)).getImage_avatar();
+        String email = customerHandler.getCustomerInfo(MainActivity.user_id).getEmail();
+        String name = customerHandler.getCustomerInfo(MainActivity.user_id).getFullname();
+        byte[] avatar = customerHandler.getCustomerInfo(MainActivity.user_id).getImage_avatar();
 
 
         // Gán giá trị "email" vào TextView

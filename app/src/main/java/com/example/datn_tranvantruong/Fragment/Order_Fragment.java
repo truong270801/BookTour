@@ -67,4 +67,5 @@ public class Order_Fragment extends Fragment {
         lv.setAdapter(billAdapter);
         billAdapter.notifyDataSetChanged();
     }
+
 }

@@ -56,11 +56,11 @@ public class Profile_Activity extends AppCompatActivity {
 
         CustomerHandler customerHandler = new CustomerHandler();
 
-                String email = customerHandler.getCustomerInfo(String.valueOf(MainActivity.user_id)).getEmail();
-                String fullname = customerHandler.getCustomerInfo(String.valueOf(MainActivity.user_id)).getFullname();
-                String address = customerHandler.getCustomerInfo(String.valueOf(MainActivity.user_id)).getAddress();
-                String phone = customerHandler.getCustomerInfo(String.valueOf(MainActivity.user_id)).getPhone();
-                byte[] avatar = customerHandler.getCustomerInfo(String.valueOf(MainActivity.user_id)).getImage_avatar();
+                String email = customerHandler.getCustomerInfo(MainActivity.user_id).getEmail();
+                String fullname = customerHandler.getCustomerInfo(MainActivity.user_id).getFullname();
+                String address = customerHandler.getCustomerInfo(MainActivity.user_id).getAddress();
+                String phone = customerHandler.getCustomerInfo(MainActivity.user_id).getPhone();
+                byte[] avatar = customerHandler.getCustomerInfo(MainActivity.user_id).getImage_avatar();
                 // Gán giá trị "email" vào TextView
                 user_email.setText(email);
                 edit_name.setText(fullname);

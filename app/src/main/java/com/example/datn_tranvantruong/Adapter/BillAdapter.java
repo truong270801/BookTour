@@ -1,19 +1,32 @@
 package com.example.datn_tranvantruong.Adapter;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.example.datn_tranvantruong.DBHandler.BillHandler;
 
+import com.example.datn_tranvantruong.DBHandler.CartHandler;
+import com.example.datn_tranvantruong.DBHandler.EvaluateHandler;
+import com.example.datn_tranvantruong.MainActivity;
 import com.example.datn_tranvantruong.Model.BillStatistic;
 
+import com.example.datn_tranvantruong.Model.Cart;
+import com.example.datn_tranvantruong.Model.Evaluate;
 import com.example.datn_tranvantruong.R;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class BillAdapter extends BaseAdapter {
@@ -55,6 +68,7 @@ public class BillAdapter extends BaseAdapter {
             holder.total = view.findViewById(R.id.total);
             holder.description = view.findViewById(R.id.description);
             holder.date = view.findViewById(R.id.date);
+            holder.rateButton = view.findViewById(R.id.rateButton);
             view.setTag(holder);
         } else {
             holder = (ViewHolder) view.getTag();
@@ -65,10 +79,52 @@ public class BillAdapter extends BaseAdapter {
         holder.total.setText("Giá: "+ String.valueOf(bill.getPrice()) +"VND");
         holder.description.setText("Tình trạng: " + bill.getDescription());
         holder.date.setText("Ngày đặt Tour: " + bill.getDate());
+holder.rateButton.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+        int product_id = billStatisticList.get(i).getProduct_id();
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View dialogView = inflater.inflate(R.layout.rate_dialog, null);
+        dialogBuilder.setView(dialogView);
 
+        final RatingBar dialogRatingBar = dialogView.findViewById(R.id.dialogRatingBar);
+        final EditText dialogComment = dialogView.findViewById(R.id.dialogComment);
+
+        dialogBuilder.setPositiveButton("Gửi", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                float rating = dialogRatingBar.getRating();
+                String commentText = dialogComment.getText().toString();
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                String currentDateTimeString = sdf.format(new Date(System.currentTimeMillis()));
+
+                Evaluate evaluate = new Evaluate(MainActivity.user_id,product_id,rating,commentText,currentDateTimeString);
+                //Thêm vào giỏ hàng
+                EvaluateHandler evaluateHandler = new EvaluateHandler();
+                evaluateHandler.rating(evaluate);
+                Toast.makeText(context, "Cảm ơn bạn đã đánh giá !", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        dialogBuilder.setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+
+        AlertDialog alertDialog = dialogBuilder.create();
+        alertDialog.show();    }
+});
         return view;
     }
     private class ViewHolder {
         TextView idbill, total,description,date;
+        Button rateButton;
     }
+    private void showRatingDialog() {
+
+    }
+
 }

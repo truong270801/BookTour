@@ -7,28 +7,44 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 //import com.example.datn_tranvantruong.DBHandler.CartHandler;
+import com.example.datn_tranvantruong.Adapter.EvaluateAdapter;
+import com.example.datn_tranvantruong.Adapter.ProductUserAdapter;
 import com.example.datn_tranvantruong.DBHandler.CartHandler;
+import com.example.datn_tranvantruong.DBHandler.EvaluateHandler;
 import com.example.datn_tranvantruong.DBHandler.ProductHandler;
 import com.example.datn_tranvantruong.Fragment.HomeFragment;
 import com.example.datn_tranvantruong.MainActivity;
 import com.example.datn_tranvantruong.Model.Cart;
 import com.example.datn_tranvantruong.Model.CartStatistic;
+import com.example.datn_tranvantruong.Model.Evaluate;
 import com.example.datn_tranvantruong.Model.Product;
 import com.example.datn_tranvantruong.R;
+
+import java.util.List;
 
 public class DetailTour_Fragment extends Fragment {
 
     private int qualityValue = 1;
     TextView quality, tourNametxt, tourLocationtxt,contenttxt, tourPricetxt, startdaytxt, enddaytxt, categorytxt   ;
     ImageView tourImageView, add_quality, delete_quality, addcart;
+    RecyclerView recyclerView;
+    EvaluateAdapter evaluateAdapter;
+    EvaluateHandler evaluateHandler;
+    List<Evaluate> evaluateList;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -45,23 +61,11 @@ public class DetailTour_Fragment extends Fragment {
          add_quality = view.findViewById(R.id.add_quality);
          delete_quality = view.findViewById(R.id.delete_quality);
          quality = view.findViewById(R.id.quality);
-
+        recyclerView = view.findViewById(R.id.evaluateTour);
          addcart = view.findViewById(R.id.btn_addcart);
 
+        toolbar(view);
 
-        androidx.appcompat.widget.Toolbar toolbar = view.findViewById(R.id.toolbar);
-        AppCompatActivity activity = (AppCompatActivity) requireActivity();
-        activity.setSupportActionBar(toolbar);
-        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        ((AppCompatActivity) requireActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
         add_quality.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -96,6 +100,14 @@ public class DetailTour_Fragment extends Fragment {
             byte[] productImage = product.getImage();
             Bitmap bitmap = BitmapFactory.decodeByteArray(productImage, 0, productImage.length);
             tourImageView.setImageBitmap(bitmap);
+            evaluateHandler = new EvaluateHandler();
+            evaluateList = evaluateHandler.getAllEvaluateByProductId(product_id);
+            evaluateAdapter = new EvaluateAdapter(getContext(),evaluateList);
+            LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+            recyclerView.setLayoutManager(layoutManager);
+            recyclerView.setAdapter(evaluateAdapter);
+            DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), layoutManager.getOrientation());
+            recyclerView.addItemDecoration(dividerItemDecoration);
         }
         addcart.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,6 +128,22 @@ public class DetailTour_Fragment extends Fragment {
             }
         });
         return view;
+    }
+
+    private void toolbar(View view) {
+        androidx.appcompat.widget.Toolbar toolbar = view.findViewById(R.id.toolbar);
+        AppCompatActivity activity = (AppCompatActivity) requireActivity();
+        activity.setSupportActionBar(toolbar);
+        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        ((AppCompatActivity) requireActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 
     public void onBackPressed() {

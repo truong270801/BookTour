@@ -24,9 +24,7 @@ Context context;
         this.dbConnection = new DBConnection();
     }
 
-    public void addBill(Bill bill) {
 
-    }
 
     public List<BillStatistic> getBillByUserID(int id) {
         List<BillStatistic> billStatisticList = new ArrayList<>();

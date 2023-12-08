@@ -82,8 +82,8 @@ public class HomeFragment extends Fragment {
     private void  showUserInformation(){
         CustomerHandler customerHandler = new CustomerHandler();
 
-        String name = customerHandler.getCustomerInfo(String.valueOf(MainActivity.user_id)).getFullname();
-        byte[] avatar = customerHandler.getCustomerInfo(String.valueOf(MainActivity.user_id)).getImage_avatar();
+        String name = customerHandler.getCustomerInfo(MainActivity.user_id).getFullname();
+        byte[] avatar = customerHandler.getCustomerInfo(MainActivity.user_id).getImage_avatar();
         // Gán giá trị "email" vào TextView
         tv_name.setText(name);
         if (avatar != null) {

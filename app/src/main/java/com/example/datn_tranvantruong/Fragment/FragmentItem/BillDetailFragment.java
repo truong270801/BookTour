@@ -64,10 +64,10 @@ public class BillDetailFragment extends Fragment {
 
 
             int user_id = Integer.parseInt(billHandler.getUserIdById(Integer.parseInt(billid)));
-                    users_email.setText(customerHandler.getCustomerInfo(String.valueOf(user_id)).getEmail());
-            users_name.setText(customerHandler.getCustomerInfo(String.valueOf(user_id)).getFullname());
-            users_address.setText(customerHandler.getCustomerInfo(String.valueOf(user_id)).getAddress());
-            users_phone.setText(customerHandler.getCustomerInfo(String.valueOf(user_id)).getPhone());
+                    users_email.setText(customerHandler.getCustomerInfo(user_id).getEmail());
+            users_name.setText(customerHandler.getCustomerInfo(user_id).getFullname());
+            users_address.setText(customerHandler.getCustomerInfo(user_id).getAddress());
+            users_phone.setText(customerHandler.getCustomerInfo(user_id).getPhone());
             customer_name.setText(users_name.getText().toString());
 
             // Lấy thông tin hóa đơn
