@@ -31,13 +31,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-public class BillAdapter extends RecyclerView.Adapter<BillAdapter.ViewHolder> {
+public class AdminBillAdapter extends RecyclerView.Adapter<AdminBillAdapter.ViewHolder> {
     private Context context;
     private int layout;
     private List<BillStatistic> billStatisticList;
     private BillHandler billHandler;
 
-    public BillAdapter(Context context, int layout, List<BillStatistic> billStatisticList) {
+    public AdminBillAdapter(Context context, int layout, List<BillStatistic> billStatisticList) {
         this.context = context;
         this.layout = layout;
         this.billStatisticList = billStatisticList;
@@ -73,7 +73,7 @@ holder.itemView.setOnClickListener(new View.OnClickListener() {
 
         billDetailFragment.setArguments(args);
         FragmentTransaction transaction = ((FragmentActivity) context).getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_container, billDetailFragment);
+        transaction.replace(R.id.fragment_container_admin, billDetailFragment);
         transaction.addToBackStack(null);
         transaction.commit();
     }

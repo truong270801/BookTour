@@ -25,7 +25,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:text="CÔNG TY DU LICH KTTRAVEL"
+                android:text="CÔNG TY DU LỊCH KTTRAVEL"
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -116,10 +116,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
-            android:text="Nghĩa Phú, Nghĩa Hưng, Nam Định."
+            android:text="..."
             android:textColor="@color/black"
-            android:textSize="16sp"
-             />
+            android:textSize="16sp" />
 
     </LinearLayout>
     <LinearLayout
@@ -141,10 +140,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
-            android:text="0353745740"
+            android:text="..."
             android:textColor="@color/black"
-            android:textSize="16sp"
-            />
+            android:textSize="16sp" />
 
     </LinearLayout>
     <LinearLayout
@@ -167,10 +165,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
-            android:text="tranvantruong27082001@gmail.com"
+            android:text="..."
             android:textColor="@color/black"
-            android:textSize="16sp"
-             />
+            android:textSize="16sp" />
     </LinearLayout>
 
     <TableLayout
@@ -227,7 +224,7 @@
 
                 android:layout_width="30dp"
                 android:layout_height="wrap_content"
-                android:text="1"
+                android:text="..."
                 android:textColor="#000000" />
 
             <TextView
@@ -235,7 +232,7 @@
                 android:layout_width="240dp"
                 android:layout_height="wrap_content"
 
-                android:text="Tour A"
+                android:text="..."
                 android:textColor="#000000" />
 
             <TextView
@@ -251,7 +248,7 @@ android:gravity="center"
 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="1000000 VND"
+                android:text="... VND"
                 android:textColor="#000000" />
         </TableRow>
     </TableLayout>
@@ -322,7 +319,6 @@ android:gravity="center"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:fontFamily="cursive"
-        android:text="Trường"
         android:textColor="#000000"
         android:textSize="20sp"
         android:textStyle="italic" />

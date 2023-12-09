@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
@@ -39,6 +40,7 @@ public class DetailTour_Fragment extends Fragment {
 
     private int qualityValue = 1;
     TextView quality, tourNametxt, tourLocationtxt,contenttxt, tourPricetxt, startdaytxt, enddaytxt, categorytxt   ;
+    RatingBar rating;
     ImageView tourImageView, add_quality, delete_quality, addcart;
     RecyclerView recyclerView;
     EvaluateAdapter evaluateAdapter;
@@ -63,6 +65,7 @@ public class DetailTour_Fragment extends Fragment {
          quality = view.findViewById(R.id.quality);
         recyclerView = view.findViewById(R.id.evaluateTour);
          addcart = view.findViewById(R.id.btn_addcart);
+        rating = view.findViewById(R.id.rating);
 
         toolbar(view);
 
@@ -96,6 +99,7 @@ public class DetailTour_Fragment extends Fragment {
             tourLocationtxt.setText(product.getLocation());
             contenttxt.setText(product.getDescription());
             categorytxt.setText(category_name);
+            rating.setRating(productHandler.getRatingById(product_id));
             quality.setText(String.valueOf(qualityValue));
             byte[] productImage = product.getImage();
             Bitmap bitmap = BitmapFactory.decodeByteArray(productImage, 0, productImage.length);

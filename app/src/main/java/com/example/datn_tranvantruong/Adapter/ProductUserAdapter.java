@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.example.datn_tranvantruong.Model.Product;
@@ -57,6 +58,7 @@ public class ProductUserAdapter extends BaseAdapter {
             holder.txtProductLocation = view.findViewById(R.id.txtProductLocation);
             holder.txtProductName = view.findViewById(R.id.txtProductName);
             holder.txtProductPrice = view.findViewById(R.id.txtProductPrice);
+            holder.rating_Bar = view.findViewById(R.id.rating_Bar);
             view.setTag(holder);
         } else {
             holder = (ViewHolder) view.getTag();
@@ -71,12 +73,14 @@ public class ProductUserAdapter extends BaseAdapter {
         holder.txtProductName.setText(product.getName());
         holder.txtProductLocation.setText(product.getLocation());
         holder.txtProductPrice.setText("" + product.getPrice());
+        holder.rating_Bar.setRating(product.getRating());
 
         return view;
     }
 
     private class ViewHolder {
         ImageView productImage;
+        RatingBar rating_Bar;
         TextView txtProductName, txtProductPrice,txtProductLocation;
     }
 }

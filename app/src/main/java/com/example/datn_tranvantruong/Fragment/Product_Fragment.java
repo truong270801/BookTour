@@ -85,6 +85,8 @@ public class Product_Fragment extends Fragment {
                 Bundle args = new Bundle();
                 Product product = (Product) productUserAdapter.getItem(i);
                 args.putInt("product_id", product.getId());
+                args.putFloat("rating", product.getRating());
+
                 args.putString("category_name", txtCategoryName.getText().toString().trim());
                 detailTourFragment.setArguments(args);
                 Toast.makeText(getContext(), ""+product.getId(), Toast.LENGTH_SHORT).show();

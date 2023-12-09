@@ -60,6 +60,17 @@
                 android:textColor="#000000"
                 android:textSize="38sp"
                 android:textStyle="bold" />
+            <RatingBar
+                android:id="@+id/rating"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:isIndicator="true"
+                android:layout_gravity="center"
+                android:numStars="5"
+                android:progressTint="#F8BC07"
+                android:scaleX="0.7"
+                android:scaleY="0.7"
+                android:stepSize="1.0" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -86,20 +97,7 @@
                     android:textColor="#000000"
                     android:textSize="18sp" />
 
-                <ImageView
-                    android:id="@+id/imageView7"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    app:srcCompat="@drawable/star2" />
 
-                <TextView
-                    android:id="@+id/scoreTxt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="30dp"
-                    android:layout_marginStart="8dp"
-                    android:gravity="center_vertical"
-                    android:text="4.8"
-                    android:textColor="@color/black" />
             </LinearLayout>
 
             <LinearLayout

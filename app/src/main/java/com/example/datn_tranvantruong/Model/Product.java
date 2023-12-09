@@ -12,6 +12,7 @@ public class Product implements Serializable {
     private  String location;
     private int price;
     private byte[] image;
+    private float rating;
 
     public Product() {
     }
@@ -98,5 +99,13 @@ public class Product implements Serializable {
 
     public void setImage(byte[] image) {
         this.image = image;
+    }
+
+    public float getRating() {
+        return rating;
+    }
+
+    public void setRating(float rating) {
+        this.rating = rating;
     }
 }

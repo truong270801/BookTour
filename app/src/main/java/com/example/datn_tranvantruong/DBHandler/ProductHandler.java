@@ -195,6 +195,7 @@ public class ProductHandler {
                         product.setLocation(resultSet.getString("location"));
                         product.setPrice(resultSet.getInt("price"));
                         product.setImage(resultSet.getBytes("image"));
+                        product.setRating(resultSet.getFloat("rating"));
                         productList.add(product);
                     }
                 }
@@ -203,5 +204,34 @@ public class ProductHandler {
             e.printStackTrace();
         }
         return productList;
+    }
+    public float getRatingById(int id) {
+        float rating = 1;
+        try (Connection connection = dbConnection.createConection()) {
+            String query = "SELECT rating FROM products WHERE id = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+                preparedStatement.setInt(1, id);
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    if (resultSet.next()) {
+                         rating = resultSet.getInt("rating");
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return rating;
+    }
+    public void updateAverageRating(int productId) {
+        try (Connection connection = dbConnection.createConection()) {
+            String updateQuery = "UPDATE products SET rating = (SELECT AVG(ratingValue) FROM evaluate WHERE product_id = ? GROUP BY product_id) WHERE id = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(updateQuery)) {
+                preparedStatement.setInt(1, productId);
+                preparedStatement.setInt(2, productId);
+                preparedStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Hoặc xử lý lỗi theo cách phù hợp
+        }
     }
 }

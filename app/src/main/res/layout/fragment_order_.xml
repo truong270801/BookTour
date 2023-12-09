@@ -24,15 +24,16 @@
             android:textSize="24dp"
             android:textStyle="bold" />
     </LinearLayout>
-    <ListView
-        android:id="@+id/lv_Bill"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcv_bill"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:scrollbars="vertical"
         android:divider="#CCCCCC"
         android:dividerHeight="5dp"
         android:padding="8dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+
         tools:listitem="@layout/order_item" />
 
 
