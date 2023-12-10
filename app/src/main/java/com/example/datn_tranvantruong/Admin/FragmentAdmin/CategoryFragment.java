@@ -94,10 +94,11 @@ public class CategoryFragment extends Fragment {
                         String inputString = txtNameCategory.getText().toString();
                         String idString = txtIDCategory.getText().toString();
                         if(!inputString.isEmpty() && !idString.isEmpty()){
-                            String _id = txtIDCategory.getText().toString();
-                            int kq = handleCategory.deleteCategory(_id);
+                            String id = txtIDCategory.getText().toString();
+                            handleCategory.deleteProductCategoryr(Integer.parseInt(id));
+                            int kq = handleCategory.deleteCategory(id);
                             if(kq == -1){
-                                Toast.makeText(content,"Delete Thất Bại",Toast.LENGTH_LONG).show();
+                                Toast.makeText(content,"Vui lòng xóa hết danh sách Tour thuộc Category này!!!",Toast.LENGTH_LONG).show();
                             }else {
                                 String text = null;
                                 txtNameCategory.setText(text);

@@ -93,6 +93,9 @@ public class CustomerAdapter extends BaseAdapter {
                 dialog.setPositiveButton("XÓA", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface arg0, int arg1) {
+                        customerHandler.deleteCartCustomer(id);
+                        customerHandler.deleteBillCustomer(id);
+                        customerHandler.deleteEvaluateCustomer(id);
                         customerHandler.deleteCustomer(id); // Xóa khách hàng bằng ID
                         customersList.remove(i); // Xóa khách hàng khỏi danh sách
                         notifyDataSetChanged(); // Cập nhật Adapter

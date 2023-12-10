@@ -10,7 +10,7 @@ public class DBConnection {
     Connection connection = null;
     public  Connection createConection(){
         String ip, port,databasename,user,password,url = null;
-        ip = "192.168.0.109";
+        ip = "192.168.82.114";
         port = "1433";
         databasename = "BOOK_TOUR";
         user = "sa";

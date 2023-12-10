@@ -105,17 +105,28 @@ public class CategoryHandler {
         return null;
     }
 
-    public int deleteCategory(String _id) {
+    public int deleteCategory(String id) {
         try (Connection connection = dbConnection.createConection()) {
             String sql = "DELETE FROM categories WHERE id=?";
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-                preparedStatement.setInt(1, Integer.parseInt(_id));
+                preparedStatement.setInt(1, Integer.parseInt(id));
                 return preparedStatement.executeUpdate();
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return -1;
+    }
+    public void deleteProductCategoryr(int id) {
+        try (Connection connection = dbConnection.createConection()) {
+            String sql = "DELETE FROM products WHERE category_id = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setInt(1, id);
+                preparedStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public int updateCategory(Category category) {

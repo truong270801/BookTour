@@ -140,14 +140,17 @@ public class EditProduct_Fragment extends Fragment {
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
                 // Handle the delete button click here
                 AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
                 dialog.setTitle("XÓA SẢN PHẨM NÀY?");
                 dialog.setMessage("Bạn thật sự muốn xóa sản phẩm này?");
                 dialog.setPositiveButton("XÓA", (dialogInterface, which) -> {
+                    productHandler.deleteBillbyProductId(id);
+                    productHandler.deleteEvaluatebyProductId(id);
+
                     productHandler.deleteProduct(id);
+
+
                     ListProductFragment listProductFragment = new ListProductFragment();
                     // Thực hiện thay thế FragmentA bằng FragmentB
                     FragmentTransaction transaction = getParentFragmentManager().beginTransaction();

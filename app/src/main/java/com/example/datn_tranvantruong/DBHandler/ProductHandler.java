@@ -90,6 +90,7 @@ public class ProductHandler {
     }
 
     public void deleteProduct(int id) {
+
         try (Connection connection = dbConnection.createConection()) {
             String sql = "DELETE FROM products WHERE id = ?";
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -99,6 +100,33 @@ public class ProductHandler {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+    }
+    public void deleteBillbyProductId(int id) {
+
+        try (Connection connection = dbConnection.createConection()) {
+            String sql = "DELETE FROM bills WHERE product_id = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setInt(1, id);
+                preparedStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+    public void deleteEvaluatebyProductId(int id) {
+
+        try (Connection connection = dbConnection.createConection()) {
+            String sql = "DELETE FROM evaluate WHERE product_id = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setInt(1, id);
+                preparedStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public String getProductNameById(int id) {

@@ -157,5 +157,38 @@ public class CustomerHandler {
             e.printStackTrace();
         }
     }
+    public void deleteBillCustomer(int id) {
+        try (Connection connection = dbConnection.createConection()) {
+            String sql = "DELETE FROM bills WHERE user_id = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setInt(1, id);
+                preparedStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public void deleteEvaluateCustomer(int id) {
+        try (Connection connection = dbConnection.createConection()) {
+            String sql = "DELETE FROM evaluate WHERE user_id = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setInt(1, id);
+                preparedStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public void deleteCartCustomer(int id) {
+        try (Connection connection = dbConnection.createConection()) {
+            String sql = "DELETE FROM carts WHERE user_id = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setInt(1, id);
+                preparedStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
 }
