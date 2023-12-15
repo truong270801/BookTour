@@ -53,7 +53,7 @@ public class AdminOrderFragment extends Fragment {
         billStatistics = billHandler.getAllBill(); // Replace with your actual method to fetch bills
 
         // Set up the RecyclerView and its adapter
-        adminBillAdapter = new AdminBillAdapter(getContext(), R.layout.order_item, billStatistics);
+        adminBillAdapter = new AdminBillAdapter(getContext(), R.layout.order_admin_item, billStatistics);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adminBillAdapter);
     }

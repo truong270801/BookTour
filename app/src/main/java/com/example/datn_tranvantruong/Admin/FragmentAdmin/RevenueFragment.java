@@ -79,7 +79,7 @@ public class RevenueFragment extends Fragment {
                     BillHandler billHandler = new BillHandler();
 
                     int totalBill = billHandler.getTotalBill(startDate, endDate);
-                    List<BillRevenue> productSales = billHandler.getAllBillRevenue();
+                    List<BillRevenue> productSales = billHandler.getAllBillRevenue(startDate, endDate);
 
                     if (totalBill == 0) {
                         textViewTotalBill.setText(String.format("Tổng doanh thu: %d VND", totalBill));

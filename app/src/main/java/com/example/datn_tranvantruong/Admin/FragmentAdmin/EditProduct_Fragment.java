@@ -29,8 +29,10 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.datn_tranvantruong.Activity.Login_Activity;
+import com.example.datn_tranvantruong.Adapter.EvaluateAdapter;
 import com.example.datn_tranvantruong.DBHandler.CategoryHandler;
 import com.example.datn_tranvantruong.DBHandler.ProductHandler;
+import com.example.datn_tranvantruong.Fragment.FragmentItem.DetailTour_Fragment;
 import com.example.datn_tranvantruong.Model.Product;
 import com.example.datn_tranvantruong.R;
 
@@ -50,7 +52,7 @@ public class EditProduct_Fragment extends Fragment {
 
     private Spinner spinnerCategory;
     private Integer category;
-    private Button btnEdit, btnDelete;
+    private Button btnEdit, btnDelete,btnDG;
     private int id;
     private static final int REQUEST_CODE_FOLDER = 352;
 
@@ -68,9 +70,29 @@ public class EditProduct_Fragment extends Fragment {
         btnEdit = view.findViewById(R.id.btnEdit);
         btnDelete = view.findViewById(R.id.btnDelete);
         imgHinh = view.findViewById(R.id.imgHinh);
+        btnDG = view.findViewById(R.id.btnDG);
 
         productHandler = new ProductHandler();
         categoryHandler = new CategoryHandler();
+        loadSpinner();
+        setListeners();
+        getData();
+        btnDG.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EvaluateAdminFragment evaluateAdminFragment = new EvaluateAdminFragment();
+
+                Bundle args = new Bundle();
+                args.putInt("id", id);
+
+                evaluateAdminFragment.setArguments(args);
+                // Thực hiện thay thế FragmentA bằng FragmentB
+                FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragment_container_admin, evaluateAdminFragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
+            }
+        });
 
         androidx.appcompat.widget.Toolbar toolbar = view.findViewById(R.id.toolbar);
         AppCompatActivity activity = (AppCompatActivity) requireActivity();
@@ -86,9 +108,7 @@ public class EditProduct_Fragment extends Fragment {
             }
         });
 
-        loadSpinner();
-        setListeners();
-        getData();
+
 
         return view;
     }

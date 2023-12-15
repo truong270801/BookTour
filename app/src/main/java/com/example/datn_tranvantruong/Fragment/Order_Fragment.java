@@ -37,7 +37,6 @@ public class Order_Fragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_order_, container, false);
         recyclerView = view.findViewById(R.id.rcv_bill);
        display();
-        //xuwr lys
 
 
         return  view;
@@ -45,7 +44,7 @@ public class Order_Fragment extends Fragment {
 
     private void display() {
         BillHandler billHandler = new BillHandler();
-        billStatistics = billHandler.getAllBill(); // Replace with your actual method to fetch bills
+        billStatistics = billHandler.getBillByUserID(MainActivity.user_id); // Replace with your actual method to fetch bills
 
         // Set up the RecyclerView and its adapter
         billAdapter = new BillAdapter(getContext(), R.layout.order_item, billStatistics);

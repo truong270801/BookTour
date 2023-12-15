@@ -50,6 +50,7 @@ public class EvaluateAdapter extends RecyclerView.Adapter<EvaluateAdapter.Evalua
         holder.txtComment.setText(evaluate.getComment());
         Bitmap bitmap = BitmapFactory.decodeByteArray(avatar, 0, avatar.length);
         holder.image_avatar.setImageBitmap(bitmap);
+        holder.date.setText(evaluate.getDate());
     }
 
     @Override
@@ -63,13 +64,15 @@ public class EvaluateAdapter extends RecyclerView.Adapter<EvaluateAdapter.Evalua
     public class EvaluateViewHolder extends RecyclerView.ViewHolder{
         ImageView image_avatar;
         RatingBar ratingBar;
-        TextView user_email,txtComment;
+        TextView user_email,txtComment,date;
         public EvaluateViewHolder(@NonNull View itemView) {
             super(itemView);
             image_avatar = itemView.findViewById(R.id.image_avatar);
             ratingBar = itemView.findViewById(R.id.ratingBar);
             user_email = itemView.findViewById(R.id.user_email);
             txtComment = itemView.findViewById(R.id.txtComment);
+            date = itemView.findViewById(R.id.date);
+
         }
     }
 

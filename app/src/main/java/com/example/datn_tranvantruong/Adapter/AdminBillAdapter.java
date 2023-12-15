@@ -78,48 +78,7 @@ holder.itemView.setOnClickListener(new View.OnClickListener() {
         transaction.commit();
     }
 });
-        holder.rateButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int product_id = billStatisticList.get(position).getProduct_id();
-                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
-                LayoutInflater inflater = LayoutInflater.from(context);
-                View dialogView = inflater.inflate(R.layout.rate_dialog, null);
-                dialogBuilder.setView(dialogView);
 
-                final RatingBar dialogRatingBar = dialogView.findViewById(R.id.dialogRatingBar);
-                final EditText dialogComment = dialogView.findViewById(R.id.dialogComment);
-
-                dialogBuilder.setPositiveButton("Gửi", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        float rating = dialogRatingBar.getRating();
-                        String commentText = dialogComment.getText().toString();
-                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                        String currentDateTimeString = sdf.format(new Date(System.currentTimeMillis()));
-
-                        Evaluate evaluate = new Evaluate(MainActivity.user_id, product_id, rating, commentText, currentDateTimeString);
-                        //Thêm vào giỏ hàng
-                        EvaluateHandler evaluateHandler = new EvaluateHandler();
-                        evaluateHandler.rating(evaluate);
-                        ProductHandler productHandler = new ProductHandler();
-
-                        productHandler.updateAverageRating(product_id);
-                        Toast.makeText(context, "Cảm ơn bạn đã đánh giá !", Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-                dialogBuilder.setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                    }
-                });
-
-                AlertDialog alertDialog = dialogBuilder.create();
-                alertDialog.show();
-            }
-        });
     }
 
     @Override
@@ -129,7 +88,6 @@ holder.itemView.setOnClickListener(new View.OnClickListener() {
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView idbill, total, description, date;
-        Button rateButton;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -137,7 +95,6 @@ holder.itemView.setOnClickListener(new View.OnClickListener() {
             total = itemView.findViewById(R.id.total);
             description = itemView.findViewById(R.id.description);
             date = itemView.findViewById(R.id.date);
-            rateButton = itemView.findViewById(R.id.rateButton);
         }
     }
 }

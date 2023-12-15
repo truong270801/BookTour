@@ -40,7 +40,6 @@
                 <TextView
                     android:id="@+id/tv_ID"
                     android:layout_width="wrap_content"
-
                     android:layout_height="wrap_content"
                     android:text="Tên Tour du lịch"
                     android:textColor="@color/black"
@@ -200,6 +199,13 @@
                         android:textColorLink="#000011"
                         android:textStyle="bold" />
                 </LinearLayout>
+                <Button
+                    android:id="@+id/btnDG"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@color/light_blue_A400"
+                    android:text="Đánh Giá"/>
 
             </LinearLayout>
 

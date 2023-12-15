@@ -104,9 +104,11 @@ public class DetailTour_Fragment extends Fragment {
             byte[] productImage = product.getImage();
             Bitmap bitmap = BitmapFactory.decodeByteArray(productImage, 0, productImage.length);
             tourImageView.setImageBitmap(bitmap);
+
             evaluateHandler = new EvaluateHandler();
             evaluateList = evaluateHandler.getAllEvaluateByProductId(product_id);
             evaluateAdapter = new EvaluateAdapter(getContext(),evaluateList);
+
             LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
             recyclerView.setLayoutManager(layoutManager);
             recyclerView.setAdapter(evaluateAdapter);

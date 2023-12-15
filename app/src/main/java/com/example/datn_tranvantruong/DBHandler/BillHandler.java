@@ -110,11 +110,13 @@ Context context;
         return ls;
     }
 
-    public List<BillRevenue> getAllBillRevenue() {
+    public List<BillRevenue> getAllBillRevenue(String start_date, String end_date) {
         List<BillRevenue> ls = new ArrayList<>();
         try (Connection connection = dbConnection.createConection()) {
-            String query = "SELECT id, quatity, total_price FROM bills";
+            String query = "SELECT id, quatity, total_price FROM bills WHERE date_created BETWEEN ? AND ?";
             try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+                preparedStatement.setString(1, start_date);
+                preparedStatement.setString(2, end_date);
                 try (ResultSet resultSet = preparedStatement.executeQuery()) {
                     while (resultSet.next()) {
                         BillRevenue billRevenue = new BillRevenue();
