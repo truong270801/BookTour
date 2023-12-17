@@ -82,42 +82,50 @@ holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int product_id = billStatisticList.get(position).getProduct_id();
-                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
-                LayoutInflater inflater = LayoutInflater.from(context);
-                View dialogView = inflater.inflate(R.layout.rate_dialog, null);
-                dialogBuilder.setView(dialogView);
+                EvaluateHandler evaluateHandler = new EvaluateHandler();
+                // Check if the user has already rated this tour
+                if (evaluateHandler.hasUserRatedTour(MainActivity.user_id,product_id) ) {
+                    // Show a message indicating that the user has already rated this tour
+                    Toast.makeText(context, "Bạn đã đánh giá tour này rồi!", Toast.LENGTH_SHORT).show();
+                } else {
 
-                final RatingBar dialogRatingBar = dialogView.findViewById(R.id.dialogRatingBar);
-                final EditText dialogComment = dialogView.findViewById(R.id.dialogComment);
+                    AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
+                    LayoutInflater inflater = LayoutInflater.from(context);
+                    View dialogView = inflater.inflate(R.layout.rate_dialog, null);
+                    dialogBuilder.setView(dialogView);
 
-                dialogBuilder.setPositiveButton("Gửi", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        float rating = dialogRatingBar.getRating();
-                        String commentText = dialogComment.getText().toString();
-                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                        String currentDateTimeString = sdf.format(new Date(System.currentTimeMillis()));
+                    final RatingBar dialogRatingBar = dialogView.findViewById(R.id.dialogRatingBar);
+                    final EditText dialogComment = dialogView.findViewById(R.id.dialogComment);
 
-                        Evaluate evaluate = new Evaluate(MainActivity.user_id, product_id, rating, commentText, currentDateTimeString);
-                        //Thêm vào giỏ hàng
-                        EvaluateHandler evaluateHandler = new EvaluateHandler();
-                        evaluateHandler.rating(evaluate);
-                        ProductHandler productHandler = new ProductHandler();
+                    dialogBuilder.setPositiveButton("Gửi", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            float rating = dialogRatingBar.getRating();
+                            String commentText = dialogComment.getText().toString();
+                            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                            String currentDateTimeString = sdf.format(new Date(System.currentTimeMillis()));
 
-                        productHandler.updateAverageRating(product_id);
-                        Toast.makeText(context, "Cảm ơn bạn đã đánh giá !", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                            Evaluate evaluate = new Evaluate(MainActivity.user_id, product_id, rating, commentText, currentDateTimeString);
+                            //Thêm vào giỏ hàng
+                            EvaluateHandler evaluateHandler = new EvaluateHandler();
+                            evaluateHandler.rating(evaluate);
+                            ProductHandler productHandler = new ProductHandler();
 
-                dialogBuilder.setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                    }
-                });
+                            productHandler.updateAverageRating(product_id);
+                            Toast.makeText(context, "Cảm ơn bạn đã đánh giá !", Toast.LENGTH_SHORT).show();
+                        }
+                    });
 
-                AlertDialog alertDialog = dialogBuilder.create();
-                alertDialog.show();
+                    dialogBuilder.setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                        }
+                    });
+
+                    AlertDialog alertDialog = dialogBuilder.create();
+                    alertDialog.show();
+                }
             }
         });
     }

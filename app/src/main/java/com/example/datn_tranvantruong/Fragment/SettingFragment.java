@@ -65,9 +65,6 @@ TextView user_name,user_email;
         bntHelp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Mở ứng dụng Zalo nếu đã cài đặt
-
-
                     Intent webIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/profile.php?id=100041618133507&locale=vi_VN")); // Thay thế URL bằng liên kết Zalo của bạn
                     startActivity(webIntent);
 

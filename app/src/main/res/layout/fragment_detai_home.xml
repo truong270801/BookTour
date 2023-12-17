@@ -289,7 +289,8 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="serif"
                     android:gravity="center"
-                    android:text="ĐÁNH GIÁ"
+                    android:layout_marginTop="20dp"
+                    android:text="ĐÁNH GIÁ TOUR"
                     android:textColor="@color/black"
                     android:textSize="24sp"
                     android:textStyle="bold" />

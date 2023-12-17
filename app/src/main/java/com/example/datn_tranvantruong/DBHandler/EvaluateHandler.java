@@ -37,6 +37,25 @@ public class EvaluateHandler {
             e.printStackTrace();
         }
     }
+    public boolean hasUserRatedTour(int userId, int productId) {
+        try (Connection connection = dbConnection.createConection()) {
+            String query = "SELECT COUNT(*) FROM evaluate WHERE user_id = ? AND product_id = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+                preparedStatement.setInt(1, userId);
+                preparedStatement.setInt(2, productId);
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    if (resultSet.next()) {
+                        int count = resultSet.getInt(1);
+                        // If count is greater than 0, it means the user has already rated the tour
+                        return count > 0;
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
     public List<Evaluate> getAllEvaluateByProductId(int product_id) {
         List<Evaluate> evaluateList = new ArrayList<>();
         try (Connection connection = dbConnection.createConection()) {

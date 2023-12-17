@@ -48,8 +48,11 @@ public class EvaluateAdapter extends RecyclerView.Adapter<EvaluateAdapter.Evalua
         holder.user_email.setText(email);
         holder.ratingBar.setRating(evaluate.getRating());
         holder.txtComment.setText(evaluate.getComment());
+
+        if (avatar != null) {
         Bitmap bitmap = BitmapFactory.decodeByteArray(avatar, 0, avatar.length);
         holder.image_avatar.setImageBitmap(bitmap);
+        }
         holder.date.setText(evaluate.getDate());
     }
 

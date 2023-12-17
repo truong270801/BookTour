@@ -26,10 +26,9 @@ Connection connection = null;
             DBConnection connect = new DBConnection();
             connection = connect.createConection();
             if (connection != null){
-                Toast.makeText(this,"Kết nối database thành công",Toast.LENGTH_LONG).show();
             }
             else{
-                Toast.makeText(this,"Kết nối thaast bai",Toast.LENGTH_LONG).show();
+                Toast.makeText(this,"Vui lòng kiểm tra lại kết nối!",Toast.LENGTH_LONG).show();
 
             }
         }catch (Exception e){
