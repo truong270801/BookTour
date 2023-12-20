@@ -6,6 +6,9 @@ import com.example.datn_tranvantruong.Database.DBConnection;
 import com.example.datn_tranvantruong.Model.Bill;
 import com.example.datn_tranvantruong.Model.BillRevenue;
 import com.example.datn_tranvantruong.Model.BillStatistic;
+import com.example.datn_tranvantruong.Model.Cart;
+import com.example.datn_tranvantruong.Model.Customer;
+import com.example.datn_tranvantruong.Model.Pay;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -25,7 +28,30 @@ Context context;
     }
 
 
+    public void CreateBill(Pay pay) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String currentDateTimeString = sdf.format(new Date(System.currentTimeMillis()));
+        try (Connection connection = dbConnection.createConection()) {
+            String sql = "INSERT INTO bills (user_id,product_id,quatity,total_price,description,date_created, userEmail, userName, userPhone,userAddress) VALUES (?, ?, ?, ?,?,?,?,?,?,?)";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setInt(1, pay.getUser_id());
+                preparedStatement.setInt(2, pay.getProduct_id());
+                preparedStatement.setInt(3, pay.getQuatity());
+                preparedStatement.setInt(4, pay.getPrice());
+                preparedStatement.setString(5, pay.getDescription());
+                preparedStatement.setString(6, currentDateTimeString);
+                preparedStatement.setString(7, pay.getUserEmail());
+                preparedStatement.setString(8, pay.getUserName());
+                preparedStatement.setString(9, pay.getUserPhone());
+                preparedStatement.setString(10, pay.getUserAddress());
 
+
+                preparedStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
     public List<BillStatistic> getBillByUserID(int id) {
         List<BillStatistic> billStatisticList = new ArrayList<>();
         try (Connection connection = dbConnection.createConection()) {
@@ -69,23 +95,7 @@ Context context;
         return billQuantity;
     }
 
-    public String getUserIdById(int id) {
-        String userId = null;
-        try (Connection connection = dbConnection.createConection()) {
-            String sql = "SELECT user_id FROM bills WHERE id = ?";
-            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-                preparedStatement.setInt(1, id);
-                try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                    if (resultSet.next()) {
-                        userId = resultSet.getString("user_id");
-                    }
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return userId;
-    }
+
     public List<BillStatistic> getAllBill() {
         List<BillStatistic> ls = new ArrayList<>();
         try (Connection connection = dbConnection.createConection()) {
@@ -152,5 +162,25 @@ Context context;
         }
 
         return total;
+    }
+    public Pay getBillInfo(int id) {
+        Pay pay = new Pay();
+        try (Connection connection = dbConnection.createConection()) {
+            String query = "SELECT userEmail, userName, userPhone,userAddress FROM bills WHERE id = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+                preparedStatement.setInt(1, id);
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    if (resultSet.next()) {
+                        pay.setUserEmail(resultSet.getString("userEmail"));
+                        pay.setUserName(resultSet.getString("userName"));
+                        pay.setUserPhone(resultSet.getString("userPhone"));
+                        pay.setUserAddress(resultSet.getString("userAddress"));
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return pay;
     }
 }

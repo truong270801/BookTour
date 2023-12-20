@@ -30,7 +30,6 @@ public class BillDetailFragment extends Fragment {
     TextView price;
     TextView bill_date;
     TextView bill_price;
-    TextView customer_name;
 
 
     @Override
@@ -49,7 +48,6 @@ public class BillDetailFragment extends Fragment {
         price = view.findViewById(R.id.product_price);
         bill_date = view.findViewById(R.id.bill_date);
         bill_price = view.findViewById(R.id.bill_price);
-        customer_name = view.findViewById(R.id.customer_name);
         ProductHandler productHandler = new ProductHandler();
         CustomerHandler customerHandler = new CustomerHandler();
         BillHandler billHandler = new BillHandler();
@@ -63,12 +61,10 @@ public class BillDetailFragment extends Fragment {
 
 
 
-            int user_id = Integer.parseInt(billHandler.getUserIdById(Integer.parseInt(billid)));
-                    users_email.setText(customerHandler.getCustomerInfo(user_id).getEmail());
-            users_name.setText(customerHandler.getCustomerInfo(user_id).getFullname());
-            users_address.setText(customerHandler.getCustomerInfo(user_id).getAddress());
-            users_phone.setText(customerHandler.getCustomerInfo(user_id).getPhone());
-            customer_name.setText(users_name.getText().toString());
+            users_email.setText(billHandler.getBillInfo(Integer.parseInt(billid)).getUserEmail());
+            users_name.setText(billHandler.getBillInfo(Integer.parseInt(billid)).getUserName());
+            users_address.setText(billHandler.getBillInfo(Integer.parseInt(billid)).getUserAddress());
+            users_phone.setText(billHandler.getBillInfo(Integer.parseInt(billid)).getUserPhone());
 
             // Lấy thông tin hóa đơn
             bill_id.setText("Mã số: #KTTRAVEL" + billid);

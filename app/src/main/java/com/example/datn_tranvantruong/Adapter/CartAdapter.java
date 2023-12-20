@@ -10,7 +10,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioGroup;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +31,7 @@ import com.example.datn_tranvantruong.Model.Bill;
 import com.example.datn_tranvantruong.Model.Cart;
 import com.example.datn_tranvantruong.Model.CartStatistic;
 import com.example.datn_tranvantruong.Model.Customer;
+import com.example.datn_tranvantruong.Model.Pay;
 import com.example.datn_tranvantruong.R;
 
 import java.sql.Connection;
@@ -42,6 +46,7 @@ public class CartAdapter extends BaseAdapter {
     int layout;
     List<CartStatistic> cartList;
     CartHandler cartHandler;
+    Pay pay;
     public CartAdapter(Context context, int layout, List<CartStatistic> cartList) {
         this.context = context;
         this.layout = layout;
@@ -86,51 +91,65 @@ public class CartAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 try {
+                    AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
+                    LayoutInflater inflater = LayoutInflater.from(context);
+                    View dialogView = inflater.inflate(R.layout.pay_dialog, null);
+                    dialogBuilder.setView(dialogView);
 
-                    AlertDialog.Builder dialog = new AlertDialog.Builder(v.getContext());
-                    dialog.setTitle("THANH TOÁN?");
-                    dialog.setMessage("Bạn thực sự muốn mua mặt hàng này?");
-                    dialog.setPositiveButton("XÁC NHẬN", new DialogInterface.OnClickListener() {
+                    final EditText editTextEmail = dialogView.findViewById(R.id.editTextEmail);
+                    final EditText editTextUsername = dialogView.findViewById(R.id.editTextUsername);
+                    final EditText editTextPhone = dialogView.findViewById(R.id.editTextPhone);
+                    final EditText editTextAdrress = dialogView.findViewById(R.id.editTextAdrress);
+                    final TextView pay_total  = dialogView.findViewById(R.id.pay_total);
+                    final RadioGroup radioGroupPayment = dialogView.findViewById(R.id.radioGroupPayment);
+
+                    int user_id = MainActivity.user_id;
+
+                    CartStatistic cart = cartList.get(i);
+                    int product_id = cart.getProduct_id();
+                    int id = cart.getIdCart();
+                    int quatity = Integer.parseInt(holder.Cart_Quality.getText().toString());
+                    int price = Integer.parseInt(holder.Cart_Price.getText().toString());
+
+
+                    CustomerHandler customerHandler = new CustomerHandler();
+                    editTextEmail.setText(customerHandler.getCustomerInfo(user_id).getEmail());
+                    editTextUsername.setText(customerHandler.getCustomerInfo(user_id).getFullname());
+                    editTextAdrress.setText(customerHandler.getCustomerInfo(user_id).getAddress());
+                    editTextPhone.setText(customerHandler.getCustomerInfo(user_id).getPhone());
+                    pay_total.setText("SỐ TIỀN: " + price +" VND");
+
+
+                    dialogBuilder.setPositiveButton("XÁC NHẬN", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface arg0, int arg1) {
-                            CartStatistic cart = cartList.get(i);
-                            int product_id = cart.getProduct_id();
-                            int id = cart.getIdCart();
-                            int quatity = Integer.parseInt(holder.Cart_Quality.getText().toString());
-                            int price = Integer.parseInt(holder.Cart_Price.getText().toString());
-                            DBConnection dbConnection = new DBConnection();
-                            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                            String currentDateTimeString = sdf.format(new Date(System.currentTimeMillis()));
+                            int selectedId = radioGroupPayment.getCheckedRadioButtonId();
+                            if (selectedId == R.id.radioButtonDirectPayment) {
+                                // Xử lý thanh toán trực tiếp
+                                String description = "Thanh toán bằng tiền mặt";
+                                pay = new Pay(user_id, product_id,quatity,price,description,editTextEmail.getText().toString().trim(),editTextUsername.getText().toString().trim(),editTextPhone.getText().toString().trim(),editTextAdrress.getText().toString().trim());
+                                // Clear the cart (assuming you have a method to clear it in your CartHandler)
+                                BillHandler billHandler = new BillHandler();
+                                billHandler.CreateBill(pay);
+                                cartHandler.deleteCart(id);
+                                cartList.remove(i);
+                                // Show a toast indicating successful payment
+                                Toast.makeText(v.getContext(), "Thanh toán thành công!!", Toast.LENGTH_SHORT).show();
 
-                            try (Connection connection = dbConnection.createConection()) {
-                                String sql = "INSERT INTO bills (user_id, product_id, quatity, total_price, description, date_created) VALUES (?, ?, ?, ?, ?, ?)";
-                                try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-                                    preparedStatement.setInt(1, MainActivity.user_id);
-                                    preparedStatement.setInt(2, product_id);
-                                    preparedStatement.setInt(3, quatity);
-                                    preparedStatement.setInt(4, price);
-                                    preparedStatement.setString(5, "Đã thanh toán");
-                                    preparedStatement.setString(6, currentDateTimeString);
+                                // Navigate to another fragment (replace with your navigation logic)
+                                FragmentTransaction transaction = ((AppCompatActivity) context).getSupportFragmentManager().beginTransaction();
+                                transaction.replace(R.id.fragment_container, new Order_Fragment()); // Replace with the fragment you want to navigate to
+                                transaction.addToBackStack(null);
+                                transaction.commit();
+                            } else if (selectedId == R.id.radioButtonZaloPay) {
+                                // Xử lý thanh toán qua ZaloPay
+                                String description = "Thanh toán bằng Zalo Pay";
 
-                                    preparedStatement.executeUpdate();
-                                }
-                            } catch (SQLException e) {
-                                e.printStackTrace();
+                            } else {
+                                // Không chọn hình thức thanh toán
+                                Toast.makeText(v.getContext(), "Vui lòng chọn hình thức thanh toán", Toast.LENGTH_SHORT).show();
+
                             }
-
-                            // Clear the cart (assuming you have a method to clear it in your CartHandler)
-                            cartHandler.deleteCart(id);
-                            cartList.remove(i);
-
-
-                            // Show a toast indicating successful payment
-                            Toast.makeText(v.getContext(), "Thanh toán thành công!!", Toast.LENGTH_SHORT).show();
-
-                            // Navigate to another fragment (replace with your navigation logic)
-                            FragmentTransaction transaction = ((AppCompatActivity) context).getSupportFragmentManager().beginTransaction();
-                            transaction.replace(R.id.fragment_container, new Order_Fragment()); // Replace with the fragment you want to navigate to
-                            transaction.addToBackStack(null);
-                            transaction.commit();
 
                         }
                     }).setNegativeButton("Hủy", null).show();

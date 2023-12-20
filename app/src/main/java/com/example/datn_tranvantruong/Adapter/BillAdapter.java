@@ -59,7 +59,7 @@ public class BillAdapter extends RecyclerView.Adapter<BillAdapter.ViewHolder> {
         holder.total.setText("Giá: " + String.valueOf(bill.getPrice()) + "VND");
         holder.description.setText("Tình trạng: " + bill.getDescription());
         holder.date.setText("Ngày đặt Tour: " + bill.getDate());
-holder.itemView.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View v) {
         BillDetailFragment billDetailFragment = new BillDetailFragment();
