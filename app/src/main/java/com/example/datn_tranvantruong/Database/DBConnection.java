@@ -10,7 +10,7 @@ public class DBConnection {
     Connection connection = null;
     public  Connection createConection(){
         String ip, port,databasename,user,password,url;
-        ip = "192.168.1.26";
+        ip = "172.20.10.4";
         port = "1433";
         databasename = "BOOK_TOUR";
         user = "sa";
@@ -25,8 +25,6 @@ public class DBConnection {
         connection = DriverManager.getConnection(url);
         }catch (Exception e){
             Log.e("Error:", e.getMessage());
-
-
         }
          return connection;
         }

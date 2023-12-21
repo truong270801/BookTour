@@ -1,10 +1,15 @@
 package com.example.datn_tranvantruong.Adapter;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.StrictMode;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,9 +35,12 @@ import com.example.datn_tranvantruong.MainActivity;
 import com.example.datn_tranvantruong.Model.Bill;
 import com.example.datn_tranvantruong.Model.Cart;
 import com.example.datn_tranvantruong.Model.CartStatistic;
+import com.example.datn_tranvantruong.Model.CreateOrder;
 import com.example.datn_tranvantruong.Model.Customer;
 import com.example.datn_tranvantruong.Model.Pay;
 import com.example.datn_tranvantruong.R;
+
+import org.json.JSONObject;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -41,11 +49,17 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import vn.zalopay.sdk.Environment;
+import vn.zalopay.sdk.ZaloPayError;
+import vn.zalopay.sdk.ZaloPaySDK;
+import vn.zalopay.sdk.listeners.PayOrderListener;
+
 public class CartAdapter extends BaseAdapter {
     Context context;
     int layout;
     List<CartStatistic> cartList;
     CartHandler cartHandler;
+    private boolean isZaloPayCompleted = false;
     Pay pay;
     public CartAdapter(Context context, int layout, List<CartStatistic> cartList) {
         this.context = context;
@@ -123,34 +137,99 @@ public class CartAdapter extends BaseAdapter {
                     dialogBuilder.setPositiveButton("XÁC NHẬN", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface arg0, int arg1) {
-                            int selectedId = radioGroupPayment.getCheckedRadioButtonId();
-                            if (selectedId == R.id.radioButtonDirectPayment) {
-                                // Xử lý thanh toán trực tiếp
-                                String description = "Thanh toán bằng tiền mặt";
-                                pay = new Pay(user_id, product_id,quatity,price,description,editTextEmail.getText().toString().trim(),editTextUsername.getText().toString().trim(),editTextPhone.getText().toString().trim(),editTextAdrress.getText().toString().trim());
-                                // Clear the cart (assuming you have a method to clear it in your CartHandler)
-                                BillHandler billHandler = new BillHandler();
-                                billHandler.CreateBill(pay);
-                                cartHandler.deleteCart(id);
-                                cartList.remove(i);
-                                // Show a toast indicating successful payment
-                                Toast.makeText(v.getContext(), "Thanh toán thành công!!", Toast.LENGTH_SHORT).show();
-
-                                // Navigate to another fragment (replace with your navigation logic)
-                                FragmentTransaction transaction = ((AppCompatActivity) context).getSupportFragmentManager().beginTransaction();
-                                transaction.replace(R.id.fragment_container, new Order_Fragment()); // Replace with the fragment you want to navigate to
-                                transaction.addToBackStack(null);
-                                transaction.commit();
-                            } else if (selectedId == R.id.radioButtonZaloPay) {
-                                // Xử lý thanh toán qua ZaloPay
-                                String description = "Thanh toán bằng Zalo Pay";
-
+                            if (TextUtils.isEmpty(editTextUsername.getText().toString().trim()) || TextUtils.isEmpty(editTextUsername.getText().toString().trim()) || TextUtils.isEmpty(editTextPhone.getText().toString().trim()) || TextUtils.isEmpty(editTextAdrress.getText().toString().trim())) {
+                                Toast.makeText(context, "Không được để trống các trường", Toast.LENGTH_SHORT).show();
                             } else {
-                                // Không chọn hình thức thanh toán
-                                Toast.makeText(v.getContext(), "Vui lòng chọn hình thức thanh toán", Toast.LENGTH_SHORT).show();
+                                int selectedId = radioGroupPayment.getCheckedRadioButtonId();
+                                if (selectedId == R.id.radioButtonDirectPayment) {
+                                    // Xử lý thanh toán trực tiếp
+                                    String description = "Thanh toán bằng tiền mặt";
+                                    pay = new Pay(user_id, product_id, quatity, price, description, editTextEmail.getText().toString().trim(), editTextUsername.getText().toString().trim(), editTextPhone.getText().toString().trim(), editTextAdrress.getText().toString().trim());
+                                    // Clear the cart (assuming you have a method to clear it in your CartHandler)
+                                    BillHandler billHandler = new BillHandler();
+                                    billHandler.CreateBill(pay);
+                                    cartHandler.deleteCart(id);
+                                    cartList.remove(i);
+                                    // Show a toast indicating successful payment
+                                    Toast.makeText(v.getContext(), "Đặt hàng thành công!!", Toast.LENGTH_SHORT).show();
+
+                                    // Navigate to another fragment (replace with your navigation logic)
+                                    FragmentTransaction transaction = ((AppCompatActivity) context).getSupportFragmentManager().beginTransaction();
+                                    transaction.replace(R.id.fragment_container, new Order_Fragment()); // Replace with the fragment you want to navigate to
+                                    transaction.addToBackStack(null);
+                                    transaction.commit();
+                                } else if (selectedId == R.id.radioButtonZaloPay) {
+                                    // Xử lý thanh toán qua ZaloPay
+                                    StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                                    StrictMode.setThreadPolicy(policy);
+                                    ZaloPaySDK.init(2553, Environment.SANDBOX);
+
+                                    requestZalo();
+                                    if (isZaloPayCompleted = true) {
+                                        // Nếu thanh toán ZaloPay đã hoàn thành, tiếp tục xử lý thanh toán
+                                        continuePaymentProcessing();
+                                    }
+
+
+
+                                } else {
+                                    // Không chọn hình thức thanh toán
+                                    Toast.makeText(v.getContext(), "Vui lòng chọn hình thức thanh toán", Toast.LENGTH_SHORT).show();
+
+                                }
 
                             }
+                        }
 
+                        private void continuePaymentProcessing() {
+                            String description = "Thanh toán bằng Zalo Pay";
+                            pay = new Pay(user_id, product_id,quatity,price,description,editTextEmail.getText().toString().trim(),editTextUsername.getText().toString().trim(),editTextPhone.getText().toString().trim(),editTextAdrress.getText().toString().trim());
+                            // Clear the cart (assuming you have a method to clear it in your CartHandler)
+                            BillHandler billHandler = new BillHandler();
+                            billHandler.CreateBill(pay);
+                            cartHandler.deleteCart(id);
+                            cartList.remove(i);
+                            // Show a toast indicating successful payment
+                            Toast.makeText(v.getContext(), "Thanh toán thành công!!", Toast.LENGTH_SHORT).show();
+
+                            // Navigate to another fragment (replace with your navigation logic)
+                            FragmentTransaction transaction = ((AppCompatActivity) context).getSupportFragmentManager().beginTransaction();
+                            transaction.replace(R.id.fragment_container, new Order_Fragment()); // Replace with the fragment you want to navigate to
+                            transaction.addToBackStack(null);
+                            transaction.commit();
+                        }
+
+                        private void requestZalo() {
+                            CreateOrder orderApi = new CreateOrder();
+
+                            try {
+                                JSONObject data = orderApi.createOrder(String.valueOf(price));
+                                Log.d("Amount", String.valueOf(price));
+                                String code = data.getString("return_code");
+
+                                if (code.equals("1")) {
+                                  String token = data.getString("zp_trans_token");
+                                  ZaloPaySDK.getInstance().payOrder((Activity) context, token, "demozpdk://app", new PayOrderListener() {
+                                      @Override
+                                      public void onPaymentSucceeded(String s, String s1, String s2) {
+                                          isZaloPayCompleted = true;
+                                      }
+
+                                      @Override
+                                      public void onPaymentCanceled(String s, String s1) {
+                                          isZaloPayCompleted = false;
+
+                                      }
+
+                                      @Override
+                                      public void onPaymentError(ZaloPayError zaloPayError, String s, String s1) {
+                                          isZaloPayCompleted = false;
+                                      }
+                                  });}
+
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                         }
                     }).setNegativeButton("Hủy", null).show();
 
@@ -206,4 +285,5 @@ public class CartAdapter extends BaseAdapter {
         TextView Cart_Name, Cart_Price,Cart_Quality;
         Button btn_Order, btn_Delete;
     }
+
 }

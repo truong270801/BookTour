@@ -14,16 +14,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 //import com.example.datn_tranvantruong.DBHandler.SignupHandler;
 import com.example.datn_tranvantruong.DBHandler.SignupHandler;
-import com.example.datn_tranvantruong.Model.Customer;
 import com.example.datn_tranvantruong.R;
-import com.google.firebase.database.FirebaseDatabase;
 
 public class Signup_Activity extends AppCompatActivity {
     Button bnt_signup;
     EditText signup_email, signup_password,signup_name,signup_phone, signup_conpassword;
     TextView signupRedirectText;
     ProgressDialog progressDialog;
-    FirebaseDatabase database;
 
 
 
@@ -37,7 +34,6 @@ public class Signup_Activity extends AppCompatActivity {
         signup_email = findViewById(R.id.signup_email);
         signup_password = findViewById(R.id.signup_password);
         signup_conpassword = findViewById(R.id.signup_conpassword);
-        database = FirebaseDatabase.getInstance();
 
         signupRedirectText = findViewById(R.id.loginRedirectText);
         signupRedirectText.setOnClickListener(new View.OnClickListener() {

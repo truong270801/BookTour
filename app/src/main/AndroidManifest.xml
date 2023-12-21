@@ -15,18 +15,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
         tools:targetApi="31">
-        <activity
-            android:name=".Activity.ChatActivity"
-            android:exported="false" />
+
         <activity
             android:name=".Activity.ResetForgotPasswordActivity"
             android:exported="false" />
         <activity
             android:name=".Admin.MenuActivity"
             android:exported="false" />
-        <activity
-            android:name=".Activity.Payment_Activity"
-            android:exported="false" />
+
         <activity
             android:name=".Activity.Profile_Activity"
             android:exported="false" />
