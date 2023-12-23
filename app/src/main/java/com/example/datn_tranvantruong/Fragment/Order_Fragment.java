@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -13,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.example.datn_tranvantruong.Activity.SwipeToDeleteCallback;
 import com.example.datn_tranvantruong.Adapter.BillAdapter;
 import com.example.datn_tranvantruong.DBHandler.BillHandler;
 //import com.example.datn_tranvantruong.Fragment.FragmentItem.BillDetailFragment;
@@ -37,6 +39,8 @@ public class Order_Fragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_order_, container, false);
         recyclerView = view.findViewById(R.id.rcv_bill);
        display();
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeToDeleteCallback(billAdapter, getContext()));
+        itemTouchHelper.attachToRecyclerView(recyclerView);
 
 
         return  view;

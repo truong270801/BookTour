@@ -6,6 +6,7 @@ public class Pay {
     int quatity;
     int price;
     String description;
+    String status;
     String userEmail;
     String userName;
     String userPhone;
@@ -14,12 +15,13 @@ public class Pay {
     public Pay() {
     }
 
-    public Pay(int user_id, int product_id, int quatity, int price, String description, String userEmail, String userName, String userPhone, String userAddress) {
+    public Pay(int user_id, int product_id, int quatity, int price, String description,String status, String userEmail, String userName, String userPhone, String userAddress) {
         this.user_id = user_id;
         this.product_id = product_id;
         this.quatity = quatity;
         this.price = price;
         this.description = description;
+        this.status = status;
         this.userEmail = userEmail;
         this.userName = userName;
         this.userPhone = userPhone;
@@ -64,6 +66,14 @@ public class Pay {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getUserEmail() {

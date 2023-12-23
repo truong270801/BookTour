@@ -32,7 +32,7 @@ Context context;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String currentDateTimeString = sdf.format(new Date(System.currentTimeMillis()));
         try (Connection connection = dbConnection.createConection()) {
-            String sql = "INSERT INTO bills (user_id,product_id,quatity,total_price,description,date_created, userEmail, userName, userPhone,userAddress) VALUES (?, ?, ?, ?,?,?,?,?,?,?)";
+            String sql = "INSERT INTO bills (user_id,product_id,quatity,total_price,description,date_created, userEmail, userName, userPhone,userAddress,status) VALUES (?, ?, ?, ?,?,?,?,?,?,?,?)";
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                 preparedStatement.setInt(1, pay.getUser_id());
                 preparedStatement.setInt(2, pay.getProduct_id());
@@ -44,8 +44,7 @@ Context context;
                 preparedStatement.setString(8, pay.getUserName());
                 preparedStatement.setString(9, pay.getUserPhone());
                 preparedStatement.setString(10, pay.getUserAddress());
-
-
+                preparedStatement.setString(11, pay.getStatus());
                 preparedStatement.executeUpdate();
             }
         } catch (SQLException e) {
@@ -65,6 +64,7 @@ Context context;
                         billStatistic.setProduct_id(resultSet.getInt("product_id"));
                         billStatistic.setDate(resultSet.getString("date_created"));
                         billStatistic.setDescription(resultSet.getString("description"));
+                        billStatistic.setStatus(resultSet.getString("status"));
                         billStatistic.setPrice(resultSet.getInt("total_price"));
 
                         billStatisticList.add(billStatistic);
@@ -94,6 +94,23 @@ Context context;
         }
         return billQuantity;
     }
+    public String getBillStatusById(int id) {
+        String billStatus = null;
+        try (Connection connection = dbConnection.createConection()) {
+            String sql = "SELECT status FROM bills WHERE id = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setInt(1, id);
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    if (resultSet.next()) {
+                        billStatus = resultSet.getString("status");
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return billStatus;
+    }
 
 
     public List<BillStatistic> getAllBill() {
@@ -108,6 +125,7 @@ Context context;
                         bill.setProduct_id(resultSet.getInt("product_id"));
                         bill.setPrice(resultSet.getInt("total_price"));
                         bill.setDescription(resultSet.getString("description"));
+                        bill.setStatus(resultSet.getString("status"));
                         bill.setDate(resultSet.getString("date_created"));
                         ls.add(bill);
                     }
@@ -118,6 +136,18 @@ Context context;
         }
 
         return ls;
+    }
+    public void UpdateBillStatus(int billId, String newStatus) {
+        try (Connection connection = dbConnection.createConection()) {
+            String sql = "UPDATE bills SET status = ? WHERE id = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setString(1, newStatus);
+                preparedStatement.setInt(2, billId);
+                preparedStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public List<BillRevenue> getAllBillRevenue(String start_date, String end_date) {
@@ -182,5 +212,16 @@ Context context;
             e.printStackTrace();
         }
         return pay;
+    }
+    public void deleteBill(int id) {
+        try (Connection connection = dbConnection.createConection()) {
+            String sql = "DELETE FROM bills WHERE id = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setInt(1, id);
+                preparedStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

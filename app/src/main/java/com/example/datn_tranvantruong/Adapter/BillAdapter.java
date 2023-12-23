@@ -37,12 +37,14 @@ public class BillAdapter extends RecyclerView.Adapter<BillAdapter.ViewHolder> {
     private List<BillStatistic> billStatisticList;
     private BillHandler billHandler;
 
+
     public BillAdapter(Context context, int layout, List<BillStatistic> billStatisticList) {
         this.context = context;
         this.layout = layout;
         this.billStatisticList = billStatisticList;
         billHandler = new BillHandler();
     }
+
 
     @NonNull
     @Override
@@ -57,11 +59,16 @@ public class BillAdapter extends RecyclerView.Adapter<BillAdapter.ViewHolder> {
 
         holder.idbill.setText("ID: #KTTRAVEL" + String.valueOf(bill.getBill_id()));
         holder.total.setText("Giá: " + String.valueOf(bill.getPrice()) + "VND");
-        holder.description.setText("Tình trạng: " + bill.getDescription());
+        holder.description.setText(bill.getDescription());
         holder.date.setText("Ngày đặt Tour: " + bill.getDate());
+        holder.status.setText("Tình trạng: " + bill.getStatus());
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View v) {
+        String status1 = billHandler.getBillStatusById(bill.getBill_id()).toString().trim();
+
+        if ("Đã xác nhận".equals(status1) || "Chuyến tour đang thực hiện".equals(status1) || "Đã kết thúc".equals(status1)) {
         BillDetailFragment billDetailFragment = new BillDetailFragment();
 
         Bundle args = new Bundle();
@@ -75,56 +82,64 @@ public class BillAdapter extends RecyclerView.Adapter<BillAdapter.ViewHolder> {
         FragmentTransaction transaction = ((FragmentActivity) context).getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_container, billDetailFragment);
         transaction.addToBackStack(null);
-        transaction.commit();
+        transaction.commit();}else {
+            Toast.makeText(v.getContext(), "Đơn hàng chưa được xác nhận!!", Toast.LENGTH_SHORT).show();                }
+
     }
 });
         holder.rateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int product_id = billStatisticList.get(position).getProduct_id();
-                EvaluateHandler evaluateHandler = new EvaluateHandler();
-                // Check if the user has already rated this tour
-                if (evaluateHandler.hasUserRatedTour(MainActivity.user_id,product_id) ) {
-                    // Show a message indicating that the user has already rated this tour
-                    Toast.makeText(context, "Bạn đã đánh giá tour này rồi!", Toast.LENGTH_SHORT).show();
-                } else {
+                String status1 = billHandler.getBillStatusById(bill.getBill_id()).toString().trim();
 
-                    AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
-                    LayoutInflater inflater = LayoutInflater.from(context);
-                    View dialogView = inflater.inflate(R.layout.rate_dialog, null);
-                    dialogBuilder.setView(dialogView);
+                if ( "Đã kết thúc".equals(status1)) {
+                    int product_id = billStatisticList.get(position).getProduct_id();
+                    EvaluateHandler evaluateHandler = new EvaluateHandler();
+                    // Check if the user has already rated this tour
+                    if (evaluateHandler.hasUserRatedTour(MainActivity.user_id, product_id)) {
+                        // Show a message indicating that the user has already rated this tour
+                        Toast.makeText(context, "Bạn đã đánh giá tour này rồi!", Toast.LENGTH_SHORT).show();
+                    } else {
 
-                    final RatingBar dialogRatingBar = dialogView.findViewById(R.id.dialogRatingBar);
-                    final EditText dialogComment = dialogView.findViewById(R.id.dialogComment);
+                        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
+                        LayoutInflater inflater = LayoutInflater.from(context);
+                        View dialogView = inflater.inflate(R.layout.rate_dialog, null);
+                        dialogBuilder.setView(dialogView);
 
-                    dialogBuilder.setPositiveButton("Gửi", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            float rating = dialogRatingBar.getRating();
-                            String commentText = dialogComment.getText().toString();
-                            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                            String currentDateTimeString = sdf.format(new Date(System.currentTimeMillis()));
+                        final RatingBar dialogRatingBar = dialogView.findViewById(R.id.dialogRatingBar);
+                        final EditText dialogComment = dialogView.findViewById(R.id.dialogComment);
 
-                            Evaluate evaluate = new Evaluate(MainActivity.user_id, product_id, rating, commentText, currentDateTimeString);
-                            //Thêm vào giỏ hàng
-                            EvaluateHandler evaluateHandler = new EvaluateHandler();
-                            evaluateHandler.rating(evaluate);
-                            ProductHandler productHandler = new ProductHandler();
+                        dialogBuilder.setPositiveButton("Gửi", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                float rating = dialogRatingBar.getRating();
+                                String commentText = dialogComment.getText().toString();
+                                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                String currentDateTimeString = sdf.format(new Date(System.currentTimeMillis()));
 
-                            productHandler.updateAverageRating(product_id);
-                            Toast.makeText(context, "Cảm ơn bạn đã đánh giá !", Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                                Evaluate evaluate = new Evaluate(MainActivity.user_id, product_id, rating, commentText, currentDateTimeString);
+                                //Thêm vào giỏ hàng
+                                EvaluateHandler evaluateHandler = new EvaluateHandler();
+                                evaluateHandler.rating(evaluate);
+                                ProductHandler productHandler = new ProductHandler();
 
-                    dialogBuilder.setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            dialogInterface.dismiss();
-                        }
-                    });
+                                productHandler.updateAverageRating(product_id);
+                                Toast.makeText(context, "Cảm ơn bạn đã đánh giá !", Toast.LENGTH_SHORT).show();
+                            }
+                        });
 
-                    AlertDialog alertDialog = dialogBuilder.create();
-                    alertDialog.show();
+                        dialogBuilder.setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        });
+
+                        AlertDialog alertDialog = dialogBuilder.create();
+                        alertDialog.show();
+                    }
+                }else {
+                    Toast.makeText(v.getContext(), "Bạn chưa thể đánh giá vì tour chưa thực hiện xong!!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -134,9 +149,24 @@ public class BillAdapter extends RecyclerView.Adapter<BillAdapter.ViewHolder> {
     public int getItemCount() {
         return billStatisticList.size();
     }
+    public void deleteItem(int position) {
+        if (position >= 0 && position < billStatisticList.size()) {
+            BillStatistic bill = billStatisticList.get(position);
+            billStatisticList.remove(position);
+            billHandler.deleteBill(bill.getBill_id());
 
+            notifyItemRemoved(position);
+        }
+    }
+
+    public int getBillId(int position) {
+        if (position >= 0 && position < billStatisticList.size()) {
+            return billStatisticList.get(position).getBill_id();
+        }
+        return -1; // Return a default or error value if position is out of bounds
+    }
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView idbill, total, description, date;
+        TextView idbill, total, description, date, status ;
         Button rateButton;
 
         public ViewHolder(@NonNull View itemView) {
@@ -146,6 +176,7 @@ public class BillAdapter extends RecyclerView.Adapter<BillAdapter.ViewHolder> {
             description = itemView.findViewById(R.id.description);
             date = itemView.findViewById(R.id.date);
             rateButton = itemView.findViewById(R.id.rateButton);
+            status = itemView.findViewById(R.id.status);
         }
     }
 }

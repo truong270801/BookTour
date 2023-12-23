@@ -144,7 +144,8 @@ public class CartAdapter extends BaseAdapter {
                                 if (selectedId == R.id.radioButtonDirectPayment) {
                                     // Xử lý thanh toán trực tiếp
                                     String description = "Thanh toán bằng tiền mặt";
-                                    pay = new Pay(user_id, product_id, quatity, price, description, editTextEmail.getText().toString().trim(), editTextUsername.getText().toString().trim(), editTextPhone.getText().toString().trim(), editTextAdrress.getText().toString().trim());
+                                    String status = "Chờ xác nhận";
+                                    pay = new Pay(user_id, product_id, quatity, price, description,status, editTextEmail.getText().toString().trim(), editTextUsername.getText().toString().trim(), editTextPhone.getText().toString().trim(), editTextAdrress.getText().toString().trim());
                                     // Clear the cart (assuming you have a method to clear it in your CartHandler)
                                     BillHandler billHandler = new BillHandler();
                                     billHandler.CreateBill(pay);
@@ -183,7 +184,9 @@ public class CartAdapter extends BaseAdapter {
 
                         private void continuePaymentProcessing() {
                             String description = "Thanh toán bằng Zalo Pay";
-                            pay = new Pay(user_id, product_id,quatity,price,description,editTextEmail.getText().toString().trim(),editTextUsername.getText().toString().trim(),editTextPhone.getText().toString().trim(),editTextAdrress.getText().toString().trim());
+                            String status = "Chờ xác nhận";
+
+                            pay = new Pay(user_id, product_id,quatity,price,description,status,editTextEmail.getText().toString().trim(),editTextUsername.getText().toString().trim(),editTextPhone.getText().toString().trim(),editTextAdrress.getText().toString().trim());
                             // Clear the cart (assuming you have a method to clear it in your CartHandler)
                             BillHandler billHandler = new BillHandler();
                             billHandler.CreateBill(pay);

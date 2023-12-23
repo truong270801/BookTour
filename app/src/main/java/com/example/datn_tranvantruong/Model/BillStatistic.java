@@ -5,6 +5,7 @@ public class BillStatistic {
     private int product_id;
     private int price;
     private String description;
+    private String status;
     private String date;
 
     public BillStatistic() {
@@ -48,6 +49,14 @@ public class BillStatistic {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getDate() {

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="Cập nhật trạng thái đơn hàng"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        android:textStyle="bold" />
+    <RadioGroup
+        android:id="@+id/radioGroupStatus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp">
+
+        <RadioButton
+            android:id="@+id/radioXN"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Đã xác nhận"
+            android:textColor="#000000" />
+
+        <RadioButton
+            android:id="@+id/radioTH"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Chuyến tour đang thực hiện"
+            android:textColor="#000000" />
+        <RadioButton
+            android:id="@+id/radioKT"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Đã kết thúc"
+            android:textColor="#000000" />
+        <RadioButton
+            android:id="@+id/radioHuy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hủy tour"
+            android:textColor="#000000" />
+    </RadioGroup>
+
+</LinearLayout>
