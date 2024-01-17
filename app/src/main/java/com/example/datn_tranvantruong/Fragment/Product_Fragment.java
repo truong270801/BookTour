@@ -57,7 +57,6 @@ public class Product_Fragment extends Fragment {
                 for (Product product : productList){
                     if (product.getName().toLowerCase().contains(query.toLowerCase())){
                         searchList.add(product);
-
                     }
                     productUserAdapter.setData(searchList);
                 }

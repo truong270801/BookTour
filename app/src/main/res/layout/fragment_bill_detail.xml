@@ -298,6 +298,17 @@ android:gravity="center"
             />
 
     </LinearLayout>
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:id="@+id/crtPDF"
+        android:background="@drawable/download_24"
+        android:layout_gravity="end"
+        android:layout_marginTop="50dp"
+        android:layout_marginRight="20dp"/>
+
+
+
 
 
 

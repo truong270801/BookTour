@@ -34,7 +34,7 @@ public class SwipeToDeleteCallback extends ItemTouchHelper.SimpleCallback {
         int position = viewHolder.getAdapterPosition();
         String status1 = billHandler.getBillStatusById(mAdapter.getBillId(position)).toString().trim();
 
-        if ("Chờ xác nhận".equals(status1) ) {
+        if ("Chờ xác nhận".equals(status1) ||"Hủy tour".equals(status1)  ) {
 
 
             AlertDialog.Builder builder = new AlertDialog.Builder(mContext);

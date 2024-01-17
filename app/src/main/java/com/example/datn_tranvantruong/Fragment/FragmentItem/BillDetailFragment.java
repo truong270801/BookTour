@@ -1,11 +1,21 @@
 package com.example.datn_tranvantruong.Fragment.FragmentItem;
 
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.datn_tranvantruong.Activity.Intro_Activity;
@@ -15,7 +25,15 @@ import com.example.datn_tranvantruong.DBHandler.ProductHandler;
 import com.example.datn_tranvantruong.Model.BillStatistic;
 import com.example.datn_tranvantruong.Model.Product;
 import com.example.datn_tranvantruong.R;
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.layout.element.Paragraph;
 
+import org.w3c.dom.Document;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.text.NumberFormat;
 
 public class BillDetailFragment extends Fragment {
@@ -30,6 +48,8 @@ public class BillDetailFragment extends Fragment {
     TextView price;
     TextView bill_date;
     TextView bill_price;
+    ImageView createPdfButton;
+    private static final int WRITE_EXTERNAL_STORAGE_REQUEST_CODE = 1;
 
 
     @Override
@@ -51,7 +71,20 @@ public class BillDetailFragment extends Fragment {
         ProductHandler productHandler = new ProductHandler();
         CustomerHandler customerHandler = new CustomerHandler();
         BillHandler billHandler = new BillHandler();
-
+        createPdfButton = view.findViewById(R.id.crtPDF);
+        createPdfButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Kiểm tra quyền
+                if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    // Nếu quyền chưa được cấp, yêu cầu người dùng cấp quyền
+                    requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_EXTERNAL_STORAGE_REQUEST_CODE);
+                } else {
+                    // Nếu đã có quyền, thực hiện tạo PDF
+                    createPdf();
+                }
+            }
+        });
         Bundle bundle = getArguments();
         if (bundle != null) {
             String billdate = bundle.getString("billdate");
@@ -125,5 +158,46 @@ public class BillDetailFragment extends Fragment {
         }
 
         return result;
+    }
+    private void createPdf() {
+        // Tạo tệp PDF tại thư mục Downloads
+        String pdfFileName = "bill_detail.pdf";
+        File pdfDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+
+        String pdfFilePath = pdfDirectory + "/" + pdfFileName;
+        File file = new File(pdfFilePath);
+
+        try {
+            // Tạo một đối tượng PdfWriter để ghi vào tệp
+            PdfWriter writer = new PdfWriter(new FileOutputStream(file));
+
+            // Tạo một đối tượng PdfDocument để thêm nội dung
+            PdfDocument pdfDocument = new PdfDocument(writer);
+
+            // Tạo một đối tượng Document để thêm các phần tử
+            com.itextpdf.layout.Document document = new com.itextpdf.layout.Document(pdfDocument);
+
+            // Thêm nội dung của Fragment vào tệp PDF
+            document.add(new Paragraph("Bill Detail"));
+
+            // Thêm các thông tin từ Fragment vào tệp PDF
+            document.add(new Paragraph("User Name: " + users_name.getText()));
+            document.add(new Paragraph("User Address: " + users_address.getText()));
+            document.add(new Paragraph("User Phone: " + users_phone.getText()));
+            document.add(new Paragraph("User Email: " + users_email.getText()));
+            document.add(new Paragraph("Product Name: " + product_name.getText()));
+            document.add(new Paragraph("Product Quantity: " + quatity.getText()));
+            document.add(new Paragraph("Product Price: " + price.getText()));
+            document.add(new Paragraph("Bill Date: " + bill_date.getText()));
+            document.add(new Paragraph("Bill Price: " + bill_price.getText()));
+
+            // Đóng tất cả tài nguyên
+            document.close();
+
+            // Hiển thị thông báo hoặc cập nhật UI nếu cần thiết
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 }
